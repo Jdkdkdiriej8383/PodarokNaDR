@@ -2,164 +2,165 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>С Днём Рождения! ✨ Волшебный подарок</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Дашк // 16 летов ✨ Happy Birthday</title>
   
   <!-- Favicon -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎁</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
   
-  <!-- Google Fonts -->
+  <!-- Google Fonts: Inter & Space Grotesk & Caveat -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
   
-  <!-- FontAwesome Icons -->
+  <!-- FontAwesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
-  <!-- Canvas Confetti Library -->
+  <!-- Canvas Confetti -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   
-  <!-- Stylesheet -->
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="theme-minimal">
 
-  <!-- Фоновый интерактивный холст для звезд и искр -->
+  <!-- Интерактивный минималистичный канвас для тонких частиц и журавликов -->
   <canvas id="bg-canvas"></canvas>
 
-  <!-- Плавающие шарики на фоне -->
-  <div class="floating-balloons-container" id="floating-balloons" aria-hidden="true"></div>
-
-  <!-- Плавающая панель управления (Звук, Персонализация) -->
-  <header class="top-nav">
-    <div class="nav-container">
-      <div class="logo">
-        <span class="logo-icon">🎉</span>
-        <span class="logo-text">Birthday Magic</span>
+  <!-- НАВИГАЦИОННАЯ ПАНЕЛЬ -->
+  <header class="navbar">
+    <div class="nav-inner">
+      <div class="nav-brand">
+        <span class="status-indicator"></span>
+        <span class="brand-text">dashk<strong>.16_letov</strong></span>
       </div>
-      <div class="nav-actions">
-        <!-- Кнопка музыки -->
-        <button id="music-btn" class="nav-btn" title="Включить / Выключить музыку">
-          <i class="fa-solid fa-music"></i>
-          <span class="btn-label">Мелодия</span>
-          <div class="sound-wave" id="sound-wave">
-            <span></span><span></span><span></span><span></span>
-          </div>
+
+      <nav class="nav-links">
+        <a href="#gift" class="nav-link">Подарок</a>
+        <a href="#cake" class="nav-link">Торт</a>
+        <a href="#letter" class="nav-link">Послание</a>
+        <a href="#quotes" class="nav-link">Мемы</a>
+        <a href="#gallery" class="nav-link">Архив</a>
+        <a href="#music" class="nav-link">Плейлист</a>
+      </nav>
+
+      <div class="nav-controls">
+        <!-- Пасхалка 67 -->
+        <button id="easter-egg-67" class="btn-pill btn-code" title="Секретный код 67">
+          <span class="mono-code">67</span>
         </button>
 
-        <!-- Кнопка эффектов звука -->
-        <button id="sfx-btn" class="nav-btn active" title="Звуковые эффекты">
+        <!-- Звуки/Музыка -->
+        <button id="sfx-toggle" class="btn-pill btn-icon" title="Звуки">
           <i class="fa-solid fa-volume-high"></i>
-        </button>
-
-        <!-- Кнопка настройки подарка -->
-        <button id="customize-btn" class="nav-btn highlight-btn" title="Настроить имя и пожелания">
-          <i class="fa-solid fa-wand-magic-sparkles"></i>
-          <span>Настроить</span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- ГЛАВНЫЙ ЭКРАН (HERO) -->
   <main>
-    <section class="hero-section" id="hero">
-      <div class="hero-content">
-        <div class="badge-sparkle">
-          <i class="fa-solid fa-sparkles"></i>
-          <span>Твой особенный день</span>
-          <i class="fa-solid fa-sparkles"></i>
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+      <div class="container">
+        <div class="hero-tags">
+          <span class="badge"><i class="fa-solid fa-cake-candles"></i> 16 летов</span>
+          <span class="badge badge-accent">Официально старше меня</span>
+          <span class="badge">#чепушила_лахматая</span>
         </div>
-        
+
         <h1 class="hero-title">
-          С Днём Рождения,<br>
-          <span class="recipient-name-display" id="recipient-name">Любимая</span>! ✨
+          Дашк, с др! <span class="blue-dot">.</span>
         </h1>
-        
-        <p class="hero-subtitle" id="hero-subtitle">
-          Пусть этот день будет наполнен улыбками, теплом, сказочными моментами и исполнением самых заветных желаний!
+
+        <p class="hero-subtitle">
+          Поздравляю, теперь ты старше меня на целую эпоху! Говорят, в 16 лет начинают скрипеть суставы и тянет обсуждать рассаду с граблями... Но для меня ты всё ещё та самая чепушила лахматая 💙
         </p>
 
-        <div class="hero-cta-group">
-          <a href="#gift-section" class="btn-glow btn-primary">
+        <div class="hero-actions">
+          <a href="#gift" class="btn btn-primary">
             <span>Распаковать подарок</span>
-            <i class="fa-solid fa-gift"></i>
+            <i class="fa-solid fa-arrow-down"></i>
           </a>
-          <button id="launch-confetti-btn" class="btn-glow btn-secondary">
-            <span>Салют из конфетти! 🎊</span>
+          <button id="confetti-trigger" class="btn btn-secondary">
+            <span>Праздничный салют 🎉</span>
+          </button>
+          <button id="crane-spawn-trigger" class="btn btn-ghost" title="Запустить бумажных журавликов">
+            <i class="fa-solid fa-dove"></i> Журавлики
           </button>
         </div>
 
-        <div class="scroll-hint">
-          <span>Листай вниз, там много сюрпризов</span>
-          <i class="fa-solid fa-chevron-down arrow-bounce"></i>
+        <div class="stats-bar">
+          <div class="stat-item">
+            <span class="stat-number">16</span>
+            <span class="stat-label">летов на планете</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">+1</span>
+            <span class="stat-label">уровень к мудрости</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">1000+</span>
+            <span class="stat-label">сложенных журавликов</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">67</span>
+            <span class="stat-label">секретный код</span>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- СЕКЦИЯ 1: ИНТЕРАКТИВНАЯ КОРОБКА С ПОДАРКОМ -->
-    <section class="section gift-section" id="gift-section">
+    <!-- СЕКЦИЯ 1: МАТЕРИАЛЬНЫЙ ПОДАРОК (ХЕЛЛОУ КИТТИ) -->
+    <section class="section gift-section" id="gift">
       <div class="container">
-        <div class="section-header">
-          <span class="section-tag">🎁 Сюрприз номер один</span>
-          <h2 class="section-title">Твой главный подарок</h2>
-          <p class="section-desc">Коробка надежно перевязана праздничной лентой. Нажми на неё, чтобы открыть!</p>
-        </div>
+        <div class="section-badge">Сюрприз</div>
+        <h2 class="section-title">Твой главный подарок</h2>
+        <p class="section-desc">Настоящий подарок уже в пути. Нажми на коробку, чтобы узнать, что тебя ждёт!</p>
 
-        <div class="gift-box-wrapper">
-          <!-- Интерактивная 3D Коробка -->
-          <div class="gift-box" id="gift-box" role="button" tabindex="0" title="Нажми, чтобы открыть подарок">
-            <div class="gift-ribbon-vertical"></div>
-            <div class="gift-ribbon-horizontal"></div>
-            <div class="gift-bow">
-              <div class="bow-left"></div>
-              <div class="bow-right"></div>
-              <div class="bow-center"></div>
+        <div class="gift-interactive-wrapper">
+          <!-- Минималистичная коробка -->
+          <div class="minimal-box" id="minimal-box" role="button" tabindex="0">
+            <div class="box-lid" id="box-lid">
+              <div class="box-ribbon-v"></div>
             </div>
-            <div class="gift-lid" id="gift-lid">
-              <div class="lid-ribbon"></div>
+            <div class="box-body">
+              <div class="box-ribbon-v"></div>
+              <div class="box-ribbon-h"></div>
+              <div class="box-label">Для Дашк 🎁</div>
             </div>
-            <div class="gift-body">
-              <div class="gift-tag">
-                <span>Для тебя 💖</span>
-              </div>
-            </div>
-            <!-- Сияние за коробкой -->
-            <div class="gift-glow"></div>
+            <div class="box-glow"></div>
           </div>
 
-          <div class="gift-hint" id="gift-hint">
-            <i class="fa-solid fa-hand-pointer"></i> Нажми на коробку, чтобы развязать бант!
+          <div class="box-click-hint" id="box-hint">
+            <i class="fa-solid fa-hand-pointer"></i> Кликни по коробке, чтобы открыть!
           </div>
 
-          <!-- Подарок, который вылетает из коробки (Сертификат) -->
-          <div class="opened-gift-container" id="opened-gift-container">
-            <div class="golden-ticket" id="golden-ticket">
-              <div class="ticket-sparkles"></div>
-              <div class="ticket-header">
-                <div class="ticket-stars">★★★★★</div>
-                <span class="ticket-badge">VIP GIFT CERTIFICATE</span>
-                <div class="ticket-stars">★★★★★</div>
-              </div>
-              
-              <h3 class="ticket-title" id="ticket-title">Сертификат Счастья</h3>
-              <p class="ticket-recipient">Выдан для: <strong id="ticket-recipient-name">Самого дорогого человека</strong></p>
-              
-              <div class="ticket-divider"></div>
-              
-              <div class="ticket-content" id="ticket-body">
-                <p class="ticket-clause">✨ <strong>Безлимитный запас:</strong> радости, вдохновения, искренних улыбок и крепкого здоровья на все 365 дней!</p>
-                <p class="ticket-clause">🎁 <strong>Право на исполнение:</strong> любых 3 заветных желаний прямо сейчас (или когда пожелаешь).</p>
-                <p class="ticket-clause">🥂 <strong>Бонус:</strong> праздничный ужин, крепкие объятия и вера в то, что ты сможешь покорить любую вершину!</p>
+          <!-- Раскрытый секретный подарок: Букет из Hello Kitty -->
+          <div class="gift-reveal-card" id="gift-reveal-card">
+            <div class="reveal-inner">
+              <div class="kitty-icon-badge">
+                <span class="kitty-emoji">🐱🎀</span>
+                <span class="badge-text">SECRET PRESENT UNLOCKED</span>
               </div>
 
-              <div class="ticket-footer">
-                <div class="ticket-stamp">
-                  <span>ДЕЙСТВИТЕЛЕН НАВСЕГДА</span>
-                  <i class="fa-solid fa-heart"></i>
+              <h3 class="reveal-title">Букет из плюшевых Hello Kitty!</h3>
+              
+              <div class="kitty-visual">
+                <div class="kitty-illustration">
+                  <div class="kitty-bow">🎀</div>
+                  <div class="kitty-face">🐱</div>
+                  <div class="bouquet-wraps">💐</div>
                 </div>
-                <button class="btn-ticket-action" id="print-ticket-btn">
-                  <i class="fa-solid fa-camera"></i> Сохранить на память
+              </div>
+
+              <div class="reveal-text">
+                <p>Обычные живые цветы завянут через пару дней, а <strong>банда плюшевых котяток Hello Kitty</strong> останется с тобой навсегда! 🐱💖</p>
+                <p>Считай это официальным намёком на то, что совсем скоро окажется в твоих руках.</p>
+              </div>
+
+              <div class="reveal-footer">
+                <span class="status-pill"><i class="fa-solid fa-truck-fast"></i> Статус: Готовится к вручению</span>
+                <button class="btn btn-primary btn-sm" id="kitty-confirm-btn">
+                  <i class="fa-solid fa-heart"></i> Жду букет!
                 </button>
               </div>
             </div>
@@ -168,282 +169,312 @@
       </div>
     </section>
 
-    <!-- СЕКЦИЯ 2: ПРАЗДНИЧНЫЙ ТОРТ И СВЕЧИ -->
-    <section class="section cake-section" id="cake-section">
+    <!-- СЕКЦИЯ 2: ИНТЕРАКТИВНЫЙ ТОРТ СО СВЕЧАМИ -->
+    <section class="section cake-section" id="cake">
       <div class="container">
-        <div class="section-header">
-          <span class="section-tag">🎂 Время волшебства</span>
-          <h2 class="section-title">Загадай заветное желание</h2>
-          <p class="section-desc">Закрой на секунду глаза, подумай о своей мечте и задуй свечи на торте!</p>
+        <div class="section-badge">Традиция</div>
+        <h2 class="section-title">Загадай желание</h2>
+        <p class="section-desc">Только не загадывай себе пенсионное удостоверение, старушка. Задуй свечи!</p>
+
+        <div class="cake-card">
+          <!-- Торт -->
+          <div class="minimal-cake">
+            <div class="cake-candles">
+              <div class="candle" id="c1"><div class="flame"></div><div class="smoke"></div></div>
+              <div class="candle-number-badge">16</div>
+              <div class="candle" id="c2"><div class="flame"></div><div class="smoke"></div></div>
+            </div>
+            
+            <div class="cake-tier tier-1">
+              <div class="frosting-strip"></div>
+            </div>
+            <div class="cake-tier tier-2">
+              <div class="frosting-strip"></div>
+              <div class="blue-dots">
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+            </div>
+            <div class="cake-stand"></div>
+          </div>
+
+          <div class="cake-controls">
+            <button class="btn btn-primary" id="blow-cake-btn">
+              <i class="fa-solid fa-wind"></i>
+              <span>Задуть свечи</span>
+            </button>
+            <button class="btn btn-secondary" id="mic-cake-btn" title="Задуть в микрофон телефона или ПК">
+              <i class="fa-solid fa-microphone"></i>
+              <span>Дунуть в микрофон</span>
+            </button>
+          </div>
+
+          <div class="wish-banner" id="wish-banner">
+            <div class="wish-badge">✨ 100% СБУДЕТСЯ</div>
+            <h4>Желание зафиксировано Вселенной!</h4>
+            <p>Даже в твои солидные 16 летов все мечты обязаны исполниться. Главное — верить и продолжать творить!</p>
+            <button class="btn-link" id="relight-btn">
+              <i class="fa-solid fa-rotate-left"></i> Зажечь свечи заново
+            </button>
+          </div>
         </div>
+      </div>
+    </section>
 
-        <div class="cake-display-area">
-          <div class="cake-card">
-            <!-- Сам торт -->
-            <div class="cake" id="birthday-cake">
-              <!-- Свечи -->
-              <div class="candles-row" id="candles-row">
-                <div class="candle c-1">
-                  <div class="flame" id="flame-1"></div>
-                  <div class="smoke" id="smoke-1"></div>
-                </div>
-                <div class="candle c-2">
-                  <div class="flame" id="flame-2"></div>
-                  <div class="smoke" id="smoke-2"></div>
-                </div>
-                <div class="candle c-3">
-                  <div class="flame" id="flame-3"></div>
-                  <div class="smoke" id="smoke-3"></div>
-                </div>
-              </div>
+    <!-- СЕКЦИЯ 3: ДРУЖЕСКОЕ ПИСЬМО -->
+    <section class="section letter-section" id="letter">
+      <div class="container">
+        <div class="section-badge">Искренне</div>
+        <h2 class="section-title">Послание для Дашк</h2>
+        <p class="section-desc">Пара слов без пафоса и лишней драмы — только чистая правда.</p>
 
-              <!-- Верхний ярус торта -->
-              <div class="cake-tier tier-top">
-                <div class="cake-frosting"></div>
-                <div class="cake-strawberries">
-                  <span>🍓</span><span>🫐</span><span>🍓</span>
-                </div>
-              </div>
-              
-              <!-- Нижний ярус торта -->
-              <div class="cake-tier tier-bottom">
-                <div class="cake-frosting"></div>
-                <div class="cake-decorations">
-                  <span>✨</span><span>💖</span><span>✨</span>
-                </div>
-              </div>
-
-              <!-- Тарелка под тортом -->
-              <div class="cake-plate"></div>
+        <div class="letter-card">
+          <div class="letter-header">
+            <div class="letter-meta">
+              <span class="meta-tag">FROM: Твой бро</span>
+              <span class="meta-tag">TO: Дашк (16 y.o.)</span>
             </div>
-
-            <!-- Элементы управления задуванием -->
-            <div class="cake-controls">
-              <button class="btn-glow btn-cake" id="blow-candles-btn">
-                <i class="fa-solid fa-wind"></i>
-                <span>Задуть свечи!</span>
-              </button>
-
-              <button class="btn-secondary btn-mic" id="mic-blow-btn" title="Задуть в микрофон!">
-                <i class="fa-solid fa-microphone"></i>
-                <span>Задуть в микрофон</span>
-              </button>
+            <div class="letter-stamp">
+              <i class="fa-solid fa-stamp"></i> OFFICIAL FRIENDSHIP
             </div>
+          </div>
 
-            <!-- Сообщение после задувания -->
-            <div class="wish-granted-banner" id="wish-granted-banner">
-              <div class="wish-icon">🌟</div>
-              <h4>Твоё желание принято Вселенной!</h4>
-              <p>Оно обязательно исполнится в самый неожиданный и прекрасный момент этого года ✨</p>
-              <button class="btn-text-reignite" id="reignite-btn">
-                <i class="fa-solid fa-rotate-left"></i> Зажечь свечи снова
-              </button>
+          <div class="letter-content">
+            <p class="greeting">Йоу, Дашк!</p>
+            <p>
+              Вот тебе и стукнуло <strong>16 летов</strong>. Хочу сказать тебе огромное спасибо за то, какая ты есть. С тобой всегда можно поржать от души, обсудить поделки, 3D-печать, сложить сотню журавликов и не париться по пустякам.
+            </p>
+            <p>
+              Да, ты официально старше меня, и я буду припоминать тебе этот почтенный возраст при каждом удобном случае 👵. Да, <em>сама ты чепушила лахматая</em>! Но честно — ты офигенная подруга, надежная, добрая и с шикарным чувством юмора.
+            </p>
+            <p>
+              Желаю, чтобы 3D-печать шла без косяков, журавлики исполняли все желания, в учёбе всё давалось на легке, а вокруг всегда были люди, которые тебя искренне ценят и поддерживают.
+            </p>
+            <p class="sign">
+              С днём рождения! Сияй и кайфуй от каждого дня ✌️💙
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- СЕКЦИЯ 4: ГЕНЕРАТОР МЕМОВ И ПОДКОЛОВ (БАНОЧКА 67) -->
+    <section class="section quotes-section" id="quotes">
+      <div class="container">
+        <div class="section-badge">Цитаты & Мемы</div>
+        <h2 class="section-title">База фактов о Дашк</h2>
+        <p class="section-desc">Нажимай кнопку и получай порцию отборных фактов, подколов и мудрости.</p>
+
+        <div class="quote-generator-box">
+          <div class="quote-display" id="quote-display">
+            <div class="quote-code-tag" id="quote-number">[FACT #67]</div>
+            <p class="quote-text" id="quote-text">
+              «Сама ты чепушила лахматая» — фундаментальная истина, проверенная временем и дружбой.
+            </p>
+          </div>
+
+          <div class="quote-actions">
+            <button class="btn btn-primary" id="next-quote-btn">
+              <i class="fa-solid fa-dice"></i>
+              <span>Следующий факт</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- СЕКЦИЯ 5: АРХИВ / ФОТОГАЛЕРЕЯ ДАШК (ВСЕ 13 РЕАЛЬНЫХ ФОТО!) -->
+    <section class="section gallery-section" id="gallery">
+      <div class="container">
+        <div class="section-badge">Архив кадров</div>
+        <h2 class="section-title">13 моментов из жизни легенды</h2>
+        <p class="section-desc">Подборка золотых моментов: от битвы с граблями до поедания бургеров и чилла на асфальте. Кликай на фото, чтобы рассмотреть ближе!</p>
+
+        <div class="gallery-grid" id="gallery-grid">
+          <!-- 1. Веселое лицо -->
+          <div class="photo-card" data-full="assets/photos/funny-face.jpg" data-caption="Самое фотогеничное лицо 16-летки 😜">
+            <div class="photo-wrapper">
+              <img src="assets/photos/funny-face.jpg" alt="Дашк" loading="lazy">
+            </div>
+            <div class="photo-info">
+              <span class="photo-tag">Вайб</span>
+              <p class="photo-caption">Самое фотогеничное лицо 16-летки 😜</p>
+            </div>
+          </div>
+
+          <!-- 2. С котом -->
+          <div class="photo-card" data-full="assets/photos/cat.jpg" data-caption="Синхронный кусь: Дашк и кот 🐱">
+            <div class="photo-wrapper">
+              <img src="assets/photos/cat.jpg" alt="Дашк с котом" loading="lazy">
+            </div>
+            <div class="photo-info">
+              <span class="photo-tag">Бро</span>
+              <p class="photo-caption">Синхронный кусь: Дашк и кот 🐱</p>
+            </div>
+          </div>
+
+          <!-- 3. С граблями -->
+          <div class="photo-card" data-full="assets/photos/rake-village.jpg" data-caption="Битва за урожай: с граблями наперевес 🌾">
+            <div class="photo-wrapper">
+              <img src="assets/photos/rake-village.jpg" alt="Дашк с граблями" loading="lazy">
+            </div>
+            <div class="photo-info">
+              <span class="photo-tag">Труд</span>
+              <p class="photo-caption">Битва за урожай: с граблями 🌾</p>
+            </div>
+          </div>
+
+          <!-- 4. Наггетс -->
+          <div class="photo-card" data-full="assets/photos/nugget.jpg" data-caption="Фирменный победный жест с наггетсом ✌️">
+            <div class="photo-wrapper">
+              <img src="assets/photos/nugget.jpg" alt="Дашк с наггетсом" loading="lazy">
+            </div>
+            <div class="photo-info">
+              <span class="photo-tag">Еда</span>
+              <p class="photo-caption">Победный наггетс и фирменный жест ✌️</p>
+            </div>
+          </div>
+
+          <!-- 5. Бургер -->
+          <div class="photo-card" data-full="assets/photos/burger.jpg" data-caption="Священный приём пищи 🍔">
+            <div class="photo-wrapper">
+              <img src="assets/photos/burger.jpg" alt="Дашк с бургером" loading="lazy">
+            </div>
+            <div class="photo-info">
+              <span class="photo-tag">Вкусно</span>
+              <p class="photo-caption">Священный приём пищи 🍔</p>
+            </div>
+          </div>
+
+          <!-- 6. На асфальте -->
+          <div class="photo-card" data-full="assets/photos/asphalt-peace.jpg" data-caption="Уровень чилла: лежать на асфальте ✌️">
+            <div class="photo-wrapper">
+              <img src="assets/photos/asphalt-peace.jpg" alt="Дашк на асфальте" loading="lazy">
+            </div>
+            <div class="photo-info">
+              <span class="photo-tag">Чилл</span>
+              <p class="photo-caption">Уровень чилла: лежать на асфальте</p>
+            </div>
+          </div>
+
+          <!-- 7. Озеро / под мостом -->
+          <div class="photo-card" data-full="assets/photos/lake.jpg" data-caption="Эстетичный вид у воды под мостом 🌊">
+            <div class="photo-wrapper">
+              <img src="assets/photos/lake.jpg" alt="Дашк у воды" loading="lazy">
+            </div>
+            <div class="photo-info">
+              <span class="photo-tag">Эстетика</span>
+              <p class="photo-caption">Эстетичный вид у воды под мостом 🌊</p>
+            </div>
+          </div>
+
+          <!-- 8. В шапке на глаза -->
+          <div class="photo-card" data-full="assets/photos/hat-eyes.jpg" data-caption="Маскировка 100 уровня: никого не вижу 🧶">
+            <div class="photo-wrapper">
+              <img src="assets/photos/hat-eyes.jpg" alt="Дашк в шапке" loading="lazy">
+            </div>
+            <div class="photo-info">
+              <span class="photo-tag">Стелс</span>
+              <p class="photo-caption">Маскировка 100 уровня 🧶</p>
+            </div>
+          </div>
+
+          <!-- 9. В худи и синие глаза -->
+          <div class="photo-card" data-full="assets/photos/hoodie-eyes.jpg" data-caption="Те самые глаза и любимое худи ✨">
+            <div class="photo-wrapper">
+              <img src="assets/photos/hoodie-eyes.jpg" alt="Дашк глаза" loading="lazy">
+            </div>
+            <div class="photo-info">
+              <span class="photo-tag">Портрет</span>
+              <p class="photo-caption">Те самые глаза и любимое худи ✨</p>
+            </div>
+          </div>
+
+          <!-- 10. В малине -->
+          <div class="photo-card" data-full="assets/photos/garden.jpg" data-caption="Малиновый сезон в самом разгаре 🍓">
+            <div class="photo-wrapper">
+              <img src="assets/photos/garden.jpg" alt="Дашк в саду" loading="lazy">
+            </div>
+            <div class="photo-info">
+              <span class="photo-tag">Лето</span>
+              <p class="photo-caption">Малиновый сезон в разгаре 🍓</p>
+            </div>
+          </div>
+
+          <!-- 11. Зеленая футболка / язык -->
+          <div class="photo-card" data-full="assets/photos/tongue-green.jpg" data-caption="Летний вайб и максимум энергии 🌿">
+            <div class="photo-wrapper">
+              <img src="assets/photos/tongue-green.jpg" alt="Дашк лето" loading="lazy">
+            </div>
+            <div class="photo-info">
+              <span class="photo-tag">Драйв</span>
+              <p class="photo-caption">Летний вайб и максимум энергии 🌿</p>
+            </div>
+          </div>
+
+          <!-- 12. Концерт -->
+          <div class="photo-card" data-full="assets/photos/concert.jpg" data-caption="Концертный движ 🎤">
+            <div class="photo-wrapper">
+              <img src="assets/photos/concert.jpg" alt="Концерт" loading="lazy">
+            </div>
+            <div class="photo-info">
+              <span class="photo-tag">Музыка</span>
+              <p class="photo-caption">Концертный движ 🎤</p>
+            </div>
+          </div>
+
+          <!-- 13. Зеркало -->
+          <div class="photo-card" data-full="assets/photos/mirror.jpg" data-caption="Ку, проверка связи ✋">
+            <div class="photo-wrapper">
+              <img src="assets/photos/mirror.jpg" alt="Зеркало" loading="lazy">
+            </div>
+            <div class="photo-info">
+              <span class="photo-tag">Ку</span>
+              <p class="photo-caption">Ку, проверка связи ✋</p>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- СЕКЦИЯ 3: ИСКРЕННЕЕ ПИСЬМО В КОНВЕРТЕ -->
-    <section class="section letter-section" id="letter-section">
+    <!-- СЕКЦИЯ 6: МУЗЫКАЛЬНЫЙ ПЛЕЙЛИСТ ДАШК -->
+    <section class="section music-section" id="music">
       <div class="container">
-        <div class="section-header">
-          <span class="section-tag">💌 От всего сердца</span>
-          <h2 class="section-title">Письмо для тебя</h2>
-          <p class="section-desc">Настоящие слова имеют силу. Нажми на сургучную печать, чтобы распечатать конверт.</p>
-        </div>
+        <div class="section-badge">Саундтрек</div>
+        <h2 class="section-title">Плейлист именинницы</h2>
+        <p class="section-desc">Твои любимые треки прямо на странице. Врубай на полную мощность!</p>
 
-        <div class="envelope-area">
-          <div class="envelope-wrapper" id="envelope-wrapper">
-            <!-- Закрытый конверт -->
-            <div class="envelope" id="envelope">
-              <div class="envelope-flap" id="envelope-flap"></div>
-              <div class="envelope-pocket"></div>
-              
-              <!-- Сургучная печать -->
-              <div class="wax-seal" id="wax-seal" role="button" tabindex="0" title="Нажми, чтобы распечатать">
-                <div class="seal-inner">
-                  <i class="fa-solid fa-heart"></i>
-                </div>
-              </div>
-
-              <div class="envelope-label">
-                <span>Лично в руки ✉️</span>
+        <div class="music-player-card">
+          <div class="player-header">
+            <div class="player-title-group">
+              <span class="music-icon-spin"><i class="fa-solid fa-compact-disc"></i></span>
+              <div>
+                <h3 class="player-title">Яндекс Музыка // Плейлист Дашк</h3>
+                <span class="player-sub">Специально под этот праздник</span>
               </div>
             </div>
+            <a href="https://music.yandex.ru/playlists/lk.a8d2470e-290b-495c-8f26-c89334f56a63?utm_medium=copy_link&ref_id=410fe96f-a3de-422b-a03b-0317ad4f75d2" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
+              <span>Открыть в приложении</span>
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
+          </div>
 
-            <!-- Раскрывающееся письмо -->
-            <div class="letter-paper" id="letter-paper">
-              <button class="btn-close-letter" id="close-letter-btn" title="Свернуть письмо">
-                <i class="fa-solid fa-xmark"></i>
-              </button>
-              
-              <div class="letter-inner">
-                <div class="letter-date" id="letter-date">Сегодня</div>
-                <h3 class="letter-greeting" id="letter-greeting">Дорогой именинник,</h3>
-                
-                <div class="letter-text" id="letter-content">
-                  <p>В этот чудесный день я хочу сказать тебе самое главное: ты удивительный, невероятный и очень ценный человек!</p>
-                  <p>Пусть каждый день приносит поводы для искренней улыбки, рядом всегда будут преданные люди, а в душе царит абсолютная гармония и тепло.</p>
-                  <p>Никогда не сомневайся в своих силах. Мечтай смело, люби всем сердцем, открывай новые горизонты и помни, что впереди — всё самое прекрасное!</p>
-                  <p>Свети ярко и будь бесконечно счастлив(а)! 🎉</p>
-                </div>
-                
-                <div class="letter-signature" id="letter-signature">
-                  С любовью и теплыми объятиями 💖
-                </div>
-              </div>
-            </div>
+          <!-- Встроенный фрейм плейлиста Яндекс Музыки -->
+          <div class="iframe-container">
+            <iframe frameborder="0" style="border:none;width:100%;height:380px;border-radius:12px;" width="100%" height="380" src="https://music.yandex.ru/iframe/playlist/lk.a8d2470e-290b-495c-8f26-c89334f56a63"></iframe>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- СЕКЦИЯ 4: ВОЛШЕБНАЯ БАНОЧКА С КОМПЛИМЕНТАМИ И ПОЖЕЛАНИЯМИ -->
-    <section class="section compliments-section" id="compliments-section">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-tag">✨ Баночка тепла</span>
-          <h2 class="section-title">100 причин твоей уникальности</h2>
-          <p class="section-desc">Достань записку из баночки и узнай, за что тебя так сильно ценят и любят!</p>
-        </div>
-
-        <div class="jar-interactive-container">
-          <div class="jar-visual" id="jar-visual">
-            <div class="jar-lid"></div>
-            <div class="jar-neck"></div>
-            <div class="jar-body">
-              <div class="jar-glow"></div>
-              <div class="jar-notes-inside">
-                <span class="note-pill n1">💌</span>
-                <span class="note-pill n2">⭐</span>
-                <span class="note-pill n3">🌸</span>
-                <span class="note-pill n4">✨</span>
-                <span class="note-pill n5">💫</span>
-              </div>
-              <div class="jar-label">
-                <span>Баночка Счастья</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="compliment-card-box">
-            <div class="compliment-card" id="compliment-card">
-              <div class="card-quote-mark">“</div>
-              <p class="compliment-text" id="compliment-text">
-                Нажми кнопку ниже, чтобы вытянуть персональное тёплое предсказание или комплимент!
-              </p>
-              <div class="compliment-number" id="compliment-counter">
-                Записка #1
-              </div>
-            </div>
-
-            <div class="compliment-actions">
-              <button class="btn-glow btn-primary" id="next-compliment-btn">
-                <i class="fa-solid fa-hand-holding-heart"></i>
-                <span>Достать записку! ✨</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- СЕКЦИЯ 5: ФОТОГАЛЕРЕЯ ВОСПОМИНАНИЙ -->
-    <section class="section gallery-section" id="gallery-section">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-tag">📸 Особенные кадры</span>
-          <h2 class="section-title">Галерея лучших моментов</h2>
-          <p class="section-desc">Жизнь прекрасна благодаря моментам, которые заставляют нас улыбаться!</p>
-        </div>
-
-        <div class="polaroid-grid" id="polaroid-grid">
-          <!-- Карточка 1 -->
-          <div class="polaroid-card">
-            <div class="tape-pin"></div>
-            <div class="polaroid-img-wrapper">
-              <img src="https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=600&q=80" alt="Праздник" loading="lazy">
-            </div>
-            <div class="polaroid-caption">Праздничное настроение 🎈</div>
-          </div>
-
-          <!-- Карточка 2 -->
-          <div class="polaroid-card rotate-right">
-            <div class="tape-pin"></div>
-            <div class="polaroid-img-wrapper">
-              <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=600&q=80" alt="Радость и шарики" loading="lazy">
-            </div>
-            <div class="polaroid-caption">Море улыбок и восторга ✨</div>
-          </div>
-
-          <!-- Карточка 3 -->
-          <div class="polaroid-card rotate-left">
-            <div class="tape-pin"></div>
-            <div class="polaroid-img-wrapper">
-              <img src="https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?auto=format&fit=crop&w=600&q=80" alt="Торт со свечами" loading="lazy">
-            </div>
-            <div class="polaroid-caption">Сладкие моменты 🎂</div>
-          </div>
-
-          <!-- Карточка 4 -->
-          <div class="polaroid-card rotate-right-slight">
-            <div class="tape-pin"></div>
-            <div class="polaroid-img-wrapper">
-              <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=80" alt="Веселье и музыка" loading="lazy">
-            </div>
-            <div class="polaroid-caption">Зажигай по полной! 🥳</div>
-          </div>
-        </div>
-
-        <div class="gallery-custom-tip">
-          <button class="btn-secondary" id="add-photo-btn">
-            <i class="fa-solid fa-cloud-arrow-up"></i>
-            <span>Загрузить своё фото с устройства</span>
-          </button>
-          <input type="file" id="photo-upload-input" accept="image/*" style="display:none;">
-          <p class="small-tip">Фотографии сохранятся в вашем браузере</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- СЕКЦИЯ 6: ИНТЕРАКТИВНАЯ ИГРА "ЛОПНИ ШАРИКИ" -->
-    <section class="section game-section" id="game-section">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-tag">🎈 Минутка веселья</span>
-          <h2 class="section-title">Лопни праздничные шарики</h2>
-          <p class="section-desc">Нажимай на шарики, чтобы лопать их и собирать приятные предсказания!</p>
-        </div>
-
-        <div class="game-arena-wrapper">
-          <div class="game-stats">
-            <div class="stat-badge">
-              <span class="stat-label">Лопнуто шариков:</span>
-              <span class="stat-value" id="popped-count">0</span>
-            </div>
-            <div class="stat-badge">
-              <span class="stat-label">Последний бонус:</span>
-              <span class="stat-value bonus-highlight" id="last-bonus">Нажми на шарик!</span>
-            </div>
-          </div>
-
-          <div class="game-canvas-area" id="game-area">
-            <!-- Шарики будут генерироваться скриптом -->
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ЗАКЛЮЧИТЕЛЬНЫЙ БЛОК -->
-    <section class="final-section">
+    <!-- ФИНАЛ -->
+    <section class="section final-section">
       <div class="container text-center">
-        <div class="final-card">
-          <div class="final-heart">💖</div>
-          <h2>Пусть каждый день будет похож на праздник!</h2>
-          <p>С наилучшими пожеланиями в твой самый особенный день.</p>
-          <button class="btn-glow btn-primary" id="grand-finale-btn">
-            <i class="fa-solid fa-firework"></i> Запустить финальный супер-салют!
+        <div class="final-box">
+          <div class="final-icon">⚡</div>
+          <h2>С 16-летием, Дашк!</h2>
+          <p>Пусть этот год будет самым насыщенным, ярким и запоминающимся. Ты лучшая!</p>
+          <button id="mega-salute-btn" class="btn btn-primary btn-lg">
+            <i class="fa-solid fa-fire"></i> Запустить супер-салют
           </button>
         </div>
       </div>
@@ -453,76 +484,40 @@
   <!-- ФУТЕР -->
   <footer class="footer">
     <div class="container footer-content">
-      <p>Создано с любовью и теплом специально ко Дню Рождения ✨</p>
-      <div class="footer-links">
-        <button id="footer-customize-link" class="footer-btn">
-          <i class="fa-solid fa-gear"></i> Настроить текст и имя
-        </button>
-        <button id="share-link-btn" class="footer-btn">
-          <i class="fa-solid fa-share-nodes"></i> Скопировать ссылку для подарка
-        </button>
-      </div>
+      <p>Специально для Дашк к 16-летию • Made with 💙 & paper cranes 🕊️</p>
+      <span class="footer-code">CODE: 67 // ALL RIGHTS RESERVED</span>
     </div>
   </footer>
 
-  <!-- МОДАЛЬНОЕ ОКНО ПЕРСОНАЛИЗАЦИИ И НАСТРОЙКИ ПОДАРКА -->
-  <div class="modal-overlay" id="customize-modal">
-    <div class="modal-window">
-      <div class="modal-header">
-        <div class="modal-title">
-          <i class="fa-solid fa-wand-magic-sparkles"></i>
-          <h3>Персонализация подарка</h3>
-        </div>
-        <button class="modal-close-btn" id="modal-close-btn">&times;</button>
+  <!-- МОДАЛКА ДЛЯ ПРОСМОТРА ФОТО В ПОЛНЫЙ ЭКРАН -->
+  <div class="lightbox-modal" id="lightbox">
+    <div class="lightbox-overlay" id="lightbox-overlay"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" id="lightbox-close">&times;</button>
+      <img src="" alt="Full view" id="lightbox-img">
+      <p class="lightbox-caption" id="lightbox-caption"></p>
+    </div>
+  </div>
+
+  <!-- МОДАЛКА ПАСХАЛКИ 67 -->
+  <div class="modal-easter-egg" id="modal-67">
+    <div class="modal-egg-content">
+      <div class="egg-header">
+        <span class="egg-code">CODE 67 ACTIVATED</span>
+        <button class="egg-close" id="egg-close">&times;</button>
       </div>
-
-      <div class="modal-body">
-        <p class="modal-desc">
-          Введи имя виновника торжества и текст поздравлений. Сайт обновится мгновенно, а ты сможешь скопировать уникальную готовую ссылку!
-        </p>
-
-        <div class="form-group">
-          <label for="input-recipient-name">Имя именинника / именинницы:</label>
-          <input type="text" id="input-recipient-name" placeholder="Например: Анечка, Максим, Любимая..." maxlength="40">
-        </div>
-
-        <div class="form-group">
-          <label for="input-hero-subtitle">Текст подзаголовка на главном экране:</label>
-          <textarea id="input-hero-subtitle" rows="2" placeholder="Поздравление на первом экране..."></textarea>
-        </div>
-
-        <div class="form-group">
-          <label for="input-ticket-body">Текст внутри подарочного сертификата:</label>
-          <textarea id="input-ticket-body" rows="3" placeholder="Что ты даришь (поездка, 3 желания, ужин, подарок)..."></textarea>
-        </div>
-
-        <div class="form-group">
-          <label for="input-letter-body">Текст личного письма в конверте:</label>
-          <textarea id="input-letter-body" rows="4" placeholder="Твои теплые слова и пожелания..."></textarea>
-        </div>
-
-        <div class="form-group">
-          <label for="input-signature">Подпись в письме:</label>
-          <input type="text" id="input-signature" placeholder="Например: Твой лучший друг, Твоя половинка..." maxlength="50">
-        </div>
-      </div>
-
-      <div class="modal-footer">
-        <button class="btn-secondary" id="reset-defaults-btn">По умолчанию</button>
-        <button class="btn-secondary" id="copy-share-url-btn">
-          <i class="fa-solid fa-link"></i> Копировать ссылку с настройками
-        </button>
-        <button class="btn-primary" id="save-customization-btn">
-          <i class="fa-solid fa-check"></i> Применить
-        </button>
+      <div class="egg-body">
+        <div class="egg-big-number">67</div>
+        <h3>Секретный уровень разблокирован!</h3>
+        <p>Дашк, ты только что активировала протокол повышенной мудрости для 16-леток. Поздравляю, уровень солидности +1000!</p>
+        <p class="italic-quote">«Сама ты чепушила лахматая»</p>
       </div>
     </div>
   </div>
 
-  <!-- Уведомление Toast -->
-  <div class="toast" id="toast-message">Ссылка скопирована!</div>
+  <!-- Toast -->
+  <div class="toast" id="toast">Уведомление</div>
 
-  <!-- Скрипт приложения -->
   <script src="script.js"></script>
 </body>
 </html>
