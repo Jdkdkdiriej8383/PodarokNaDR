@@ -1,0 +1,11 @@
+services:
+  # Вариант 1: Бесплатный Static Site (быстрый, не засыпает)
+  - type: web
+    name: podarok-na-dr
+    env: static
+    buildCommand: ""
+    staticPublishPath: ./
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: no-cache

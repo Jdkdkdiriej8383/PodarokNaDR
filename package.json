@@ -1,0 +1,16 @@
+{
+  "name": "podarok-na-dr",
+  "version": "1.0.0",
+  "description": "Интерактивный праздничный сайт-подарок на день рождения для деплоя на Render",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["birthday", "gift", "greeting", "interactive", "render"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

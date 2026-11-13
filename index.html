@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>С Днём Рождения! ✨ Волшебный подарок</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎁</text></svg>">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Canvas Confetti Library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Фоновый интерактивный холст для звезд и искр -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- Плавающие шарики на фоне -->
+  <div class="floating-balloons-container" id="floating-balloons" aria-hidden="true"></div>
+
+  <!-- Плавающая панель управления (Звук, Персонализация) -->
+  <header class="top-nav">
+    <div class="nav-container">
+      <div class="logo">
+        <span class="logo-icon">🎉</span>
+        <span class="logo-text">Birthday Magic</span>
+      </div>
+      <div class="nav-actions">
+        <!-- Кнопка музыки -->
+        <button id="music-btn" class="nav-btn" title="Включить / Выключить музыку">
+          <i class="fa-solid fa-music"></i>
+          <span class="btn-label">Мелодия</span>
+          <div class="sound-wave" id="sound-wave">
+            <span></span><span></span><span></span><span></span>
+          </div>
+        </button>
+
+        <!-- Кнопка эффектов звука -->
+        <button id="sfx-btn" class="nav-btn active" title="Звуковые эффекты">
+          <i class="fa-solid fa-volume-high"></i>
+        </button>
+
+        <!-- Кнопка настройки подарка -->
+        <button id="customize-btn" class="nav-btn highlight-btn" title="Настроить имя и пожелания">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+          <span>Настроить</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ГЛАВНЫЙ ЭКРАН (HERO) -->
+  <main>
+    <section class="hero-section" id="hero">
+      <div class="hero-content">
+        <div class="badge-sparkle">
+          <i class="fa-solid fa-sparkles"></i>
+          <span>Твой особенный день</span>
+          <i class="fa-solid fa-sparkles"></i>
+        </div>
+        
+        <h1 class="hero-title">
+          С Днём Рождения,<br>
+          <span class="recipient-name-display" id="recipient-name">Любимая</span>! ✨
+        </h1>
+        
+        <p class="hero-subtitle" id="hero-subtitle">
+          Пусть этот день будет наполнен улыбками, теплом, сказочными моментами и исполнением самых заветных желаний!
+        </p>
+
+        <div class="hero-cta-group">
+          <a href="#gift-section" class="btn-glow btn-primary">
+            <span>Распаковать подарок</span>
+            <i class="fa-solid fa-gift"></i>
+          </a>
+          <button id="launch-confetti-btn" class="btn-glow btn-secondary">
+            <span>Салют из конфетти! 🎊</span>
+          </button>
+        </div>
+
+        <div class="scroll-hint">
+          <span>Листай вниз, там много сюрпризов</span>
+          <i class="fa-solid fa-chevron-down arrow-bounce"></i>
+        </div>
+      </div>
+    </section>
+
+    <!-- СЕКЦИЯ 1: ИНТЕРАКТИВНАЯ КОРОБКА С ПОДАРКОМ -->
+    <section class="section gift-section" id="gift-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">🎁 Сюрприз номер один</span>
+          <h2 class="section-title">Твой главный подарок</h2>
+          <p class="section-desc">Коробка надежно перевязана праздничной лентой. Нажми на неё, чтобы открыть!</p>
+        </div>
+
+        <div class="gift-box-wrapper">
+          <!-- Интерактивная 3D Коробка -->
+          <div class="gift-box" id="gift-box" role="button" tabindex="0" title="Нажми, чтобы открыть подарок">
+            <div class="gift-ribbon-vertical"></div>
+            <div class="gift-ribbon-horizontal"></div>
+            <div class="gift-bow">
+              <div class="bow-left"></div>
+              <div class="bow-right"></div>
+              <div class="bow-center"></div>
+            </div>
+            <div class="gift-lid" id="gift-lid">
+              <div class="lid-ribbon"></div>
+            </div>
+            <div class="gift-body">
+              <div class="gift-tag">
+                <span>Для тебя 💖</span>
+              </div>
+            </div>
+            <!-- Сияние за коробкой -->
+            <div class="gift-glow"></div>
+          </div>
+
+          <div class="gift-hint" id="gift-hint">
+            <i class="fa-solid fa-hand-pointer"></i> Нажми на коробку, чтобы развязать бант!
+          </div>
+
+          <!-- Подарок, который вылетает из коробки (Сертификат) -->
+          <div class="opened-gift-container" id="opened-gift-container">
+            <div class="golden-ticket" id="golden-ticket">
+              <div class="ticket-sparkles"></div>
+              <div class="ticket-header">
+                <div class="ticket-stars">★★★★★</div>
+                <span class="ticket-badge">VIP GIFT CERTIFICATE</span>
+                <div class="ticket-stars">★★★★★</div>
+              </div>
+              
+              <h3 class="ticket-title" id="ticket-title">Сертификат Счастья</h3>
+              <p class="ticket-recipient">Выдан для: <strong id="ticket-recipient-name">Самого дорогого человека</strong></p>
+              
+              <div class="ticket-divider"></div>
+              
+              <div class="ticket-content" id="ticket-body">
+                <p class="ticket-clause">✨ <strong>Безлимитный запас:</strong> радости, вдохновения, искренних улыбок и крепкого здоровья на все 365 дней!</p>
+                <p class="ticket-clause">🎁 <strong>Право на исполнение:</strong> любых 3 заветных желаний прямо сейчас (или когда пожелаешь).</p>
+                <p class="ticket-clause">🥂 <strong>Бонус:</strong> праздничный ужин, крепкие объятия и вера в то, что ты сможешь покорить любую вершину!</p>
+              </div>
+
+              <div class="ticket-footer">
+                <div class="ticket-stamp">
+                  <span>ДЕЙСТВИТЕЛЕН НАВСЕГДА</span>
+                  <i class="fa-solid fa-heart"></i>
+                </div>
+                <button class="btn-ticket-action" id="print-ticket-btn">
+                  <i class="fa-solid fa-camera"></i> Сохранить на память
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- СЕКЦИЯ 2: ПРАЗДНИЧНЫЙ ТОРТ И СВЕЧИ -->
+    <section class="section cake-section" id="cake-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">🎂 Время волшебства</span>
+          <h2 class="section-title">Загадай заветное желание</h2>
+          <p class="section-desc">Закрой на секунду глаза, подумай о своей мечте и задуй свечи на торте!</p>
+        </div>
+
+        <div class="cake-display-area">
+          <div class="cake-card">
+            <!-- Сам торт -->
+            <div class="cake" id="birthday-cake">
+              <!-- Свечи -->
+              <div class="candles-row" id="candles-row">
+                <div class="candle c-1">
+                  <div class="flame" id="flame-1"></div>
+                  <div class="smoke" id="smoke-1"></div>
+                </div>
+                <div class="candle c-2">
+                  <div class="flame" id="flame-2"></div>
+                  <div class="smoke" id="smoke-2"></div>
+                </div>
+                <div class="candle c-3">
+                  <div class="flame" id="flame-3"></div>
+                  <div class="smoke" id="smoke-3"></div>
+                </div>
+              </div>
+
+              <!-- Верхний ярус торта -->
+              <div class="cake-tier tier-top">
+                <div class="cake-frosting"></div>
+                <div class="cake-strawberries">
+                  <span>🍓</span><span>🫐</span><span>🍓</span>
+                </div>
+              </div>
+              
+              <!-- Нижний ярус торта -->
+              <div class="cake-tier tier-bottom">
+                <div class="cake-frosting"></div>
+                <div class="cake-decorations">
+                  <span>✨</span><span>💖</span><span>✨</span>
+                </div>
+              </div>
+
+              <!-- Тарелка под тортом -->
+              <div class="cake-plate"></div>
+            </div>
+
+            <!-- Элементы управления задуванием -->
+            <div class="cake-controls">
+              <button class="btn-glow btn-cake" id="blow-candles-btn">
+                <i class="fa-solid fa-wind"></i>
+                <span>Задуть свечи!</span>
+              </button>
+
+              <button class="btn-secondary btn-mic" id="mic-blow-btn" title="Задуть в микрофон!">
+                <i class="fa-solid fa-microphone"></i>
+                <span>Задуть в микрофон</span>
+              </button>
+            </div>
+
+            <!-- Сообщение после задувания -->
+            <div class="wish-granted-banner" id="wish-granted-banner">
+              <div class="wish-icon">🌟</div>
+              <h4>Твоё желание принято Вселенной!</h4>
+              <p>Оно обязательно исполнится в самый неожиданный и прекрасный момент этого года ✨</p>
+              <button class="btn-text-reignite" id="reignite-btn">
+                <i class="fa-solid fa-rotate-left"></i> Зажечь свечи снова
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- СЕКЦИЯ 3: ИСКРЕННЕЕ ПИСЬМО В КОНВЕРТЕ -->
+    <section class="section letter-section" id="letter-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">💌 От всего сердца</span>
+          <h2 class="section-title">Письмо для тебя</h2>
+          <p class="section-desc">Настоящие слова имеют силу. Нажми на сургучную печать, чтобы распечатать конверт.</p>
+        </div>
+
+        <div class="envelope-area">
+          <div class="envelope-wrapper" id="envelope-wrapper">
+            <!-- Закрытый конверт -->
+            <div class="envelope" id="envelope">
+              <div class="envelope-flap" id="envelope-flap"></div>
+              <div class="envelope-pocket"></div>
+              
+              <!-- Сургучная печать -->
+              <div class="wax-seal" id="wax-seal" role="button" tabindex="0" title="Нажми, чтобы распечатать">
+                <div class="seal-inner">
+                  <i class="fa-solid fa-heart"></i>
+                </div>
+              </div>
+
+              <div class="envelope-label">
+                <span>Лично в руки ✉️</span>
+              </div>
+            </div>
+
+            <!-- Раскрывающееся письмо -->
+            <div class="letter-paper" id="letter-paper">
+              <button class="btn-close-letter" id="close-letter-btn" title="Свернуть письмо">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+              
+              <div class="letter-inner">
+                <div class="letter-date" id="letter-date">Сегодня</div>
+                <h3 class="letter-greeting" id="letter-greeting">Дорогой именинник,</h3>
+                
+                <div class="letter-text" id="letter-content">
+                  <p>В этот чудесный день я хочу сказать тебе самое главное: ты удивительный, невероятный и очень ценный человек!</p>
+                  <p>Пусть каждый день приносит поводы для искренней улыбки, рядом всегда будут преданные люди, а в душе царит абсолютная гармония и тепло.</p>
+                  <p>Никогда не сомневайся в своих силах. Мечтай смело, люби всем сердцем, открывай новые горизонты и помни, что впереди — всё самое прекрасное!</p>
+                  <p>Свети ярко и будь бесконечно счастлив(а)! 🎉</p>
+                </div>
+                
+                <div class="letter-signature" id="letter-signature">
+                  С любовью и теплыми объятиями 💖
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- СЕКЦИЯ 4: ВОЛШЕБНАЯ БАНОЧКА С КОМПЛИМЕНТАМИ И ПОЖЕЛАНИЯМИ -->
+    <section class="section compliments-section" id="compliments-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">✨ Баночка тепла</span>
+          <h2 class="section-title">100 причин твоей уникальности</h2>
+          <p class="section-desc">Достань записку из баночки и узнай, за что тебя так сильно ценят и любят!</p>
+        </div>
+
+        <div class="jar-interactive-container">
+          <div class="jar-visual" id="jar-visual">
+            <div class="jar-lid"></div>
+            <div class="jar-neck"></div>
+            <div class="jar-body">
+              <div class="jar-glow"></div>
+              <div class="jar-notes-inside">
+                <span class="note-pill n1">💌</span>
+                <span class="note-pill n2">⭐</span>
+                <span class="note-pill n3">🌸</span>
+                <span class="note-pill n4">✨</span>
+                <span class="note-pill n5">💫</span>
+              </div>
+              <div class="jar-label">
+                <span>Баночка Счастья</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="compliment-card-box">
+            <div class="compliment-card" id="compliment-card">
+              <div class="card-quote-mark">“</div>
+              <p class="compliment-text" id="compliment-text">
+                Нажми кнопку ниже, чтобы вытянуть персональное тёплое предсказание или комплимент!
+              </p>
+              <div class="compliment-number" id="compliment-counter">
+                Записка #1
+              </div>
+            </div>
+
+            <div class="compliment-actions">
+              <button class="btn-glow btn-primary" id="next-compliment-btn">
+                <i class="fa-solid fa-hand-holding-heart"></i>
+                <span>Достать записку! ✨</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- СЕКЦИЯ 5: ФОТОГАЛЕРЕЯ ВОСПОМИНАНИЙ -->
+    <section class="section gallery-section" id="gallery-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">📸 Особенные кадры</span>
+          <h2 class="section-title">Галерея лучших моментов</h2>
+          <p class="section-desc">Жизнь прекрасна благодаря моментам, которые заставляют нас улыбаться!</p>
+        </div>
+
+        <div class="polaroid-grid" id="polaroid-grid">
+          <!-- Карточка 1 -->
+          <div class="polaroid-card">
+            <div class="tape-pin"></div>
+            <div class="polaroid-img-wrapper">
+              <img src="https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=600&q=80" alt="Праздник" loading="lazy">
+            </div>
+            <div class="polaroid-caption">Праздничное настроение 🎈</div>
+          </div>
+
+          <!-- Карточка 2 -->
+          <div class="polaroid-card rotate-right">
+            <div class="tape-pin"></div>
+            <div class="polaroid-img-wrapper">
+              <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=600&q=80" alt="Радость и шарики" loading="lazy">
+            </div>
+            <div class="polaroid-caption">Море улыбок и восторга ✨</div>
+          </div>
+
+          <!-- Карточка 3 -->
+          <div class="polaroid-card rotate-left">
+            <div class="tape-pin"></div>
+            <div class="polaroid-img-wrapper">
+              <img src="https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?auto=format&fit=crop&w=600&q=80" alt="Торт со свечами" loading="lazy">
+            </div>
+            <div class="polaroid-caption">Сладкие моменты 🎂</div>
+          </div>
+
+          <!-- Карточка 4 -->
+          <div class="polaroid-card rotate-right-slight">
+            <div class="tape-pin"></div>
+            <div class="polaroid-img-wrapper">
+              <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=80" alt="Веселье и музыка" loading="lazy">
+            </div>
+            <div class="polaroid-caption">Зажигай по полной! 🥳</div>
+          </div>
+        </div>
+
+        <div class="gallery-custom-tip">
+          <button class="btn-secondary" id="add-photo-btn">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <span>Загрузить своё фото с устройства</span>
+          </button>
+          <input type="file" id="photo-upload-input" accept="image/*" style="display:none;">
+          <p class="small-tip">Фотографии сохранятся в вашем браузере</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- СЕКЦИЯ 6: ИНТЕРАКТИВНАЯ ИГРА "ЛОПНИ ШАРИКИ" -->
+    <section class="section game-section" id="game-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">🎈 Минутка веселья</span>
+          <h2 class="section-title">Лопни праздничные шарики</h2>
+          <p class="section-desc">Нажимай на шарики, чтобы лопать их и собирать приятные предсказания!</p>
+        </div>
+
+        <div class="game-arena-wrapper">
+          <div class="game-stats">
+            <div class="stat-badge">
+              <span class="stat-label">Лопнуто шариков:</span>
+              <span class="stat-value" id="popped-count">0</span>
+            </div>
+            <div class="stat-badge">
+              <span class="stat-label">Последний бонус:</span>
+              <span class="stat-value bonus-highlight" id="last-bonus">Нажми на шарик!</span>
+            </div>
+          </div>
+
+          <div class="game-canvas-area" id="game-area">
+            <!-- Шарики будут генерироваться скриптом -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ЗАКЛЮЧИТЕЛЬНЫЙ БЛОК -->
+    <section class="final-section">
+      <div class="container text-center">
+        <div class="final-card">
+          <div class="final-heart">💖</div>
+          <h2>Пусть каждый день будет похож на праздник!</h2>
+          <p>С наилучшими пожеланиями в твой самый особенный день.</p>
+          <button class="btn-glow btn-primary" id="grand-finale-btn">
+            <i class="fa-solid fa-firework"></i> Запустить финальный супер-салют!
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ФУТЕР -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <p>Создано с любовью и теплом специально ко Дню Рождения ✨</p>
+      <div class="footer-links">
+        <button id="footer-customize-link" class="footer-btn">
+          <i class="fa-solid fa-gear"></i> Настроить текст и имя
+        </button>
+        <button id="share-link-btn" class="footer-btn">
+          <i class="fa-solid fa-share-nodes"></i> Скопировать ссылку для подарка
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- МОДАЛЬНОЕ ОКНО ПЕРСОНАЛИЗАЦИИ И НАСТРОЙКИ ПОДАРКА -->
+  <div class="modal-overlay" id="customize-modal">
+    <div class="modal-window">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+          <h3>Персонализация подарка</h3>
+        </div>
+        <button class="modal-close-btn" id="modal-close-btn">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <p class="modal-desc">
+          Введи имя виновника торжества и текст поздравлений. Сайт обновится мгновенно, а ты сможешь скопировать уникальную готовую ссылку!
+        </p>
+
+        <div class="form-group">
+          <label for="input-recipient-name">Имя именинника / именинницы:</label>
+          <input type="text" id="input-recipient-name" placeholder="Например: Анечка, Максим, Любимая..." maxlength="40">
+        </div>
+
+        <div class="form-group">
+          <label for="input-hero-subtitle">Текст подзаголовка на главном экране:</label>
+          <textarea id="input-hero-subtitle" rows="2" placeholder="Поздравление на первом экране..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="input-ticket-body">Текст внутри подарочного сертификата:</label>
+          <textarea id="input-ticket-body" rows="3" placeholder="Что ты даришь (поездка, 3 желания, ужин, подарок)..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="input-letter-body">Текст личного письма в конверте:</label>
+          <textarea id="input-letter-body" rows="4" placeholder="Твои теплые слова и пожелания..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="input-signature">Подпись в письме:</label>
+          <input type="text" id="input-signature" placeholder="Например: Твой лучший друг, Твоя половинка..." maxlength="50">
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-secondary" id="reset-defaults-btn">По умолчанию</button>
+        <button class="btn-secondary" id="copy-share-url-btn">
+          <i class="fa-solid fa-link"></i> Копировать ссылку с настройками
+        </button>
+        <button class="btn-primary" id="save-customization-btn">
+          <i class="fa-solid fa-check"></i> Применить
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Уведомление Toast -->
+  <div class="toast" id="toast-message">Ссылка скопирована!</div>
+
+  <!-- Скрипт приложения -->
+  <script src="script.js"></script>
+</body>
+</html>
