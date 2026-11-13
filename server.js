@@ -5,10 +5,11 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Раздача статических файлов сайта
-app.use(express.static(path.join(__dirname, '.')));
+app.use(express.static(__dirname));
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
-// Маршрут по умолчанию
-app.get('*', (req, res) => {
+// Главная страница
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
