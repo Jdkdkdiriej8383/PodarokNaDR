@@ -2,7 +2,7 @@
    DASHK // 16 LETOV - INTERACTIVE ENGINE
    ========================================================================== */
 
-// --- Quotes & Facts Data (Остроумные факты о Дашк) ---
+// --- Quotes & Facts Data (Остроумные факты) ---
 const DASHA_FACTS = [
   "67 -- вот чем забиты твои кружки⚡",
   "Официальный статус: 16 лет! Пора оформлять пенсионную карту, занимать очередь в поликлинику и ворчать на молодёжь 👵",
@@ -14,7 +14,7 @@ const DASHA_FACTS = [
   "Сложить 1000 оригами-журавликов? Легко! Главное, чтобы первым желанием было «пусть все вокруг не бесят» 🕊️",
   "По законам Древней Руси в 16 лет уже пора было выдавать замуж за боярина, но в 2026-м — всё самое легендарное только начинается! 👑",
   "Тот самый редкий человек, которому можно отправить абсолютно любой лютый бред в 3 часа ночи и получить ответ: «Жиза».",
-  "Главный жизненный закон: если Дашк улыбается — день уже прожит не зря. С 16-летием, легенда! 🚀"
+  "Главный жизненный закон: если ты улыбаешься — день уже прожит не зря. С 16-летием, легенда! 🚀"
 ];
 
 // --- Web Audio Synthesizer (ПОЛНОСТЬЮ ОТКЛЮЧЕНЫ ЗВУКИ НАЖАТИЯ КНОПОК ПО ПРОСЬБЕ ПОЛЬЗОВАТЕЛЯ) ---
@@ -748,7 +748,7 @@ function setupDisclaimerAndMusic() {
     const track = PLAYLIST_TRACKS[currentTrackIdx];
 
     if (trackTitle) trackTitle.textContent = track.title;
-    if (trackArtist) trackArtist.textContent = `${track.artist} • Плейлист Дашк`;
+    if (trackArtist) trackArtist.textContent = `${track.artist} • Избранное`;
     if (trackCounter) trackCounter.textContent = `ТРЕК ${track.id} ИЗ 16 // САУНДТРЕК САЙТА`;
     if (floatingTrackTitle) {
       floatingTrackTitle.textContent = `${track.artist} — ${track.title}`;
@@ -892,7 +892,7 @@ function setupDisclaimerAndMusic() {
   if (skipBtn) {
     skipBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      dismissModal(false, 'Добро пожаловать в спейс Дашк! ✨');
+      dismissModal(false, 'Добро пожаловать! ✨');
     });
   }
 
