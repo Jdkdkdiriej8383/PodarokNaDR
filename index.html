@@ -1404,6 +1404,61 @@ body {
   line-height: 1.45;
 }
 
+.disclaimer-playlist-preview {
+  background: rgba(59, 130, 246, 0.08);
+  border: 1px solid var(--border-active);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.playlist-pill-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.playlist-pill-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.playlist-pill-text strong {
+  font-size: 0.95rem;
+  color: var(--text-main);
+  line-height: 1.3;
+}
+
+.playlist-pill-text span {
+  font-size: 0.78rem;
+  color: var(--blue-light);
+  font-family: var(--font-mono);
+  margin-top: 2px;
+}
+
+.disclaimer-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.btn-text-ghost {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 0.82rem;
+  cursor: pointer;
+  padding: 6px;
+  transition: color var(--transition-fast);
+}
+
+.btn-text-ghost:hover {
+  color: var(--text-muted);
+  text-decoration: underline;
+}
+
 #disclaimer-enter-btn {
   width: 100%;
   padding: 15px 22px;
@@ -1414,6 +1469,7 @@ body {
   justify-content: center;
   gap: 10px;
   box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+  text-decoration: none;
 }
 
 .disclaimer-note {
@@ -1852,9 +1908,6 @@ body {
   <!-- Интерактивный минималистичный канвас для тонких частиц и журавликов -->
   <canvas id="bg-canvas"></canvas>
 
-  <!-- ФОНОВЫЙ САУНДТРЕК -->
-  <audio id="bg-music" src="assets/audio/celebration.mp3" loop preload="auto"></audio>
-
   <!-- ДИСКЛЕЙМЕР (ВХОД В СПЕЙС ДАШК) -->
   <div class="disclaimer-overlay" id="disclaimer-modal" role="dialog" aria-modal="true" aria-labelledby="disclaimer-title">
     <div class="disclaimer-card">
@@ -1870,7 +1923,7 @@ body {
           <div class="rule-icon"><i class="fa-solid fa-headphones"></i></div>
           <div class="rule-body">
             <h4>1. Подключи наушники</h4>
-            <p>Надень наушники для максимального погружения, объемного звучания и сочного праздничного саундтрека.</p>
+            <p>Надень наушники для максимального погружения, объемного звучания и любимого саундтрека.</p>
           </div>
         </div>
 
@@ -1883,10 +1936,26 @@ body {
         </div>
       </div>
 
-      <button class="btn btn-primary btn-lg" id="disclaimer-enter-btn">
-        <i class="fa-solid fa-play"></i> Врубить музыку и войти 🎧
-      </button>
-      <span class="disclaimer-note">Нажми, чтобы запустить саундтрек и войти в спейс</span>
+      <!-- Превью плейлиста именинницы -->
+      <div class="disclaimer-playlist-preview">
+        <div class="playlist-pill-info">
+          <span class="music-icon-spin"><i class="fa-solid fa-compact-disc"></i></span>
+          <div class="playlist-pill-text">
+            <strong>Плейлист Дашк // Яндекс Музыка</strong>
+            <span>241 любимый трек • Noize MC, инди, рок & поп</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="disclaimer-actions">
+        <a href="https://music.yandex.ru/playlists/lk.a8d2470e-290b-495c-8f26-c89334f56a63?utm_medium=copy_link&ref_id=01826e28-0c2b-4429-89be-d7e3ba197f69" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg" id="disclaimer-enter-btn">
+          <i class="fa-solid fa-play"></i> Включить плейлист в Яндекс Музыке 🎧
+        </a>
+        <button type="button" class="btn-text-ghost" id="disclaimer-skip-btn">
+          Войти на сайт без музыки →
+        </button>
+      </div>
+      <span class="disclaimer-note">Клик запустит твой плейлист в Яндекс Музыке и откроет спейс</span>
     </div>
   </div>
 
@@ -2830,70 +2899,42 @@ function showToast(msg) {
 function setupDisclaimerAndMusic() {
   const modal = document.getElementById('disclaimer-modal');
   const enterBtn = document.getElementById('disclaimer-enter-btn');
-  const bgAudio = document.getElementById('bg-music');
+  const skipBtn = document.getElementById('disclaimer-skip-btn');
   const sfxBtn = document.getElementById('sfx-toggle');
 
-  if (!modal || !enterBtn) return;
+  if (!modal) return;
 
-  let entered = false;
-
-  function enterSite() {
-    if (entered) return;
-    entered = true;
-
+  function dismissModal(msg) {
     modal.classList.add('hide');
     setTimeout(() => {
       modal.style.display = 'none';
     }, 450);
 
-    // Start background festive audio
-    if (bgAudio) {
-      bgAudio.volume = 0.45;
-      const playPromise = bgAudio.play();
-      if (playPromise !== undefined) {
-        playPromise.then(() => {
-          if (sfxBtn) {
-            sfxBtn.classList.add('active');
-            sfxBtn.setAttribute('title', 'Музыка играет (кликни для паузы)');
-          }
-        }).catch(err => {
-          console.warn('Playback prevented:', err);
-        });
-      }
-    }
-
     sfx.init();
     sfx.playChime();
     shootConfetti(110, 130);
-    showToast('Праздничный спейс запущен! 🎧🎉');
+    if (msg) showToast(msg);
   }
 
-  enterBtn.addEventListener('click', enterSite);
+  if (enterBtn) {
+    enterBtn.addEventListener('click', () => {
+      dismissModal('Запускаем плейлист в Яндекс Музыке! 🎧🎉');
+    });
+  }
 
-  // Sync navbar sound/music toggle
+  if (skipBtn) {
+    skipBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      dismissModal('Добро пожаловать в спейс Дашк! ✨');
+    });
+  }
+
+  // Sound effects toggle
   if (sfxBtn) {
     sfxBtn.addEventListener('click', () => {
-      if (bgAudio) {
-        if (!bgAudio.paused) {
-          bgAudio.pause();
-          sfx.enabled = false;
-          sfxBtn.classList.remove('active');
-          sfxBtn.setAttribute('title', 'Музыка на паузе (кликни для включения)');
-          sfxBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
-          showToast('Музыка на паузе 🔇');
-        } else {
-          bgAudio.play().catch(() => {});
-          sfx.enabled = true;
-          sfxBtn.classList.add('active');
-          sfxBtn.setAttribute('title', 'Музыка играет (кликни для паузы)');
-          sfxBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
-          showToast('Музыка играет 🔊');
-        }
-      } else {
-        sfx.enabled = !sfx.enabled;
-        sfxBtn.classList.toggle('active', sfx.enabled);
-        showToast(sfx.enabled ? 'Звук включен 🔊' : 'Звук выключен 🔇');
-      }
+      sfx.enabled = !sfx.enabled;
+      sfxBtn.classList.toggle('active', sfx.enabled);
+      showToast(sfx.enabled ? 'Звуковые эффекты включены 🔊' : 'Звук выключен 🔇');
     });
   }
 }
