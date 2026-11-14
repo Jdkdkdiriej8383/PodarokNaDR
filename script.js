@@ -182,7 +182,9 @@ function setupGiftBox() {
 
     setTimeout(() => {
       card.classList.add('show');
-      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const navHeight = document.querySelector('.navbar')?.offsetHeight || 60;
+      const targetY = card.getBoundingClientRect().top + window.pageYOffset - navHeight - 16;
+      window.scrollTo({ top: targetY, behavior: 'smooth' });
       shootConfetti(60, 60);
     }, 450);
   });
@@ -298,18 +300,18 @@ const PLAYLIST_TRACKS = [
   { id: 2, title: "where is smiley?", artist: "Serani Poji", file: "assets/audio/track_2_serani_poji.mp3", duration: "04:37" },
   { id: 3, title: "kitty phonk", artist: "soviss", file: "assets/audio/track_3_kitty_phonk.mp3", duration: "01:30" },
   { id: 4, title: "Здравствуй", artist: "Перемотка", file: "assets/audio/track_4_peremotka.mp3", duration: "04:03" },
-  { id: 5, title: "Дворы", artist: "ssshhhiiittt!", file: "assets/audio/playlist_track.mp3", duration: "03:15" },
-  { id: 6, title: "Bloom", artist: "J^P^N", file: "assets/audio/track_2_serani_poji.mp3", duration: "02:44" },
-  { id: 7, title: "Creep tour", artist: "itchyluff", file: "assets/audio/track_3_kitty_phonk.mp3", duration: "02:18" },
-  { id: 8, title: "Angel 92", artist: "MARETU", file: "assets/audio/track_4_peremotka.mp3", duration: "03:52" },
-  { id: 9, title: "Ослепительна", artist: "KSB muzic", file: "assets/audio/playlist_track.mp3", duration: "02:30" },
-  { id: 10, title: "The Feels Sexy", artist: "SuperSolar", file: "assets/audio/track_2_serani_poji.mp3", duration: "02:55" },
-  { id: 11, title: "LEGACY", artist: "PIXY, North West", file: "assets/audio/track_3_kitty_phonk.mp3", duration: "03:10" },
-  { id: 12, title: "you can’t rush perfection", artist: "Santea2", file: "assets/audio/track_4_peremotka.mp3", duration: "02:22" },
-  { id: 13, title: "moron", artist: "m1v, luvwillow", file: "assets/audio/playlist_track.mp3", duration: "02:05" },
-  { id: 14, title: "good morning", artist: "the morph, mklv", file: "assets/audio/track_2_serani_poji.mp3", duration: "02:48" },
-  { id: 15, title: "Let Go", artist: "Ark Patrol, Veronika Redd", file: "assets/audio/track_4_peremotka.mp3", duration: "04:12" },
-  { id: 16, title: "Купе", artist: "Электрофорез", file: "assets/audio/track_2_serani_poji.mp3", duration: "03:34" }
+  { id: 5, title: "Купе", artist: "Электрофорез", file: "assets/audio/track_5_elektroforez_kupe.m4a", duration: "03:34" },
+  { id: 6, title: "По разбитым зеркалам", artist: "Электрофорез", file: "assets/audio/track_elektroforez_zerkala.m4a", duration: "03:45" },
+  { id: 7, title: "Русская принцесса", artist: "Электрофорез", file: "assets/audio/track_elektroforez_princessa.m4a", duration: "03:12" },
+  { id: 8, title: "Чёрное / Белое", artist: "Электрофорез", file: "assets/audio/track_elektroforez_chernoe.m4a", duration: "03:38" },
+  { id: 9, title: "Дворы", artist: "ssshhhiiittt!", file: "assets/audio/track_dvor_ssshhhiiittt.m4a", duration: "02:48" },
+  { id: 10, title: "Bloom", artist: "J^P^N", file: "assets/audio/track_2_serani_poji.mp3", duration: "02:44" },
+  { id: 11, title: "Creep tour", artist: "itchyluff", file: "assets/audio/track_3_kitty_phonk.mp3", duration: "02:18" },
+  { id: 12, title: "Angel 92", artist: "MARETU", file: "assets/audio/track_4_peremotka.mp3", duration: "03:52" },
+  { id: 13, title: "Ослепительна", artist: "KSB muzic", file: "assets/audio/playlist_track.mp3", duration: "02:30" },
+  { id: 14, title: "The Feels Sexy", artist: "SuperSolar", file: "assets/audio/track_2_serani_poji.mp3", duration: "02:55" },
+  { id: 15, title: "LEGACY", artist: "PIXY, North West", file: "assets/audio/track_3_kitty_phonk.mp3", duration: "03:10" },
+  { id: 16, title: "Let Go", artist: "Ark Patrol, Veronika Redd", file: "assets/audio/track_4_peremotka.mp3", duration: "04:12" }
 ];
 
 // --- Quotes & Facts Auto-Flipping Engine ---
@@ -462,12 +464,15 @@ function setupGallerySlideshow() {
     if (tagEl) tagEl.textContent = photo.tag;
     if (captionEl) captionEl.textContent = photo.caption;
 
-    // Highlight thumbnail
+    // Highlight thumbnail (скроллим только контейнер миниатюр, НЕ трогая скролл страницы!)
     const allThumbs = thumbnailsContainer.querySelectorAll('.thumb-item');
     allThumbs.forEach((t, i) => {
       if (i === currentSlide) {
         t.classList.add('active');
-        t.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        if (thumbnailsContainer) {
+          const targetLeft = t.offsetLeft - (thumbnailsContainer.clientWidth / 2) + (t.clientWidth / 2);
+          thumbnailsContainer.scrollTo({ left: targetLeft, behavior: 'smooth' });
+        }
       } else {
         t.classList.remove('active');
       }
@@ -477,9 +482,23 @@ function setupGallerySlideshow() {
     if (progressFill) progressFill.style.width = '0%';
   }
 
+  // Автопролистывание галереи только тогда, когда пользователь реально видит галерею на экране
+  let isGalleryVisible = false;
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        isGalleryVisible = entry.isIntersecting;
+      });
+    }, { threshold: 0.15 });
+    const galSection = document.getElementById('gallery');
+    if (galSection) observer.observe(galSection);
+  } else {
+    isGalleryVisible = true;
+  }
+
   // Timer loop
   setInterval(() => {
-    if (!isAutoplay || isHovered) return;
+    if (!isAutoplay || isHovered || !isGalleryVisible) return;
     slideProgress += stepMs;
     const pct = Math.min((slideProgress / slideDurationMs) * 100, 100);
     if (progressFill) progressFill.style.width = `${pct}%`;
@@ -742,13 +761,14 @@ function setupDisclaimerAndMusic() {
     }
     if (totalDurationLabel) totalDurationLabel.textContent = track.duration;
 
-    // Highlight row in list
+    // Highlight row in list (скроллим только контейнер списка треков, НЕ дергая окно!)
     if (trackListContainer) {
       const rows = trackListContainer.querySelectorAll('.track-row');
       rows.forEach((r, i) => {
         if (i === currentTrackIdx) {
           r.classList.add('active');
-          r.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          const targetTop = r.offsetTop - (trackListContainer.clientHeight / 2) + (r.clientHeight / 2);
+          trackListContainer.scrollTo({ top: targetTop, behavior: 'smooth' });
         } else {
           r.classList.remove('active');
         }
