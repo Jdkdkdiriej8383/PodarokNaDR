@@ -67,6 +67,8 @@ html {
   scroll-behavior: smooth;
   font-size: 16px;
   background-color: var(--bg-main);
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 
 body {
@@ -1517,6 +1519,291 @@ body {
 }
 
 /* ==========================================================================
+   ON-SITE AUDIO PLAYER & FLOATING BAR
+   ========================================================================== */
+.site-player-box {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-active);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.site-player-top {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.player-vinyl-wrap {
+  flex-shrink: 0;
+}
+
+.player-vinyl {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #1a2035 30%, #0d1117 70%);
+  border: 2px solid var(--blue-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  color: var(--blue-light);
+  box-shadow: 0 0 20px var(--blue-glow);
+  transition: transform 0.3s ease;
+}
+
+.player-vinyl.spinning {
+  animation: spin 5s linear infinite;
+}
+
+.track-badge-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--blue-light);
+  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid var(--border-active);
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+  margin-bottom: 6px;
+}
+
+.live-pulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 8px #10b981;
+  animation: pulse-dot 1.5s infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(1.3); }
+}
+
+.site-track-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 3px;
+}
+
+.site-track-artist {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.site-player-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.btn-player-main {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--blue-primary);
+  color: #fff;
+  border: none;
+  font-size: 1.15rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 18px var(--blue-glow);
+  transition: transform var(--transition-fast), background var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.btn-player-main:hover {
+  background: var(--blue-hover);
+  transform: scale(1.08);
+}
+
+.site-progress-group {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 180px;
+}
+
+.time-label {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  min-width: 40px;
+}
+
+.music-seek-bar, .volume-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.12);
+  outline: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.music-seek-bar::-webkit-slider-thumb, .volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--blue-light);
+  box-shadow: 0 0 10px var(--blue-glow);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.music-seek-bar::-webkit-slider-thumb:hover, .volume-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.25);
+}
+
+.site-volume-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 120px;
+  flex-shrink: 0;
+}
+
+.btn-vol-mute {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.btn-vol-mute:hover {
+  color: var(--text-main);
+}
+
+/* Floating Music Bar */
+.music-floating-bar {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 850;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(16, 20, 32, 0.92);
+  border: 1px solid var(--border-active);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 8px 16px 8px 10px;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(59, 130, 246, 0.25);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  max-width: calc(100vw - 32px);
+}
+
+.music-floating-bar.hidden {
+  transform: translateY(100px);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.floating-play-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--blue-primary);
+  color: #fff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px var(--blue-glow);
+  transition: transform var(--transition-fast), background var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.floating-play-btn:hover {
+  background: var(--blue-hover);
+  transform: scale(1.08);
+}
+
+.floating-meta {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  text-align: left;
+}
+
+.floating-title {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
+}
+
+.floating-tag {
+  font-size: 0.68rem;
+  color: var(--blue-light);
+  font-family: var(--font-mono);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Sound wave equalizer animation */
+.sound-wave-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 2.5px;
+  height: 18px;
+  padding: 0 4px;
+}
+
+.sound-wave-bars span {
+  width: 3px;
+  background: var(--blue-light);
+  border-radius: 2px;
+  height: 4px;
+  transition: height 0.2s ease;
+}
+
+.sound-wave-bars.playing span:nth-child(1) {
+  animation: sound-bounce 0.8s ease-in-out infinite alternate;
+}
+.sound-wave-bars.playing span:nth-child(2) {
+  animation: sound-bounce 0.9s ease-in-out 0.2s infinite alternate;
+}
+.sound-wave-bars.playing span:nth-child(3) {
+  animation: sound-bounce 0.7s ease-in-out 0.4s infinite alternate;
+}
+.sound-wave-bars.playing span:nth-child(4) {
+  animation: sound-bounce 1s ease-in-out 0.1s infinite alternate;
+}
+
+@keyframes sound-bounce {
+  0% { height: 4px; }
+  100% { height: 18px; }
+}
+
+/* ==========================================================================
    RESPONSIVENESS (MOBILE, TABLET, DESKTOP)
    ========================================================================== */
 @media (max-width: 900px) {
@@ -1530,7 +1817,7 @@ body {
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   html, body {
     overflow-x: hidden !important;
     max-width: 100vw !important;
@@ -1885,6 +2172,47 @@ body {
     text-align: center;
     gap: 8px;
   }
+
+  /* Mobile Audio & Music Player */
+  .site-player-box {
+    padding: 16px;
+  }
+  .site-player-top {
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .player-vinyl {
+    width: 52px;
+    height: 52px;
+    font-size: 1.8rem;
+  }
+  .site-track-title {
+    font-size: 1.08rem;
+  }
+  .site-player-controls {
+    gap: 12px;
+  }
+  .site-progress-group {
+    min-width: 140px;
+  }
+  .site-volume-group {
+    width: 100%;
+    justify-content: flex-end;
+  }
+  .volume-slider {
+    max-width: 120px;
+  }
+  .music-floating-bar {
+    bottom: 14px;
+    right: 14px;
+    left: 14px;
+    justify-content: space-between;
+    padding: 7px 12px 7px 8px;
+    max-width: calc(100vw - 28px);
+  }
+  .floating-title {
+    max-width: 160px;
+  }
 }
 
 @media (max-width: 380px) {
@@ -1904,6 +2232,9 @@ body {
 </style>
 </head>
 <body class="theme-minimal">
+
+  <!-- Фоновый аудио трек из плейлиста именинницы -->
+  <audio id="bg-audio" src="assets/audio/playlist_track.mp3" preload="auto" loop></audio>
 
   <!-- Интерактивный минималистичный канвас для тонких частиц и журавликов -->
   <canvas id="bg-canvas"></canvas>
@@ -1936,26 +2267,26 @@ body {
         </div>
       </div>
 
-      <!-- Превью плейлиста именинницы -->
+      <!-- Превью саундтрека из плейлиста -->
       <div class="disclaimer-playlist-preview">
         <div class="playlist-pill-info">
           <span class="music-icon-spin"><i class="fa-solid fa-compact-disc"></i></span>
           <div class="playlist-pill-text">
-            <strong>Плейлист Дашк // Яндекс Музыка</strong>
-            <span>241 любимый трек • Noize MC, инди, рок & поп</span>
+            <strong>Саундтрек: Noize MC — Вселенная бесконечна?</strong>
+            <span>🎧 Трек из твоего плейлиста • Заиграет прямо на сайте</span>
           </div>
         </div>
       </div>
 
       <div class="disclaimer-actions">
-        <a href="https://music.yandex.ru/playlists/lk.a8d2470e-290b-495c-8f26-c89334f56a63?utm_medium=copy_link&ref_id=01826e28-0c2b-4429-89be-d7e3ba197f69" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg" id="disclaimer-enter-btn">
-          <i class="fa-solid fa-play"></i> Включить плейлист в Яндекс Музыке 🎧
-        </a>
+        <button type="button" class="btn btn-primary btn-lg" id="disclaimer-enter-btn">
+          <i class="fa-solid fa-play"></i> Врубить музыку и войти 🎧
+        </button>
         <button type="button" class="btn-text-ghost" id="disclaimer-skip-btn">
           Войти на сайт без музыки →
         </button>
       </div>
-      <span class="disclaimer-note">Клик запустит твой плейлист в Яндекс Музыке и откроет спейс</span>
+      <span class="disclaimer-note">Музыка заиграет сразу на сайте • Пауза и громкость доступны внизу</span>
     </div>
   </div>
 
@@ -2383,18 +2714,43 @@ body {
         <p class="section-desc">Твои любимые треки прямо на странице. Врубай на полную мощность!</p>
 
         <div class="music-player-card">
-          <div class="player-header">
-            <div class="player-title-group">
-              <span class="music-icon-spin"><i class="fa-solid fa-compact-disc"></i></span>
-              <div>
-                <h3 class="player-title">Яндекс Музыка // Плейлист Дашк</h3>
-                <span class="player-sub">Специально под этот праздник</span>
+          <!-- Интерактивный плеер прямо на сайте -->
+          <div class="site-player-box">
+            <div class="site-player-top">
+              <div class="player-vinyl-wrap">
+                <div class="player-vinyl" id="player-vinyl">
+                  <i class="fa-solid fa-compact-disc"></i>
+                </div>
+              </div>
+              <div class="site-player-info">
+                <div class="track-badge-live">
+                  <span class="live-pulse"></span>
+                  <span>САУНДТРЕК САЙТА // ОРИГИНАЛЬНЫЙ ТРЕК</span>
+                </div>
+                <h3 class="site-track-title" id="site-track-title">Вселенная бесконечна?</h3>
+                <p class="site-track-artist" id="site-track-artist">Noize MC • Плейлист Дашк</p>
               </div>
             </div>
-            <a href="https://music.yandex.ru/playlists/lk.a8d2470e-290b-495c-8f26-c89334f56a63?utm_medium=copy_link&ref_id=01826e28-0c2b-4429-89be-d7e3ba197f69" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
-              <span>Открыть в приложении</span>
-              <i class="fa-solid fa-arrow-up-right-from-square"></i>
-            </a>
+
+            <!-- Контроллеры воспроизведения -->
+            <div class="site-player-controls">
+              <button type="button" class="btn-player-main" id="site-play-btn" aria-label="Воспроизведение/Пауза">
+                <i class="fa-solid fa-play"></i>
+              </button>
+              
+              <div class="site-progress-group">
+                <span class="time-label" id="current-time">00:00</span>
+                <input type="range" class="music-seek-bar" id="music-seek-bar" min="0" max="100" value="0" step="0.1" aria-label="Перемотка">
+                <span class="time-label" id="total-duration">04:26</span>
+              </div>
+
+              <div class="site-volume-group">
+                <button type="button" class="btn-vol-mute" id="mute-btn" title="Без звука">
+                  <i class="fa-solid fa-volume-high"></i>
+                </button>
+                <input type="range" class="volume-slider" id="volume-slider" min="0" max="1" step="0.05" value="0.85" title="Громкость">
+              </div>
+            </div>
           </div>
 
           <!-- Встроенный фрейм плейлиста Яндекс Музыки -->
@@ -2405,7 +2761,7 @@ body {
           <div class="playlist-meta-bar">
             <span class="meta-item"><i class="fa-solid fa-music"></i> В плеере: Вселенная бесконечна? — Noize MC</span>
             <a href="https://music.yandex.ru/playlists/lk.a8d2470e-290b-495c-8f26-c89334f56a63?utm_medium=copy_link&ref_id=01826e28-0c2b-4429-89be-d7e3ba197f69" target="_blank" rel="noopener noreferrer" class="meta-link">
-              <i class="fa-solid fa-arrow-up-right-from-square"></i> Открыть весь плейлист Дашк (241 трек) в Яндекс Музыке
+              <i class="fa-solid fa-arrow-up-right-from-square"></i> Открыть весь плейлист Дашк (254 трека) в Яндекс Музыке
             </a>
           </div>
         </div>
@@ -2473,6 +2829,20 @@ body {
 
   <!-- Toast -->
   <div class="toast" id="toast">Уведомление</div>
+
+  <!-- ПЛАВАЮЩИЙ МИНИ-ПЛЕЕР МУЗЫКИ НА САЙТЕ -->
+  <div class="music-floating-bar hidden" id="music-floating-bar">
+    <button type="button" class="floating-play-btn" id="floating-play-btn" aria-label="Воспроизведение/Пауза" title="Включить / Пауза">
+      <i class="fa-solid fa-play"></i>
+    </button>
+    <div class="floating-meta">
+      <span class="floating-title" title="Noize MC — Вселенная бесконечна?">Noize MC — Вселенная бесконечна?</span>
+      <span class="floating-tag"><i class="fa-solid fa-music"></i> Плейлист Дашк // 16 летов</span>
+    </div>
+    <div class="sound-wave-bars" id="sound-wave-bars" title="Саундтрек играет">
+      <span></span><span></span><span></span><span></span>
+    </div>
+  </div>
 
   <script>
 /* ==========================================================================
@@ -2901,10 +3271,80 @@ function setupDisclaimerAndMusic() {
   const enterBtn = document.getElementById('disclaimer-enter-btn');
   const skipBtn = document.getElementById('disclaimer-skip-btn');
   const sfxBtn = document.getElementById('sfx-toggle');
+  const bgAudio = document.getElementById('bg-audio');
+  const floatingBar = document.getElementById('music-floating-bar');
+  const floatingPlayBtn = document.getElementById('floating-play-btn');
+  const soundWaveBars = document.getElementById('sound-wave-bars');
+  const sitePlayBtn = document.getElementById('site-play-btn');
+  const playerVinyl = document.getElementById('player-vinyl');
+  const seekBar = document.getElementById('music-seek-bar');
+  const currentTimeLabel = document.getElementById('current-time');
+  const totalDurationLabel = document.getElementById('total-duration');
+  const volumeSlider = document.getElementById('volume-slider');
+  const muteBtn = document.getElementById('mute-btn');
 
-  if (!modal) return;
+  let isPlaying = false;
 
-  function dismissModal(msg) {
+  function formatTime(seconds) {
+    if (isNaN(seconds) || seconds < 0) return '00:00';
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  }
+
+  function setPlayingState(playing) {
+    isPlaying = playing;
+    if (playing) {
+      if (floatingPlayBtn) floatingPlayBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+      if (sitePlayBtn) sitePlayBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+      if (playerVinyl) playerVinyl.classList.add('spinning');
+      if (soundWaveBars) soundWaveBars.classList.add('playing');
+      if (sfxBtn) {
+        sfxBtn.classList.add('active');
+        sfxBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+      }
+    } else {
+      if (floatingPlayBtn) floatingPlayBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+      if (sitePlayBtn) sitePlayBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+      if (playerVinyl) playerVinyl.classList.remove('spinning');
+      if (soundWaveBars) soundWaveBars.classList.remove('playing');
+      if (sfxBtn) {
+        sfxBtn.classList.remove('active');
+        sfxBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+      }
+    }
+  }
+
+  function playMusic() {
+    if (!bgAudio) return;
+    bgAudio.play().then(() => {
+      setPlayingState(true);
+      if (floatingBar) floatingBar.classList.remove('hidden');
+    }).catch(err => {
+      console.warn('Audio play prevented:', err);
+    });
+  }
+
+  function pauseMusic() {
+    if (!bgAudio) return;
+    bgAudio.pause();
+    setPlayingState(false);
+  }
+
+  function toggleMusic() {
+    if (!bgAudio) return;
+    if (bgAudio.paused) {
+      playMusic();
+      showToast('Музыка играет! 🎧');
+    } else {
+      pauseMusic();
+      showToast('Музыка на паузе ⏸️');
+    }
+  }
+
+  // Dismiss disclaimer modal
+  function dismissModal(startMusic, msg) {
+    if (!modal) return;
     modal.classList.add('hide');
     setTimeout(() => {
       modal.style.display = 'none';
@@ -2913,29 +3353,100 @@ function setupDisclaimerAndMusic() {
     sfx.init();
     sfx.playChime();
     shootConfetti(110, 130);
+
+    if (startMusic) {
+      playMusic();
+    } else {
+      if (floatingBar) floatingBar.classList.remove('hidden');
+    }
+
     if (msg) showToast(msg);
   }
 
   if (enterBtn) {
-    enterBtn.addEventListener('click', () => {
-      dismissModal('Запускаем плейлист в Яндекс Музыке! 🎧🎉');
+    enterBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      dismissModal(true, 'Саундтрек из твоего плейлиста играет прямо на сайте! 🎧✨');
     });
   }
 
   if (skipBtn) {
     skipBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      dismissModal('Добро пожаловать в спейс Дашк! ✨');
+      dismissModal(false, 'Добро пожаловать в спейс Дашк! ✨');
     });
   }
 
-  // Sound effects toggle
+  // Control button listeners
+  if (floatingPlayBtn) {
+    floatingPlayBtn.addEventListener('click', toggleMusic);
+  }
+  if (sitePlayBtn) {
+    sitePlayBtn.addEventListener('click', toggleMusic);
+  }
   if (sfxBtn) {
-    sfxBtn.addEventListener('click', () => {
-      sfx.enabled = !sfx.enabled;
-      sfxBtn.classList.toggle('active', sfx.enabled);
-      showToast(sfx.enabled ? 'Звуковые эффекты включены 🔊' : 'Звук выключен 🔇');
+    sfxBtn.addEventListener('click', toggleMusic);
+  }
+
+  // Audio timeline and scrubber
+  if (bgAudio) {
+    bgAudio.addEventListener('timeupdate', () => {
+      if (!bgAudio.duration) return;
+      const progress = (bgAudio.currentTime / bgAudio.duration) * 100;
+      if (seekBar && !seekBar.matches(':active')) {
+        seekBar.value = progress;
+      }
+      if (currentTimeLabel) {
+        currentTimeLabel.textContent = formatTime(bgAudio.currentTime);
+      }
     });
+
+    bgAudio.addEventListener('loadedmetadata', () => {
+      if (totalDurationLabel) {
+        totalDurationLabel.textContent = formatTime(bgAudio.duration);
+      }
+    });
+
+    bgAudio.addEventListener('play', () => setPlayingState(true));
+    bgAudio.addEventListener('pause', () => setPlayingState(false));
+
+    if (seekBar) {
+      seekBar.addEventListener('input', () => {
+        if (!bgAudio.duration) return;
+        const targetTime = (seekBar.value / 100) * bgAudio.duration;
+        bgAudio.currentTime = targetTime;
+        if (currentTimeLabel) currentTimeLabel.textContent = formatTime(targetTime);
+      });
+    }
+
+    if (volumeSlider) {
+      volumeSlider.addEventListener('input', () => {
+        bgAudio.volume = parseFloat(volumeSlider.value);
+        if (bgAudio.volume === 0) {
+          if (muteBtn) muteBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+        } else {
+          if (muteBtn) muteBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+        }
+      });
+    }
+
+    if (muteBtn) {
+      let prevVolume = 0.85;
+      muteBtn.addEventListener('click', () => {
+        if (bgAudio.volume > 0) {
+          prevVolume = bgAudio.volume;
+          bgAudio.volume = 0;
+          if (volumeSlider) volumeSlider.value = 0;
+          muteBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+          showToast('Звук выключен 🔇');
+        } else {
+          bgAudio.volume = prevVolume || 0.85;
+          if (volumeSlider) volumeSlider.value = bgAudio.volume;
+          muteBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+          showToast('Звук включен 🔊');
+        }
+      });
+    }
   }
 }
 
