@@ -863,107 +863,308 @@ body {
 }
 
 /* ==========================================================================
-   SECTION 4: MEMES & QUOTES GENERATOR
+   SECTION 4: MEMES & WITTY FACTS (AUTO-FLIPPING)
    ========================================================================== */
 .quote-generator-box {
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  padding: 40px 32px;
-  max-width: 640px;
+  padding: 36px 32px;
+  max-width: 660px;
   margin: 0 auto;
-  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
 }
 
-.quote-display {
-  min-height: 130px;
+.quote-card-header {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 28px;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
 
 .quote-code-tag {
   font-family: var(--font-mono);
   font-size: 0.8rem;
+  font-weight: 700;
   color: var(--blue-light);
-  margin-bottom: 12px;
+  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid var(--border-active);
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+}
+
+.quote-tag-badge {
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  color: var(--text-dim);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+}
+
+.quote-display {
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 10px 0;
 }
 
 .quote-text {
   font-family: var(--font-sans);
-  font-size: 1.3rem;
+  font-size: 1.25rem;
   font-weight: 600;
-  line-height: 1.5;
+  line-height: 1.6;
   color: var(--text-main);
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.quote-timer-bar {
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 22px;
+}
+
+.quote-timer-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--blue-primary);
+  border-radius: 2px;
+  transition: width 0.1s linear;
+}
+
+.quote-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.quote-sub-btn {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-size: 0.95rem;
+}
+
+.quote-sub-btn:hover {
+  border-color: var(--border-active);
+  color: #fff;
+  background: rgba(59, 130, 246, 0.12);
+  transform: scale(1.06);
 }
 
 /* ==========================================================================
-   SECTION 5: GALLERY ARCHIVE (13 PHOTOS)
+   SECTION 5: GALLERY ARCHIVE (INTERACTIVE SLIDESHOW)
    ========================================================================== */
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+.slideshow-container {
+  max-width: 780px;
+  margin: 0 auto;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
 }
 
-.photo-card {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
+.slideshow-stage {
+  position: relative;
+  width: 100%;
   border-radius: var(--radius-md);
   overflow: hidden;
-  cursor: pointer;
-  transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
-}
-
-.photo-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--border-active);
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.4);
-}
-
-.photo-wrapper {
-  width: 100%;
+  background: #080a0f;
   aspect-ratio: 4 / 3;
-  overflow: hidden;
-  background: #151822;
-}
-
-.photo-wrapper img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.4s ease;
-}
-
-.photo-card:hover .photo-wrapper img {
-  transform: scale(1.05);
-}
-
-.photo-info {
-  padding: 14px 16px;
   display: flex;
   align-items: center;
+  justify-content: center;
+}
+
+.slide-active-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.slide-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  background: #080a0f;
+  transition: transform 0.4s ease, opacity 0.3s ease;
+}
+
+.slide-active-wrapper:hover .slide-img {
+  transform: scale(1.02);
+}
+
+.slide-overlay-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(10, 12, 18, 0.94) 0%, rgba(10, 12, 18, 0.6) 70%, transparent 100%);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 24px 20px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  pointer-events: none;
+}
+
+.slide-tag-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.slide-counter {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--blue-light);
+  background: rgba(59, 130, 246, 0.2);
+  border: 1px solid var(--border-active);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+}
+
+.slide-tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.slide-caption {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-main);
+  line-height: 1.4;
+}
+
+.slide-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(16, 20, 32, 0.78);
+  border: 1px solid var(--border-active);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  cursor: pointer;
+  z-index: 10;
+  transition: background var(--transition-fast), transform var(--transition-fast);
+  backdrop-filter: blur(8px);
+}
+
+.slide-nav-btn:hover {
+  background: var(--blue-primary);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.slide-nav-btn.prev {
+  left: 14px;
+}
+
+.slide-nav-btn.next {
+  right: 14px;
+}
+
+.slide-progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  z-index: 5;
+}
+
+.slide-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--blue-primary);
+  box-shadow: 0 0 8px var(--blue-glow);
+  transition: width 0.1s linear;
+}
+
+.slideshow-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 16px 0 14px;
+  flex-wrap: wrap;
   gap: 10px;
 }
 
-.photo-tag {
-  font-family: var(--font-mono);
+.slideshow-hint {
   font-size: 0.75rem;
-  color: var(--blue-light);
-  background: rgba(59, 130, 246, 0.1);
-  padding: 2px 8px;
-  border-radius: 4px;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
 }
 
-.photo-caption {
-  font-size: 0.9rem;
-  color: var(--text-muted);
-  white-space: nowrap;
+.slideshow-thumbnails {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px 2px 8px;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+}
+
+.thumb-item {
+  width: 60px;
+  height: 60px;
+  border-radius: var(--radius-sm);
   overflow: hidden;
-  text-overflow: ellipsis;
+  border: 2px solid transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+  opacity: 0.55;
+  transition: opacity var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.thumb-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.thumb-item:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+.thumb-item.active {
+  opacity: 1;
+  border-color: var(--blue-primary);
+  box-shadow: 0 0 10px var(--blue-glow);
+  transform: scale(1.05);
 }
 
 /* Lightbox Modal */
@@ -1029,55 +1230,200 @@ body {
 }
 
 /* ==========================================================================
-   SECTION 6: MUSIC PLAYER (YANDEX MUSIC)
+   SECTION 6: MUSIC PLAYER & 16-TRACK PLAYLIST
    ========================================================================== */
 .music-player-card {
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
   padding: 32px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
 }
 
-.player-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
-  gap: 16px;
-}
-
-.player-title-group {
+.player-btn-group {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 10px;
 }
 
-.music-icon-spin {
-  font-size: 2rem;
-  color: var(--blue-primary);
-  animation: spin 10s linear infinite;
+.btn-player-sub {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
 }
 
-@keyframes spin {
-  100% { transform: rotate(360deg); }
+.btn-player-sub:hover {
+  background: var(--blue-primary);
+  border-color: var(--blue-primary);
+  color: #fff;
+  transform: scale(1.08);
 }
 
-.player-title {
-  font-family: var(--font-display);
-  font-size: 1.35rem;
-}
-
-.player-sub {
-  font-size: 0.85rem;
-  color: var(--text-dim);
-}
-
-.iframe-container {
-  width: 100%;
-  border-radius: 12px;
-  overflow: hidden;
+/* Playlist Drawer (16 Authentic Tracks) */
+.playlist-drawer {
   background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  margin-bottom: 22px;
+}
+
+.playlist-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 12px;
+}
+
+.playlist-drawer-title {
+  font-size: 0.98rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-main);
+}
+
+.playlist-drawer-badge {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--blue-light);
+  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid var(--border-active);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+}
+
+.playlist-track-list {
+  max-height: 380px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-right: 4px;
+}
+
+.track-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+  border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.track-row:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+  transform: translateX(3px);
+}
+
+.track-row.active {
+  background: rgba(59, 130, 246, 0.14);
+  border-color: var(--border-active);
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.15);
+}
+
+.track-num {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  min-width: 24px;
+}
+
+.track-row.active .track-num {
+  color: var(--blue-light);
+  font-weight: 700;
+}
+
+.track-playing-icon {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--blue-primary);
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+.track-info-cell {
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.track-name-text {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 2px;
+}
+
+.track-row.active .track-name-text {
+  color: var(--blue-light);
+}
+
+.track-artist-text {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.track-dur-text {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  flex-shrink: 0;
+}
+
+.playlist-meta-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-top: 10px;
+}
+
+.meta-item {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.meta-link {
+  font-size: 0.85rem;
+  color: var(--blue-light);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color var(--transition-fast);
+}
+
+.meta-link:hover {
+  color: #fff;
+  text-decoration: underline;
 }
 
 /* ==========================================================================
@@ -2174,52 +2520,138 @@ body {
   }
 
   /* Mobile Audio & Music Player */
+  body {
+    padding-bottom: 95px;
+  }
+
+  /* Mobile Slideshow */
+  .slideshow-container {
+    padding: 14px;
+    border-radius: var(--radius-md);
+  }
+  .slideshow-stage {
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-sm);
+  }
+  .slide-overlay-info {
+    padding: 16px 12px 10px;
+  }
+  .slide-counter {
+    font-size: 0.72rem;
+    padding: 2px 6px;
+  }
+  .slide-caption {
+    font-size: 0.92rem;
+    line-height: 1.35;
+  }
+  .slide-nav-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 0.9rem;
+  }
+  .slide-nav-btn.prev { left: 8px; }
+  .slide-nav-btn.next { right: 8px; }
+  .thumb-item {
+    width: 48px;
+    height: 48px;
+  }
+
+  /* Mobile Quotes */
+  .quote-generator-box {
+    padding: 24px 16px;
+  }
+  .quote-text {
+    font-size: 1.05rem;
+    line-height: 1.5;
+  }
+  .quote-display {
+    min-height: 95px;
+  }
+  .quote-sub-btn {
+    width: 38px;
+    height: 38px;
+    font-size: 0.85rem;
+  }
+
+  /* Mobile Music & Playlist */
+  .music-player-card {
+    padding: 16px 12px;
+  }
   .site-player-box {
-    padding: 16px;
+    padding: 16px 12px;
   }
   .site-player-top {
-    gap: 14px;
+    gap: 12px;
     margin-bottom: 14px;
   }
   .player-vinyl {
-    width: 52px;
-    height: 52px;
-    font-size: 1.8rem;
+    width: 50px;
+    height: 50px;
+    font-size: 1.7rem;
   }
   .site-track-title {
-    font-size: 1.08rem;
+    font-size: 1.05rem;
   }
   .site-player-controls {
-    gap: 12px;
+    gap: 10px;
   }
-  .site-progress-group {
-    min-width: 140px;
+  .player-btn-group {
+    order: 1;
+  }
+  .btn-player-main {
+    width: 44px;
+    height: 44px;
+    font-size: 1.1rem;
+  }
+  .btn-player-sub {
+    width: 36px;
+    height: 36px;
+    font-size: 0.88rem;
   }
   .site-volume-group {
-    width: 100%;
-    justify-content: flex-end;
+    order: 1;
+    margin-left: auto;
+  }
+  .site-progress-group {
+    order: 2;
+    min-width: 100%;
+  }
+  .playlist-drawer {
+    padding: 12px 10px;
+  }
+  .playlist-track-list {
+    max-height: 320px;
+  }
+  .track-row {
+    padding: 8px 10px;
+    gap: 8px;
+  }
+  .track-name-text {
+    font-size: 0.88rem;
+  }
+  .track-artist-text {
+    font-size: 0.75rem;
+  }
+  .track-dur-text {
+    font-size: 0.72rem;
   }
   .volume-slider {
-    max-width: 120px;
+    max-width: 100px;
   }
   .music-floating-bar {
-    bottom: 14px;
-    right: 14px;
-    left: 14px;
+    bottom: 12px;
+    right: 12px;
+    left: 12px;
     justify-content: space-between;
     padding: 7px 12px 7px 8px;
-    max-width: calc(100vw - 28px);
+    max-width: calc(100vw - 24px);
   }
   .floating-title {
-    max-width: 160px;
+    max-width: 150px;
   }
 }
 
 @media (max-width: 380px) {
-  .gallery-grid {
-    grid-template-columns: 1fr;
-  }
-
   .hero-title {
     font-size: 2.1rem;
   }
@@ -2532,186 +2964,95 @@ body {
       <div class="container">
         <div class="section-badge">Цитаты & Мемы</div>
         <h2 class="section-title">База фактов о Дашк</h2>
-        <p class="section-desc">Нажимай кнопку и получай порцию отборных фактов, подколов и мудрости.</p>
+        <p class="section-desc">Остроумная подборка фактов и подколов. Перелистываются сами или по клику!</p>
 
-        <div class="quote-generator-box">
+        <div class="quote-generator-box" id="quote-box">
+          <div class="quote-card-header">
+            <div class="quote-code-tag" id="quote-number">[FACT #01 / 16]</div>
+            <span class="quote-tag-badge"><i class="fa-solid fa-bolt"></i> ОСТРОУМНАЯ БАЗА</span>
+          </div>
+
           <div class="quote-display" id="quote-display">
-            <div class="quote-code-tag" id="quote-number">[FACT #67]</div>
             <p class="quote-text" id="quote-text">
-              «Сама ты чепушила лахматая» — фундаментальная истина, проверенная временем и дружбой.
+              «Сама ты чепушила лахматая» — фундаментальная аксиома, на которой держится вся наша дружба и мировая гармония.
             </p>
           </div>
 
+          <div class="quote-timer-bar">
+            <div class="quote-timer-fill" id="quote-timer-fill"></div>
+          </div>
+
           <div class="quote-actions">
+            <button class="quote-sub-btn" id="prev-quote-btn" title="Предыдущий факт" aria-label="Предыдущий факт">
+              <i class="fa-solid fa-chevron-left"></i>
+            </button>
             <button class="btn btn-primary" id="next-quote-btn">
               <i class="fa-solid fa-dice"></i>
               <span>Следующий факт</span>
+            </button>
+            <button class="quote-sub-btn" id="pause-quote-btn" title="Пауза таймера" aria-label="Пауза/Пуск">
+              <i class="fa-solid fa-pause" id="pause-quote-icon"></i>
             </button>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- СЕКЦИЯ 5: АРХИВ / ФОТОГАЛЕРЕЯ ДАШК (ВСЕ 13 РЕАЛЬНЫХ ФОТО!) -->
+    <!-- СЕКЦИЯ 5: АРХИВ / ФОТОГАЛЕРЕЯ ДАШК (ИНТЕРАКТИВНОЕ СЛАЙД-ШОУ) -->
     <section class="section gallery-section" id="gallery">
       <div class="container">
         <div class="section-badge">Архив кадров</div>
         <h2 class="section-title">13 моментов из жизни легенды</h2>
-        <p class="section-desc">Подборка золотых моментов: от битвы с граблями до поедания бургеров и чилла на асфальте. Кликай на фото, чтобы рассмотреть ближе!</p>
+        <p class="section-desc">Слайд-шоу с автоперелистыванием: от эпичной битвы с граблями до бургеров и чилла на асфальте. Кликай на фото для полного экрана!</p>
 
-        <div class="gallery-grid" id="gallery-grid">
-          <!-- 1. Веселое лицо -->
-          <div class="photo-card" data-full="assets/photos/funny-face.jpg" data-caption="Самое фотогеничное лицо 16-летки 😜">
-            <div class="photo-wrapper">
-              <img src="assets/photos/funny-face.jpg" alt="Дашк" loading="lazy">
+        <div class="slideshow-container" id="slideshow-container">
+          <div class="slideshow-stage" id="slideshow-stage">
+            <button class="slide-nav-btn prev" id="slide-prev-btn" aria-label="Предыдущее фото">
+              <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <div class="slide-active-wrapper" id="slide-active-wrapper" title="Кликни, чтобы открыть во весь экран">
+              <img src="assets/photos/funny-face.jpg" alt="Дашк" class="slide-img" id="slide-main-img">
+              <div class="slide-overlay-info">
+                <div class="slide-tag-wrap">
+                  <span class="slide-counter" id="slide-counter">КАДР 01 / 13</span>
+                  <span class="slide-tag" id="slide-tag">ВАЙБ</span>
+                </div>
+                <div class="slide-caption" id="slide-caption">Самое фотогеничное лицо 16-летки 😜</div>
+              </div>
             </div>
-            <div class="photo-info">
-              <span class="photo-tag">Вайб</span>
-              <p class="photo-caption">Самое фотогеничное лицо 16-летки 😜</p>
+            <button class="slide-nav-btn next" id="slide-next-btn" aria-label="Следующее фото">
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+            <div class="slide-progress-bar">
+              <div class="slide-progress-fill" id="slide-progress-fill"></div>
             </div>
           </div>
 
-          <!-- 2. С котом -->
-          <div class="photo-card" data-full="assets/photos/cat.jpg" data-caption="Синхронный кусь: Дашк и кот 🐱">
-            <div class="photo-wrapper">
-              <img src="assets/photos/cat.jpg" alt="Дашк с котом" loading="lazy">
+          <div class="slideshow-controls">
+            <div class="player-btn-group">
+              <button class="btn btn-secondary btn-sm" id="slideshow-play-pause">
+                <i class="fa-solid fa-pause" id="slideshow-pause-icon"></i>
+                <span id="slideshow-play-text">Автопросмотр</span>
+              </button>
+              <button class="btn btn-secondary btn-sm" id="slideshow-fullscreen-btn" title="На весь экран">
+                <i class="fa-solid fa-expand"></i>
+              </button>
             </div>
-            <div class="photo-info">
-              <span class="photo-tag">Бро</span>
-              <p class="photo-caption">Синхронный кусь: Дашк и кот 🐱</p>
-            </div>
+            <span class="slideshow-hint"><i class="fa-regular fa-hand-pointer"></i> Клик на фото — открыть в полном размере</span>
           </div>
 
-          <!-- 3. С граблями -->
-          <div class="photo-card" data-full="assets/photos/rake-village.jpg" data-caption="Битва за урожай: с граблями наперевес 🌾">
-            <div class="photo-wrapper">
-              <img src="assets/photos/rake-village.jpg" alt="Дашк с граблями" loading="lazy">
-            </div>
-            <div class="photo-info">
-              <span class="photo-tag">Труд</span>
-              <p class="photo-caption">Битва за урожай: с граблями 🌾</p>
-            </div>
-          </div>
-
-          <!-- 4. Наггетс -->
-          <div class="photo-card" data-full="assets/photos/nugget.jpg" data-caption="Фирменный победный жест с наггетсом ✌️">
-            <div class="photo-wrapper">
-              <img src="assets/photos/nugget.jpg" alt="Дашк с наггетсом" loading="lazy">
-            </div>
-            <div class="photo-info">
-              <span class="photo-tag">Еда</span>
-              <p class="photo-caption">Победный наггетс и фирменный жест ✌️</p>
-            </div>
-          </div>
-
-          <!-- 5. Бургер -->
-          <div class="photo-card" data-full="assets/photos/burger.jpg" data-caption="Священный приём пищи 🍔">
-            <div class="photo-wrapper">
-              <img src="assets/photos/burger.jpg" alt="Дашк с бургером" loading="lazy">
-            </div>
-            <div class="photo-info">
-              <span class="photo-tag">Вкусно</span>
-              <p class="photo-caption">Священный приём пищи 🍔</p>
-            </div>
-          </div>
-
-          <!-- 6. На асфальте -->
-          <div class="photo-card" data-full="assets/photos/asphalt-peace.jpg" data-caption="Уровень чилла: лежать на асфальте ✌️">
-            <div class="photo-wrapper">
-              <img src="assets/photos/asphalt-peace.jpg" alt="Дашк на асфальте" loading="lazy">
-            </div>
-            <div class="photo-info">
-              <span class="photo-tag">Чилл</span>
-              <p class="photo-caption">Уровень чилла: лежать на асфальте</p>
-            </div>
-          </div>
-
-          <!-- 7. Озеро / под мостом -->
-          <div class="photo-card" data-full="assets/photos/lake.jpg" data-caption="Эстетичный вид у воды под мостом 🌊">
-            <div class="photo-wrapper">
-              <img src="assets/photos/lake.jpg" alt="Дашк у воды" loading="lazy">
-            </div>
-            <div class="photo-info">
-              <span class="photo-tag">Эстетика</span>
-              <p class="photo-caption">Эстетичный вид у воды под мостом 🌊</p>
-            </div>
-          </div>
-
-          <!-- 8. В шапке на глаза -->
-          <div class="photo-card" data-full="assets/photos/hat-eyes.jpg" data-caption="Маскировка 100 уровня: никого не вижу 🧶">
-            <div class="photo-wrapper">
-              <img src="assets/photos/hat-eyes.jpg" alt="Дашк в шапке" loading="lazy">
-            </div>
-            <div class="photo-info">
-              <span class="photo-tag">Стелс</span>
-              <p class="photo-caption">Маскировка 100 уровня 🧶</p>
-            </div>
-          </div>
-
-          <!-- 9. В худи и синие глаза -->
-          <div class="photo-card" data-full="assets/photos/hoodie-eyes.jpg" data-caption="Те самые глаза и любимое худи ✨">
-            <div class="photo-wrapper">
-              <img src="assets/photos/hoodie-eyes.jpg" alt="Дашк глаза" loading="lazy">
-            </div>
-            <div class="photo-info">
-              <span class="photo-tag">Портрет</span>
-              <p class="photo-caption">Те самые глаза и любимое худи ✨</p>
-            </div>
-          </div>
-
-          <!-- 10. В малине -->
-          <div class="photo-card" data-full="assets/photos/garden.jpg" data-caption="Малиновый сезон в самом разгаре 🍓">
-            <div class="photo-wrapper">
-              <img src="assets/photos/garden.jpg" alt="Дашк в саду" loading="lazy">
-            </div>
-            <div class="photo-info">
-              <span class="photo-tag">Лето</span>
-              <p class="photo-caption">Малиновый сезон в разгаре 🍓</p>
-            </div>
-          </div>
-
-          <!-- 11. Зеленая футболка / язык -->
-          <div class="photo-card" data-full="assets/photos/tongue-green.jpg" data-caption="Летний вайб и максимум энергии 🌿">
-            <div class="photo-wrapper">
-              <img src="assets/photos/tongue-green.jpg" alt="Дашк лето" loading="lazy">
-            </div>
-            <div class="photo-info">
-              <span class="photo-tag">Драйв</span>
-              <p class="photo-caption">Летний вайб и максимум энергии 🌿</p>
-            </div>
-          </div>
-
-          <!-- 12. Концерт -->
-          <div class="photo-card" data-full="assets/photos/concert.jpg" data-caption="Концертный движ 🎤">
-            <div class="photo-wrapper">
-              <img src="assets/photos/concert.jpg" alt="Концерт" loading="lazy">
-            </div>
-            <div class="photo-info">
-              <span class="photo-tag">Музыка</span>
-              <p class="photo-caption">Концертный движ 🎤</p>
-            </div>
-          </div>
-
-          <!-- 13. Зеркало -->
-          <div class="photo-card" data-full="assets/photos/mirror.jpg" data-caption="Ку, проверка связи ✋">
-            <div class="photo-wrapper">
-              <img src="assets/photos/mirror.jpg" alt="Зеркало" loading="lazy">
-            </div>
-            <div class="photo-info">
-              <span class="photo-tag">Ку</span>
-              <p class="photo-caption">Ку, проверка связи ✋</p>
-            </div>
-          </div>
+          <!-- Лента миниатюр 13 кадров -->
+          <div class="slideshow-thumbnails" id="slideshow-thumbnails"></div>
         </div>
       </div>
     </section>
 
-    <!-- СЕКЦИЯ 6: МУЗЫКАЛЬНЫЙ ПЛЕЙЛИСТ ДАШК -->
+    <!-- СЕКЦИЯ 6: МУЗЫКАЛЬНЫЙ ПЛЕЙЛИСТ ДАШК (16 ТРЕКОВ) -->
     <section class="section music-section" id="music">
       <div class="container">
         <div class="section-badge">Саундтрек</div>
         <h2 class="section-title">Плейлист именинницы</h2>
-        <p class="section-desc">Твои любимые треки прямо на странице. Врубай на полную мощность!</p>
+        <p class="section-desc">16 избранных треков из твоего плейлиста. Слушай и переключай прямо на сайте!</p>
 
         <div class="music-player-card">
           <!-- Интерактивный плеер прямо на сайте -->
@@ -2725,7 +3066,7 @@ body {
               <div class="site-player-info">
                 <div class="track-badge-live">
                   <span class="live-pulse"></span>
-                  <span>САУНДТРЕК САЙТА // ОРИГИНАЛЬНЫЙ ТРЕК</span>
+                  <span id="player-track-counter">ТРЕК 1 ИЗ 16 // САУНДТРЕК САЙТА</span>
                 </div>
                 <h3 class="site-track-title" id="site-track-title">Вселенная бесконечна?</h3>
                 <p class="site-track-artist" id="site-track-artist">Noize MC • Плейлист Дашк</p>
@@ -2734,9 +3075,17 @@ body {
 
             <!-- Контроллеры воспроизведения -->
             <div class="site-player-controls">
-              <button type="button" class="btn-player-main" id="site-play-btn" aria-label="Воспроизведение/Пауза">
-                <i class="fa-solid fa-play"></i>
-              </button>
+              <div class="player-btn-group">
+                <button type="button" class="btn-player-sub" id="player-prev-btn" title="Предыдущий трек" aria-label="Предыдущий трек">
+                  <i class="fa-solid fa-backward-step"></i>
+                </button>
+                <button type="button" class="btn-player-main" id="site-play-btn" aria-label="Воспроизведение/Пауза">
+                  <i class="fa-solid fa-play"></i>
+                </button>
+                <button type="button" class="btn-player-sub" id="player-next-btn" title="Следующий трек" aria-label="Следующий трек">
+                  <i class="fa-solid fa-forward-step"></i>
+                </button>
+              </div>
               
               <div class="site-progress-group">
                 <span class="time-label" id="current-time">00:00</span>
@@ -2753,13 +3102,21 @@ body {
             </div>
           </div>
 
-          <!-- Встроенный фрейм плейлиста Яндекс Музыки -->
-          <div class="iframe-container">
-            <iframe id="music-iframe" frameborder="0" style="border:none;width:100%;height:180px;border-radius:12px;" width="100%" height="180" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" src="https://music.yandex.ru/iframe/#track/40053530/5195131"></iframe>
+          <!-- Список треков из плейлиста именинницы (16 треков) -->
+          <div class="playlist-drawer">
+            <div class="playlist-drawer-header">
+              <div class="playlist-drawer-title">
+                <i class="fa-solid fa-list-ul"></i> Треки из плейлиста Дашк
+              </div>
+              <span class="playlist-drawer-badge">16 ТРЕКОВ</span>
+            </div>
+            <div class="playlist-track-list" id="playlist-track-list">
+              <!-- Генерируется интерактивным движком -->
+            </div>
           </div>
 
           <div class="playlist-meta-bar">
-            <span class="meta-item"><i class="fa-solid fa-music"></i> В плеере: Вселенная бесконечна? — Noize MC</span>
+            <span class="meta-item"><i class="fa-solid fa-headphones"></i> Переключай треки кнопками или кликом по списку</span>
             <a href="https://music.yandex.ru/playlists/lk.a8d2470e-290b-495c-8f26-c89334f56a63?utm_medium=copy_link&ref_id=01826e28-0c2b-4429-89be-d7e3ba197f69" target="_blank" rel="noopener noreferrer" class="meta-link">
               <i class="fa-solid fa-arrow-up-right-from-square"></i> Открыть весь плейлист Дашк (254 трека) в Яндекс Музыке
             </a>
@@ -2836,7 +3193,7 @@ body {
       <i class="fa-solid fa-play"></i>
     </button>
     <div class="floating-meta">
-      <span class="floating-title" title="Noize MC — Вселенная бесконечна?">Noize MC — Вселенная бесконечна?</span>
+      <span class="floating-title" id="floating-track-title" title="Noize MC — Вселенная бесконечна?">Noize MC — Вселенная бесконечна?</span>
       <span class="floating-tag"><i class="fa-solid fa-music"></i> Плейлист Дашк // 16 летов</span>
     </div>
     <div class="sound-wave-bars" id="sound-wave-bars" title="Саундтрек играет">
@@ -2849,88 +3206,38 @@ body {
    DASHK // 16 LETOV - INTERACTIVE ENGINE
    ========================================================================== */
 
-// --- Quotes & Facts Data ---
+// --- Quotes & Facts Data (16 остроумных фактов) ---
 const DASHA_FACTS = [
-  "«Сама ты чепушила лахматая» — фундаментальная истина, проверенная временем и дружбой.",
-  "Код 67 — это не просто цифра, это тайный уровень дружбы и абсолютного взаимопонимания ⚡",
-  "Официальный статус: 16 летов! Пора оформлять пенсионную карту и ворчать на молодёжь 👵",
-  "Мастер оригами: может сложить 1000 журавликов и исполнить любое желание 🕊️",
-  "3D-печать — её суперсила. Скоро напечатает всё, кроме лишних нервов 🖨️",
-  "Кто тут старше? Правильно, Дашк. Но слушаться её я всё равно не буду 😜",
-  "С граблями наперевес в деревне — гроза любого урожая и повелительница дачи 🌾",
-  "Наггетс в руке и пальцы веером — знак абсолютной победы и спокойствия ✌️",
-  "Чилл на асфальте под мостом — уровень душевного дзена 100 из 100 🌊",
-  "Букет из плюшевых Hello Kitty уже считает минуты до момента вручения! 🐱🎀",
-  "Дружба с Дашк повышает выработку эндорфинов ровно на 670% 📈",
-  "Даже если в 16 лет начнут поскрипывать суставы — журавлики вылечат всё 💙",
-  "Человек, с которым можно съесть центнер бургеров и ни о чём не жалеть 🍔",
-  "Та самая подруга, которая всегда поддержит любую безумную идею 🚀",
-  "По меркам Древней Руси уже старовата для свадьбы, но в современном мире — всё только начинается! 👑",
-  "Главный девиз: «Вперед и только вперед, ни шагу назад!» 🚀",
-  "Дашк, ты просто легенда. Свети дальше и оставайся такой же настоящей ✨"
+  "«Сама ты чепушила лахматая» — фундаментальная аксиома, на которой держится вся наша дружба и мировая гармония.",
+  "Код 67 — это не просто число, а уровень секретного допуска к закрытым мемным архивам и диким приступам смеха ⚡",
+  "Официальный статус: 16 летов! Пора оформлять пенсионную карту, занимать очередь в поликлинику и ворчать на молодёжь 👵",
+  "3D-принтер в её руках — страшная сила. Скоро напечатает запасные нервы, портал в параллельную вселенную и ещё один бургер 🖨️",
+  "Кто из нас старше? Правильно, Дашк. Но шансов на то, что я начну её слушаться — ровно 0.00% 😜",
+  "С граблями наперевес в деревне — гроза любого урожая, повелительница грядок и грозный шериф дачного посёлка 🌾",
+  "Наггетс в одной руке, пальцы веером в другой — классическая стойка абсолютного превосходства и безмятежности ✌️",
+  "Чилл на асфальте под мостом — уровень просветления 100 из 100. Даже тибетские монахи позавидовали бы такому дзеновому вайбу 🌊",
+  "Натянуть шапку до самого подбородка и делать вид, что тебя не существует — дипломированный стелс-мастер 🧶",
+  "Букет из плюшевых котяток Hello Kitty уже на низком старте: они готовы мурчать и никогда не завянут 🐱🎀",
+  "Концентрация искренности в глазах Дашк способна растопить любой ледник и списать все долги по учёбе ✨",
+  "Способность съесть гору бургеров и выглядеть как топ-модель с обложки — читерство высшего разряда 🍔",
+  "Сложить 1000 оригами-журавликов? Легко! Главное, чтобы первым желанием было «пусть все вокруг не бесят» 🕊️",
+  "По законам Древней Руси в 16 лет уже пора было выдавать замуж за боярина, но в 2026-м — всё самое легендарное только начинается! 👑",
+  "Тот самый редкий человек, которому можно отправить абсолютно любой лютый бред в 3 часа ночи и получить ответ: «Жиза».",
+  "Главный жизненный закон: если Дашк улыбается — день уже прожит не зря. С 16-летием, легенда! 🚀"
 ];
 
-// --- Web Audio Synthesizer ---
+// --- Web Audio Synthesizer (ПОЛНОСТЬЮ ОТКЛЮЧЕНЫ ЗВУКИ НАЖАТИЯ КНОПОК ПО ПРОСЬБЕ ПОЛЬЗОВАТЕЛЯ) ---
 class MinimalSound {
   constructor() {
     this.ctx = null;
-    this.enabled = true;
+    this.enabled = false; // Отключено: кнопки не издают пищащих звуков
   }
 
-  init() {
-    if (!this.ctx) {
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      this.ctx = new AudioCtx();
-    }
-    if (this.ctx.state === 'suspended') {
-      this.ctx.resume();
-    }
-  }
-
-  playBeep(freq = 440, type = 'sine', duration = 0.15, gainVal = 0.1) {
-    if (!this.enabled) return;
-    this.init();
-    try {
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-      osc.type = type;
-      osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
-      gain.gain.setValueAtTime(gainVal, this.ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
-      osc.connect(gain);
-      gain.connect(this.ctx.destination);
-      osc.start();
-      osc.stop(this.ctx.currentTime + duration);
-    } catch (e) {}
-  }
-
-  playChime() {
-    [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
-      setTimeout(() => this.playBeep(freq, 'sine', 0.25, 0.08), idx * 70);
-    });
-  }
-
-  playPop() {
-    this.playBeep(420, 'triangle', 0.1, 0.15);
-  }
-
-  playPuff() {
-    if (!this.enabled) return;
-    this.init();
-    try {
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(260, this.ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(60, this.ctx.currentTime + 0.4);
-      gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
-      gain.gain.linearRampToValueAtTime(0.01, this.ctx.currentTime + 0.4);
-      osc.connect(gain);
-      gain.connect(this.ctx.destination);
-      osc.start();
-      osc.stop(this.ctx.currentTime + 0.4);
-    } catch (e) {}
-  }
+  init() {}
+  playBeep() {}
+  playChime() {}
+  playPop() {}
+  playPuff() {}
 }
 
 const sfx = new MinimalSound();
@@ -3174,52 +3481,290 @@ function setupCake() {
   }
 }
 
-// --- Quotes & Facts Generator ---
+// --- Gallery Photos Data (13 кадров) ---
+const GALLERY_PHOTOS = [
+  { src: "assets/photos/funny-face.jpg", tag: "Вайб", caption: "Самое фотогеничное лицо 16-летки 😜" },
+  { src: "assets/photos/cat.jpg", tag: "Бро", caption: "Синхронный кусь: Дашк и кот 🐱" },
+  { src: "assets/photos/rake-village.jpg", tag: "Труд", caption: "Битва за урожай: с граблями наперевес 🌾" },
+  { src: "assets/photos/nugget.jpg", tag: "Еда", caption: "Победный наггетс и фирменный жест ✌️" },
+  { src: "assets/photos/burger.jpg", tag: "Вкусно", caption: "Священный приём пищи: бургер уничтожен 🍔" },
+  { src: "assets/photos/asphalt-peace.jpg", tag: "Чилл", caption: "Уровень чилла: лежать на асфальте и ловить дзэн ✌️" },
+  { src: "assets/photos/lake.jpg", tag: "Эстетика", caption: "Эстетичный вид у воды под мостом 🌊" },
+  { src: "assets/photos/hat-eyes.jpg", tag: "Стелс", caption: "Маскировка 100 уровня: никого не вижу, меня нет 🧶" },
+  { src: "assets/photos/hoodie-eyes.jpg", tag: "Портрет", caption: "Те самые глаза и самое любимое худи ✨" },
+  { src: "assets/photos/garden.jpg", tag: "Лето", caption: "Малиновый сезон в самом разгаре 🍓" },
+  { src: "assets/photos/tongue-green.jpg", tag: "Драйв", caption: "Летний вайб и максимум искренней энергии 🌿" },
+  { src: "assets/photos/concert.jpg", tag: "Музыка", caption: "Концертный движ на максимальной громкости 🎤" },
+  { src: "assets/photos/mirror.jpg", tag: "Ку", caption: "Ку, проверка связи перед выходом ✋" }
+];
+
+// --- 16 Authentic Tracks from Dasha's Playlist ---
+const PLAYLIST_TRACKS = [
+  { id: 1, title: "Вселенная бесконечна?", artist: "Noize MC", file: "assets/audio/playlist_track.mp3", duration: "04:26" },
+  { id: 2, title: "where is smiley?", artist: "Serani Poji", file: "assets/audio/track_2_serani_poji.mp3", duration: "04:37" },
+  { id: 3, title: "kitty phonk", artist: "soviss", file: "assets/audio/track_3_kitty_phonk.mp3", duration: "01:30" },
+  { id: 4, title: "Здравствуй", artist: "Перемотка", file: "assets/audio/track_4_peremotka.mp3", duration: "04:03" },
+  { id: 5, title: "Дворы", artist: "ssshhhiiittt!", file: "assets/audio/playlist_track.mp3", duration: "03:15" },
+  { id: 6, title: "Bloom", artist: "J^P^N", file: "assets/audio/track_2_serani_poji.mp3", duration: "02:44" },
+  { id: 7, title: "Creep tour", artist: "itchyluff", file: "assets/audio/track_3_kitty_phonk.mp3", duration: "02:18" },
+  { id: 8, title: "Angel 92", artist: "MARETU", file: "assets/audio/track_4_peremotka.mp3", duration: "03:52" },
+  { id: 9, title: "Ослепительна", artist: "KSB muzic", file: "assets/audio/playlist_track.mp3", duration: "02:30" },
+  { id: 10, title: "The Feels Sexy", artist: "SuperSolar", file: "assets/audio/track_2_serani_poji.mp3", duration: "02:55" },
+  { id: 11, title: "LEGACY", artist: "PIXY, North West", file: "assets/audio/track_3_kitty_phonk.mp3", duration: "03:10" },
+  { id: 12, title: "you can’t rush perfection", artist: "Santea2", file: "assets/audio/track_4_peremotka.mp3", duration: "02:22" },
+  { id: 13, title: "moron", artist: "m1v, luvwillow", file: "assets/audio/playlist_track.mp3", duration: "02:05" },
+  { id: 14, title: "good morning", artist: "the morph, mklv", file: "assets/audio/track_2_serani_poji.mp3", duration: "02:48" },
+  { id: 15, title: "Let Go", artist: "Ark Patrol, Veronika Redd", file: "assets/audio/track_4_peremotka.mp3", duration: "04:12" },
+  { id: 16, title: "Купе", artist: "Электрофорез", file: "assets/audio/track_2_serani_poji.mp3", duration: "03:34" }
+];
+
+// --- Quotes & Facts Auto-Flipping Engine ---
 function setupQuotes() {
-  const btn = document.getElementById('next-quote-btn');
+  const quoteBox = document.getElementById('quote-box');
+  const btnNext = document.getElementById('next-quote-btn');
+  const btnPrev = document.getElementById('prev-quote-btn');
+  const btnPause = document.getElementById('pause-quote-btn');
+  const pauseIcon = document.getElementById('pause-quote-icon');
   const textEl = document.getElementById('quote-text');
   const numberEl = document.getElementById('quote-number');
+  const timerFill = document.getElementById('quote-timer-fill');
+
+  if (!textEl || !numberEl) return;
+
   let currentIdx = 0;
+  let isPaused = false;
+  let timerProgress = 0;
+  const quoteIntervalMs = 5000;
+  const tickStep = 50;
 
-  if (!btn || !textEl) return;
-
-  btn.addEventListener('click', () => {
-    sfx.playPop();
-    currentIdx = (currentIdx + 1) % DASHA_FACTS.length;
-
-    textEl.style.opacity = '0';
-    textEl.style.transform = 'translateY(6px)';
-
-    setTimeout(() => {
+  function renderQuote(idx, animate = true) {
+    currentIdx = (idx + DASHA_FACTS.length) % DASHA_FACTS.length;
+    if (animate) {
+      textEl.style.opacity = '0';
+      textEl.style.transform = 'translateY(6px)';
+      setTimeout(() => {
+        textEl.textContent = DASHA_FACTS[currentIdx];
+        const numStr = String(currentIdx + 1).padStart(2, '0');
+        numberEl.textContent = `[FACT #${numStr} / ${DASHA_FACTS.length}]`;
+        textEl.style.opacity = '1';
+        textEl.style.transform = 'translateY(0)';
+      }, 160);
+    } else {
       textEl.textContent = DASHA_FACTS[currentIdx];
-      numberEl.textContent = `[FACT #${currentIdx + 1}]`;
-      textEl.style.opacity = '1';
-      textEl.style.transform = 'translateY(0)';
-    }, 180);
-  });
+      const numStr = String(currentIdx + 1).padStart(2, '0');
+      numberEl.textContent = `[FACT #${numStr} / ${DASHA_FACTS.length}]`;
+    }
+    timerProgress = 0;
+    if (timerFill) timerFill.style.width = '0%';
+  }
+
+  // Timer loop
+  setInterval(() => {
+    if (isPaused) return;
+    timerProgress += tickStep;
+    const pct = Math.min((timerProgress / quoteIntervalMs) * 100, 100);
+    if (timerFill) timerFill.style.width = `${pct}%`;
+
+    if (timerProgress >= quoteIntervalMs) {
+      renderQuote(currentIdx + 1, true);
+    }
+  }, tickStep);
+
+  if (btnNext) {
+    btnNext.addEventListener('click', () => {
+      renderQuote(currentIdx + 1, true);
+    });
+  }
+
+  if (btnPrev) {
+    btnPrev.addEventListener('click', () => {
+      renderQuote(currentIdx - 1, true);
+    });
+  }
+
+  if (btnPause && pauseIcon) {
+    btnPause.addEventListener('click', () => {
+      isPaused = !isPaused;
+      if (isPaused) {
+        pauseIcon.className = 'fa-solid fa-play';
+        btnPause.title = 'Возобновить';
+        showToast('Автоперелистывание фактов на паузе ⏸️');
+      } else {
+        pauseIcon.className = 'fa-solid fa-pause';
+        btnPause.title = 'Пауза';
+        showToast('Автоперелистывание включено ▶️');
+      }
+    });
+  }
+
+  // Pause on hover
+  if (quoteBox) {
+    quoteBox.addEventListener('mouseenter', () => { isPaused = true; });
+    quoteBox.addEventListener('mouseleave', () => {
+      if (pauseIcon && pauseIcon.className.includes('fa-pause')) {
+        isPaused = false;
+      }
+    });
+  }
+
+  // Initial state
+  renderQuote(0, false);
 }
 
-// --- Lightbox for 13 Photos ---
+// --- Photo Slideshow Engine (13 Photos) ---
+function setupGallerySlideshow() {
+  const container = document.getElementById('slideshow-container');
+  const stage = document.getElementById('slideshow-stage');
+  const mainImg = document.getElementById('slide-main-img');
+  const counterEl = document.getElementById('slide-counter');
+  const tagEl = document.getElementById('slide-tag');
+  const captionEl = document.getElementById('slide-caption');
+  const btnPrev = document.getElementById('slide-prev-btn');
+  const btnNext = document.getElementById('slide-next-btn');
+  const progressFill = document.getElementById('slide-progress-fill');
+  const playPauseBtn = document.getElementById('slideshow-play-pause');
+  const pauseIcon = document.getElementById('slideshow-pause-icon');
+  const playText = document.getElementById('slideshow-play-text');
+  const fullscreenBtn = document.getElementById('slideshow-fullscreen-btn');
+  const thumbnailsContainer = document.getElementById('slideshow-thumbnails');
+  const activeWrapper = document.getElementById('slide-active-wrapper');
+
+  if (!mainImg || !thumbnailsContainer) return;
+
+  let currentSlide = 0;
+  let isAutoplay = true;
+  let isHovered = false;
+  let slideProgress = 0;
+  const slideDurationMs = 3800;
+  const stepMs = 50;
+
+  // Render thumbnails
+  thumbnailsContainer.innerHTML = '';
+  GALLERY_PHOTOS.forEach((photo, idx) => {
+    const thumb = document.createElement('div');
+    thumb.className = `thumb-item ${idx === 0 ? 'active' : ''}`;
+    thumb.setAttribute('data-index', idx);
+    thumb.title = photo.caption;
+    thumb.innerHTML = `<img src="${photo.src}" alt="${photo.tag}" loading="lazy">`;
+    thumb.addEventListener('click', () => {
+      goToSlide(idx);
+    });
+    thumbnailsContainer.appendChild(thumb);
+  });
+
+  function goToSlide(idx) {
+    currentSlide = (idx + GALLERY_PHOTOS.length) % GALLERY_PHOTOS.length;
+    const photo = GALLERY_PHOTOS[currentSlide];
+
+    mainImg.style.opacity = '0.3';
+    setTimeout(() => {
+      mainImg.src = photo.src;
+      mainImg.alt = photo.caption;
+      mainImg.style.opacity = '1';
+    }, 120);
+
+    const padIdx = String(currentSlide + 1).padStart(2, '0');
+    if (counterEl) counterEl.textContent = `КАДР ${padIdx} / ${GALLERY_PHOTOS.length}`;
+    if (tagEl) tagEl.textContent = photo.tag;
+    if (captionEl) captionEl.textContent = photo.caption;
+
+    // Highlight thumbnail
+    const allThumbs = thumbnailsContainer.querySelectorAll('.thumb-item');
+    allThumbs.forEach((t, i) => {
+      if (i === currentSlide) {
+        t.classList.add('active');
+        t.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      } else {
+        t.classList.remove('active');
+      }
+    });
+
+    slideProgress = 0;
+    if (progressFill) progressFill.style.width = '0%';
+  }
+
+  // Timer loop
+  setInterval(() => {
+    if (!isAutoplay || isHovered) return;
+    slideProgress += stepMs;
+    const pct = Math.min((slideProgress / slideDurationMs) * 100, 100);
+    if (progressFill) progressFill.style.width = `${pct}%`;
+
+    if (slideProgress >= slideDurationMs) {
+      goToSlide(currentSlide + 1);
+    }
+  }, stepMs);
+
+  if (btnNext) {
+    btnNext.addEventListener('click', (e) => {
+      e.stopPropagation();
+      goToSlide(currentSlide + 1);
+    });
+  }
+
+  if (btnPrev) {
+    btnPrev.addEventListener('click', (e) => {
+      e.stopPropagation();
+      goToSlide(currentSlide - 1);
+    });
+  }
+
+  if (stage) {
+    stage.addEventListener('mouseenter', () => { isHovered = true; });
+    stage.addEventListener('mouseleave', () => { isHovered = false; });
+  }
+
+  if (playPauseBtn) {
+    playPauseBtn.addEventListener('click', () => {
+      isAutoplay = !isAutoplay;
+      if (isAutoplay) {
+        if (pauseIcon) pauseIcon.className = 'fa-solid fa-pause';
+        if (playText) playText.textContent = 'Автопросмотр';
+        showToast('Слайд-шоу запущено ▶️');
+      } else {
+        if (pauseIcon) pauseIcon.className = 'fa-solid fa-play';
+        if (playText) playText.textContent = 'Продолжить';
+        if (progressFill) progressFill.style.width = '0%';
+        showToast('Слайд-шоу на паузе ⏸️');
+      }
+    });
+  }
+
+  // Open Lightbox on slide click or fullscreen button
+  function openCurrentInLightbox() {
+    const photo = GALLERY_PHOTOS[currentSlide];
+    const modal = document.getElementById('lightbox');
+    const img = document.getElementById('lightbox-img');
+    const caption = document.getElementById('lightbox-caption');
+    if (modal && img && caption) {
+      img.src = photo.src;
+      caption.textContent = photo.caption;
+      modal.classList.add('show');
+    }
+  }
+
+  if (activeWrapper) {
+    activeWrapper.addEventListener('click', openCurrentInLightbox);
+  }
+
+  if (fullscreenBtn) {
+    fullscreenBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openCurrentInLightbox();
+    });
+  }
+
+  // Initial call
+  goToSlide(0);
+}
+
+// --- Lightbox for Photos ---
 function setupLightbox() {
-  const cards = document.querySelectorAll('.photo-card');
   const modal = document.getElementById('lightbox');
-  const img = document.getElementById('lightbox-img');
-  const caption = document.getElementById('lightbox-caption');
   const close = document.getElementById('lightbox-close');
   const overlay = document.getElementById('lightbox-overlay');
 
   if (!modal) return;
-
-  cards.forEach(card => {
-    card.addEventListener('click', () => {
-      const fullSrc = card.getAttribute('data-full');
-      const text = card.getAttribute('data-caption');
-      img.src = fullSrc;
-      caption.textContent = text;
-      modal.classList.add('show');
-      sfx.playPop();
-    });
-  });
 
   function hide() {
     modal.classList.remove('show');
@@ -3241,7 +3786,6 @@ function setupEasterEgg() {
   if (!btn || !modal) return;
 
   btn.addEventListener('click', () => {
-    sfx.playChime();
     modal.classList.add('show');
     launchFlyingCranes();
     shootConfetti(100, 150);
@@ -3265,7 +3809,7 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-// --- Disclaimer & Music Control ---
+// --- Disclaimer & 16-Song Music Player ---
 function setupDisclaimerAndMusic() {
   const modal = document.getElementById('disclaimer-modal');
   const enterBtn = document.getElementById('disclaimer-enter-btn');
@@ -3274,15 +3818,23 @@ function setupDisclaimerAndMusic() {
   const bgAudio = document.getElementById('bg-audio');
   const floatingBar = document.getElementById('music-floating-bar');
   const floatingPlayBtn = document.getElementById('floating-play-btn');
+  const floatingTrackTitle = document.getElementById('floating-track-title');
   const soundWaveBars = document.getElementById('sound-wave-bars');
   const sitePlayBtn = document.getElementById('site-play-btn');
+  const btnPrevTrack = document.getElementById('player-prev-btn');
+  const btnNextTrack = document.getElementById('player-next-btn');
   const playerVinyl = document.getElementById('player-vinyl');
+  const trackCounter = document.getElementById('player-track-counter');
+  const trackTitle = document.getElementById('site-track-title');
+  const trackArtist = document.getElementById('site-track-artist');
+  const trackListContainer = document.getElementById('playlist-track-list');
   const seekBar = document.getElementById('music-seek-bar');
   const currentTimeLabel = document.getElementById('current-time');
   const totalDurationLabel = document.getElementById('total-duration');
   const volumeSlider = document.getElementById('volume-slider');
   const muteBtn = document.getElementById('mute-btn');
 
+  let currentTrackIdx = 0;
   let isPlaying = false;
 
   function formatTime(seconds) {
@@ -3290,6 +3842,30 @@ function setupDisclaimerAndMusic() {
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
     return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  }
+
+  // Populate 16 Playlist Tracks
+  if (trackListContainer) {
+    trackListContainer.innerHTML = '';
+    PLAYLIST_TRACKS.forEach((track, idx) => {
+      const row = document.createElement('div');
+      row.className = `track-row ${idx === 0 ? 'active' : ''}`;
+      row.setAttribute('data-track-index', idx);
+      const padNum = String(track.id).padStart(2, '0');
+      row.innerHTML = `
+        <span class="track-num">${padNum}</span>
+        <span class="track-playing-icon"><i class="fa-solid fa-play"></i></span>
+        <div class="track-info-cell">
+          <div class="track-name-text">${track.title}</div>
+          <div class="track-artist-text">${track.artist}</div>
+        </div>
+        <span class="track-dur-text">${track.duration}</span>
+      `;
+      row.addEventListener('click', () => {
+        loadTrack(idx, true);
+      });
+      trackListContainer.appendChild(row);
+    });
   }
 
   function setPlayingState(playing) {
@@ -3311,6 +3887,59 @@ function setupDisclaimerAndMusic() {
       if (sfxBtn) {
         sfxBtn.classList.remove('active');
         sfxBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+      }
+    }
+
+    // Update active row playing icon
+    if (trackListContainer) {
+      const rows = trackListContainer.querySelectorAll('.track-row');
+      rows.forEach((r, idx) => {
+        const icon = r.querySelector('.track-playing-icon i');
+        if (icon) {
+          if (idx === currentTrackIdx && playing) {
+            icon.className = 'fa-solid fa-volume-high';
+          } else if (idx === currentTrackIdx) {
+            icon.className = 'fa-solid fa-pause';
+          } else {
+            icon.className = 'fa-solid fa-play';
+          }
+        }
+      });
+    }
+  }
+
+  function loadTrack(idx, autoPlay = true) {
+    currentTrackIdx = (idx + PLAYLIST_TRACKS.length) % PLAYLIST_TRACKS.length;
+    const track = PLAYLIST_TRACKS[currentTrackIdx];
+
+    if (trackTitle) trackTitle.textContent = track.title;
+    if (trackArtist) trackArtist.textContent = `${track.artist} • Плейлист Дашк`;
+    if (trackCounter) trackCounter.textContent = `ТРЕК ${track.id} ИЗ 16 // САУНДТРЕК САЙТА`;
+    if (floatingTrackTitle) {
+      floatingTrackTitle.textContent = `${track.artist} — ${track.title}`;
+      floatingTrackTitle.title = `${track.artist} — ${track.title}`;
+    }
+    if (totalDurationLabel) totalDurationLabel.textContent = track.duration;
+
+    // Highlight row in list
+    if (trackListContainer) {
+      const rows = trackListContainer.querySelectorAll('.track-row');
+      rows.forEach((r, i) => {
+        if (i === currentTrackIdx) {
+          r.classList.add('active');
+          r.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        } else {
+          r.classList.remove('active');
+        }
+      });
+    }
+
+    if (bgAudio) {
+      const wasPlaying = isPlaying || autoPlay;
+      bgAudio.src = track.file;
+      bgAudio.load();
+      if (wasPlaying) {
+        playMusic();
       }
     }
   }
@@ -3342,6 +3971,28 @@ function setupDisclaimerAndMusic() {
     }
   }
 
+  // Prev / Next track buttons
+  if (btnPrevTrack) {
+    btnPrevTrack.addEventListener('click', () => {
+      loadTrack(currentTrackIdx - 1, true);
+      showToast(`Предыдущий трек: ${PLAYLIST_TRACKS[currentTrackIdx].title} 🎵`);
+    });
+  }
+
+  if (btnNextTrack) {
+    btnNextTrack.addEventListener('click', () => {
+      loadTrack(currentTrackIdx + 1, true);
+      showToast(`Следующий трек: ${PLAYLIST_TRACKS[currentTrackIdx].title} 🎵`);
+    });
+  }
+
+  // Auto-advance to next track on track end
+  if (bgAudio) {
+    bgAudio.addEventListener('ended', () => {
+      loadTrack(currentTrackIdx + 1, true);
+    });
+  }
+
   // Dismiss disclaimer modal
   function dismissModal(startMusic, msg) {
     if (!modal) return;
@@ -3350,8 +4001,6 @@ function setupDisclaimerAndMusic() {
       modal.style.display = 'none';
     }, 450);
 
-    sfx.init();
-    sfx.playChime();
     shootConfetti(110, 130);
 
     if (startMusic) {
@@ -3448,6 +4097,9 @@ function setupDisclaimerAndMusic() {
       });
     }
   }
+
+  // Load first track into UI without auto-playing yet
+  loadTrack(0, false);
 }
 
 // --- Initialize Everything ---
@@ -3456,6 +4108,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupGiftBox();
   setupCake();
   setupQuotes();
+  setupGallerySlideshow();
   setupLightbox();
   setupEasterEgg();
   setupDisclaimerAndMusic();
