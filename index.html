@@ -2776,7 +2776,7 @@ body {
 <body class="theme-minimal">
 
   <!-- Фоновый аудио трек из плейлиста именинницы -->
-  <audio id="bg-audio" src="assets/audio/playlist_track.mp3" preload="auto" loop></audio>
+  <audio id="bg-audio" src="assets/audio/playlist_track.mp3" preload="auto"></audio>
 
   <!-- Интерактивный минималистичный канвас для тонких частиц и журавликов -->
   <canvas id="bg-canvas"></canvas>
@@ -3617,19 +3617,19 @@ const PLAYLIST_TRACKS = [
   { id: 1, title: "Вселенная бесконечна?", artist: "Noize MC", file: "assets/audio/playlist_track.mp3", duration: "04:26" },
   { id: 2, title: "where is smiley?", artist: "Serani Poji", file: "assets/audio/track_2_serani_poji.mp3", duration: "04:37" },
   { id: 3, title: "kitty phonk", artist: "soviss", file: "assets/audio/track_3_kitty_phonk.mp3", duration: "01:30" },
-  { id: 4, title: "Здравствуй", artist: "Перемотка", file: "assets/audio/track_4_peremotka.mp3", duration: "04:03" },
-  { id: 5, title: "Купе", artist: "Электрофорез", file: "assets/audio/track_5_elektroforez_kupe.m4a", duration: "03:34" },
-  { id: 6, title: "По разбитым зеркалам", artist: "Электрофорез", file: "assets/audio/track_elektroforez_zerkala.m4a", duration: "03:45" },
-  { id: 7, title: "Русская принцесса", artist: "Электрофорез", file: "assets/audio/track_elektroforez_princessa.m4a", duration: "03:12" },
-  { id: 8, title: "Чёрное / Белое", artist: "Электрофорез", file: "assets/audio/track_elektroforez_chernoe.m4a", duration: "03:38" },
-  { id: 9, title: "Дворы", artist: "ssshhhiiittt!", file: "assets/audio/track_dvor_ssshhhiiittt.m4a", duration: "02:48" },
-  { id: 10, title: "Bloom", artist: "J^P^N", file: "assets/audio/track_2_serani_poji.mp3", duration: "02:44" },
-  { id: 11, title: "Creep tour", artist: "itchyluff", file: "assets/audio/track_3_kitty_phonk.mp3", duration: "02:18" },
-  { id: 12, title: "Angel 92", artist: "MARETU", file: "assets/audio/track_4_peremotka.mp3", duration: "03:52" },
-  { id: 13, title: "Ослепительна", artist: "KSB muzic", file: "assets/audio/playlist_track.mp3", duration: "02:30" },
-  { id: 14, title: "The Feels Sexy", artist: "SuperSolar", file: "assets/audio/track_2_serani_poji.mp3", duration: "02:55" },
-  { id: 15, title: "LEGACY", artist: "PIXY, North West", file: "assets/audio/track_3_kitty_phonk.mp3", duration: "03:10" },
-  { id: 16, title: "Let Go", artist: "Ark Patrol, Veronika Redd", file: "assets/audio/track_4_peremotka.mp3", duration: "04:12" }
+  { id: 4, title: "Здравствуй", artist: "Перемотка", file: "assets/audio/track_4_peremotka.mp3", duration: "06:04" },
+  { id: 5, title: "Купе", artist: "Электрофорез", file: "assets/audio/track_5_elektroforez_kupe.m4a", duration: "03:51" },
+  { id: 6, title: "По разбитым зеркалам", artist: "Электрофорез", file: "assets/audio/track_elektroforez_zerkala.m4a", duration: "03:07" },
+  { id: 7, title: "Русская принцесса", artist: "Электрофорез", file: "assets/audio/track_elektroforez_princessa.m4a", duration: "03:37" },
+  { id: 8, title: "Чёрное / Белое", artist: "Электрофорез", file: "assets/audio/track_elektroforez_chernoe.m4a", duration: "03:33" },
+  { id: 9, title: "Дворы", artist: "ssshhhiiittt!", file: "assets/audio/track_dvor_ssshhhiiittt.m4a", duration: "02:45" },
+  { id: 10, title: "Bloom", artist: "J^P^N", file: "assets/audio/track_10_jpn_bloom.m4a", duration: "02:17" },
+  { id: 11, title: "Creep tour", artist: "itchyluff", file: "assets/audio/track_11_itchyluff_creeptour.m4a", duration: "02:17" },
+  { id: 12, title: "Angel 92", artist: "MARETU", file: "assets/audio/track_12_maretu_angel92.m4a", duration: "03:18" },
+  { id: 13, title: "Ослепительна", artist: "KSB muzic", file: "assets/audio/track_13_ksb_oslepitelna.m4a", duration: "02:59" },
+  { id: 14, title: "The Feels Sexy", artist: "SuperSolar", file: "assets/audio/track_14_supersolar_feelssexy.m4a", duration: "01:02" },
+  { id: 15, title: "LEGACY", artist: "PIXY, North West", file: "assets/audio/track_15_pixy_legacy.m4a", duration: "02:14" },
+  { id: 16, title: "Let Go", artist: "Ark Patrol, Veronika Redd", file: "assets/audio/track_16_arkpatrol_letgo.m4a", duration: "04:08" }
 ];
 
 // --- Quotes & Facts Auto-Flipping Engine ---
@@ -4101,7 +4101,6 @@ function setupDisclaimerAndMusic() {
     if (bgAudio) {
       const wasPlaying = isPlaying || autoPlay;
       bgAudio.src = track.file;
-      bgAudio.load();
       if (wasPlaying) {
         playMusic();
       }
@@ -4110,14 +4109,22 @@ function setupDisclaimerAndMusic() {
 
   function playMusic() {
     if (!bgAudio) return;
-    bgAudio.play().then(() => {
-      setPlayingState(true);
-      if (floatingBar) {
-        floatingBar.classList.remove('hidden');
-      }
-    }).catch(err => {
-      console.warn('Audio play prevented:', err);
-    });
+    const playPromise = bgAudio.play();
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        setPlayingState(true);
+        if (floatingBar) {
+          floatingBar.classList.remove('hidden');
+        }
+      }).catch(err => {
+        console.warn('Audio play prevented or waiting for user interaction:', err);
+        const onCanPlay = () => {
+          bgAudio.removeEventListener('canplay', onCanPlay);
+          bgAudio.play().then(() => setPlayingState(true)).catch(() => {});
+        };
+        bgAudio.addEventListener('canplay', onCanPlay);
+      });
+    }
   }
 
   function pauseMusic() {
@@ -4176,10 +4183,17 @@ function setupDisclaimerAndMusic() {
     });
   }
 
-  // Auto-advance to next track on track end
+  // Auto-advance to next track on track end (песни автоматически переключаются сами!)
   if (bgAudio) {
     bgAudio.addEventListener('ended', () => {
       loadTrack(currentTrackIdx + 1, true);
+      showToast(`Играет: ${PLAYLIST_TRACKS[currentTrackIdx].title} 🎵`);
+    });
+    bgAudio.addEventListener('error', (e) => {
+      console.warn('Audio playback error, auto-advancing to next track:', e);
+      setTimeout(() => {
+        loadTrack(currentTrackIdx + 1, true);
+      }, 1000);
     });
   }
 
