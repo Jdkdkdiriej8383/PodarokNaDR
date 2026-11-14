@@ -1,5 +1,5 @@
 /* ==========================================================================
-   DASHK // 16 LETOV - INTERACTIVE ENGINE
+   DASHA // 16 LETOV - INTERACTIVE ENGINE
    ========================================================================== */
 
 // --- Quotes & Facts Data (Остроумные факты) ---
@@ -822,22 +822,19 @@ function setupDisclaimerAndMusic() {
   // Floating player collapse / expand interactions
   if (floatingBar) {
     floatingBar.addEventListener('click', (e) => {
+      // Игнорируем клик, если нажата кнопка Play/Pause
+      if (e.target.closest('#floating-play-btn')) return;
+
       if (floatingBar.classList.contains('collapsed')) {
-        e.stopPropagation();
-        expandFloatingPlayer(0);
+        expandFloatingPlayer(5000);
+      } else {
+        collapseFloatingPlayer();
       }
     });
   }
 
   if (floatingCollapseBtn) {
     floatingCollapseBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      collapseFloatingPlayer();
-    });
-  }
-
-  if (floatingMeta) {
-    floatingMeta.addEventListener('click', (e) => {
       e.stopPropagation();
       collapseFloatingPlayer();
     });

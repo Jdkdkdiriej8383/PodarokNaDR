@@ -21,7 +21,7 @@
   
   <style>
 /* ==========================================================================
-   DASHK // 16 LETOV - SOFT MINIMALISM
+   DASHA // 16 LETOV - SOFT MINIMALISM
    Palette: Graphite, Slate Grey, Crisp White, Electric Blue
    ========================================================================== */
 
@@ -2062,14 +2062,14 @@ body {
   bottom: 20px;
   right: 20px;
   z-index: 850;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   background: rgba(16, 20, 32, 0.94);
   border: 1px solid var(--border-active);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  padding: 8px 12px 8px 8px;
+  padding: 6px 10px 6px 6px;
   border-radius: var(--radius-pill);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(59, 130, 246, 0.25);
   transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1),
@@ -2082,6 +2082,7 @@ body {
   max-width: calc(100vw - 32px);
   overflow: hidden;
   user-select: none;
+  cursor: pointer;
 }
 
 .music-floating-bar.hidden {
@@ -2090,14 +2091,15 @@ body {
   pointer-events: none;
 }
 
-/* Свернутое состояние в компактный кружок */
+/* Свернутое состояние в компактный кружок с эквалайзером */
 .music-floating-bar.collapsed {
-  width: 52px;
-  height: 52px;
+  width: 48px;
+  height: 48px;
   padding: 0;
   gap: 0;
   border-radius: 50%;
   justify-content: center;
+  align-items: center;
   cursor: pointer;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6), 0 0 18px var(--blue-glow);
   border-color: var(--blue-primary);
@@ -2108,33 +2110,23 @@ body {
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7), 0 0 24px var(--blue-glow);
 }
 
-/* Круглая иконка когда плеер свернут в кружок */
-.floating-circle-icon {
-  display: none;
-  width: 100%;
-  height: 100%;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.45rem;
-  color: var(--blue-primary);
-  position: relative;
-  cursor: pointer;
-}
-
-.music-floating-bar.collapsed .floating-circle-icon {
-  display: flex;
-}
-
-.music-floating-bar.collapsed.playing .floating-circle-icon i {
-  animation: spin 5s linear infinite;
-  color: var(--blue-light);
-}
-
+.music-floating-bar.collapsed .floating-circle-icon,
 .music-floating-bar.collapsed .floating-play-btn,
 .music-floating-bar.collapsed .floating-meta,
-.music-floating-bar.collapsed .sound-wave-bars,
 .music-floating-bar.collapsed .floating-collapse-btn {
   display: none !important;
+}
+
+/* В свернутом кружке по центру танцуют звуковые полосы эквалайзера */
+.music-floating-bar.collapsed .sound-wave-bars {
+  display: flex !important;
+  height: 20px;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 2.5px;
+  padding: 0;
+  margin: 0 auto;
+  pointer-events: none;
 }
 
 .floating-play-btn {
@@ -2736,12 +2728,13 @@ body {
     max-width: 100px;
   }
   .music-floating-bar {
-    bottom: 12px;
-    right: 12px;
-    left: 12px;
-    justify-content: space-between;
-    padding: 7px 12px 7px 8px;
-    max-width: calc(100vw - 24px);
+    bottom: 14px;
+    right: 14px;
+    left: auto;
+    width: auto;
+    max-width: calc(100vw - 28px);
+    justify-content: flex-start;
+    padding: 6px 10px 6px 6px;
     border-radius: var(--radius-pill);
   }
 
@@ -2749,11 +2742,12 @@ body {
     left: auto !important;
     right: 14px !important;
     bottom: 14px !important;
-    width: 50px !important;
-    height: 50px !important;
+    width: 48px !important;
+    height: 48px !important;
     border-radius: 50% !important;
     padding: 0 !important;
     margin: 0 !important;
+    justify-content: center !important;
   }
 
   .floating-title {
@@ -2837,7 +2831,7 @@ body {
     <div class="nav-inner">
       <div class="nav-brand">
         <span class="status-indicator"></span>
-        <span class="brand-text">dashk<strong>.16_letov</strong></span>
+        <span class="brand-text">dasha<strong>.16</strong></span>
       </div>
 
       <nav class="nav-links">
@@ -3322,7 +3316,7 @@ body {
 
   <script>
 /* ==========================================================================
-   DASHK // 16 LETOV - INTERACTIVE ENGINE
+   DASHA // 16 LETOV - INTERACTIVE ENGINE
    ========================================================================== */
 
 // --- Quotes & Facts Data (Остроумные факты) ---
@@ -4147,22 +4141,19 @@ function setupDisclaimerAndMusic() {
   // Floating player collapse / expand interactions
   if (floatingBar) {
     floatingBar.addEventListener('click', (e) => {
+      // Игнорируем клик, если нажата кнопка Play/Pause
+      if (e.target.closest('#floating-play-btn')) return;
+
       if (floatingBar.classList.contains('collapsed')) {
-        e.stopPropagation();
-        expandFloatingPlayer(0);
+        expandFloatingPlayer(5000);
+      } else {
+        collapseFloatingPlayer();
       }
     });
   }
 
   if (floatingCollapseBtn) {
     floatingCollapseBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      collapseFloatingPlayer();
-    });
-  }
-
-  if (floatingMeta) {
-    floatingMeta.addEventListener('click', (e) => {
       e.stopPropagation();
       collapseFloatingPlayer();
     });
