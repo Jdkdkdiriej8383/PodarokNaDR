@@ -1275,6 +1275,192 @@ body {
 }
 
 /* ==========================================================================
+   DISCLAIMER MODAL (WELCOME OVERLAY)
+   ========================================================================== */
+.disclaimer-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  background: rgba(10, 12, 18, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 1;
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.disclaimer-overlay.hide {
+  opacity: 0;
+  transform: scale(1.04);
+  pointer-events: none;
+}
+
+.disclaimer-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-active);
+  border-radius: var(--radius-lg);
+  max-width: 500px;
+  width: 100%;
+  padding: 34px 28px;
+  text-align: center;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px var(--blue-glow);
+  position: relative;
+  overflow: hidden;
+  animation: slide-up-smooth 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.disclaimer-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid var(--border-active);
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--blue-light);
+  letter-spacing: 0.5px;
+  margin-bottom: 18px;
+}
+
+.disclaimer-title {
+  font-family: var(--font-display);
+  font-size: 2.05rem;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.5px;
+  margin-bottom: 8px;
+}
+
+.disclaimer-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.disclaimer-rules {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 28px;
+  text-align: left;
+}
+
+.rule-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.rule-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--border-active);
+}
+
+.rule-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  color: var(--blue-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.rule-item.rule-warning .rule-icon {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.35);
+  color: #f87171;
+}
+
+.rule-body h4 {
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.rule-body p {
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+#disclaimer-enter-btn {
+  width: 100%;
+  padding: 15px 22px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+}
+
+.disclaimer-note {
+  display: block;
+  font-size: 0.76rem;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  margin-top: 10px;
+}
+
+.playlist-meta-bar {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.playlist-meta-bar .meta-item {
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.playlist-meta-bar .meta-link {
+  color: var(--blue-light);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color var(--transition-fast);
+}
+
+.playlist-meta-bar .meta-link:hover {
+  color: var(--text-main);
+  text-decoration: underline;
+}
+
+/* ==========================================================================
    RESPONSIVENESS (MOBILE, TABLET, DESKTOP)
    ========================================================================== */
 @media (max-width: 900px) {
@@ -1595,6 +1781,54 @@ body {
     font-size: 0.9rem;
     text-align: center;
   }
+
+  /* Disclaimer Modal Mobile */
+  .disclaimer-card {
+    padding: 24px 18px;
+    border-radius: var(--radius-md);
+    max-width: 100%;
+  }
+
+  .disclaimer-title {
+    font-size: 1.65rem;
+  }
+
+  .disclaimer-subtitle {
+    font-size: 0.88rem;
+    margin-bottom: 18px;
+  }
+
+  .rule-item {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .rule-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 1.1rem;
+  }
+
+  .rule-body h4 {
+    font-size: 0.92rem;
+  }
+
+  .rule-body p {
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+
+  #disclaimer-enter-btn {
+    padding: 13px 18px;
+    font-size: 0.98rem;
+  }
+
+  .playlist-meta-bar {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+    gap: 8px;
+  }
 }
 
 @media (max-width: 380px) {
@@ -1617,6 +1851,44 @@ body {
 
   <!-- Интерактивный минималистичный канвас для тонких частиц и журавликов -->
   <canvas id="bg-canvas"></canvas>
+
+  <!-- ФОНОВЫЙ САУНДТРЕК -->
+  <audio id="bg-music" src="assets/audio/celebration.mp3" loop preload="auto"></audio>
+
+  <!-- ДИСКЛЕЙМЕР (ВХОД В СПЕЙС ДАШК) -->
+  <div class="disclaimer-overlay" id="disclaimer-modal" role="dialog" aria-modal="true" aria-labelledby="disclaimer-title">
+    <div class="disclaimer-card">
+      <div class="disclaimer-badge">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <span>ОФИЦИАЛЬНЫЙ ДИСКЛЕЙМЕР // 16 LETOV</span>
+      </div>
+      <h2 class="disclaimer-title" id="disclaimer-title">Внимание, Дашк! ✨</h2>
+      <p class="disclaimer-subtitle">Перед входом в твой праздничный спейс обязательно выполни два главных правила:</p>
+
+      <div class="disclaimer-rules">
+        <div class="rule-item">
+          <div class="rule-icon"><i class="fa-solid fa-headphones"></i></div>
+          <div class="rule-body">
+            <h4>1. Подключи наушники</h4>
+            <p>Надень наушники для максимального погружения, объемного звучания и сочного праздничного саундтрека.</p>
+          </div>
+        </div>
+
+        <div class="rule-item rule-warning">
+          <div class="rule-icon"><i class="fa-solid fa-ban"></i></div>
+          <div class="rule-body">
+            <h4>2. Запрещено плохое настроение!</h4>
+            <p>Согласно праздничному протоколу к 16-летию, сегодня строго-настрого запрещается грустить, унывать и тильтовать. Только кайф, улыбки и праздничный вайб!</p>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary btn-lg" id="disclaimer-enter-btn">
+        <i class="fa-solid fa-play"></i> Врубить музыку и войти 🎧
+      </button>
+      <span class="disclaimer-note">Нажми, чтобы запустить саундтрек и войти в спейс</span>
+    </div>
+  </div>
 
   <!-- НАВИГАЦИОННАЯ ПАНЕЛЬ -->
   <header class="navbar">
@@ -2050,7 +2322,7 @@ body {
                 <span class="player-sub">Специально под этот праздник</span>
               </div>
             </div>
-            <a href="https://music.yandex.ru/playlists/lk.a8d2470e-290b-495c-8f26-c89334f56a63?utm_medium=copy_link&ref_id=410fe96f-a3de-422b-a03b-0317ad4f75d2" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
+            <a href="https://music.yandex.ru/playlists/lk.a8d2470e-290b-495c-8f26-c89334f56a63?utm_medium=copy_link&ref_id=01826e28-0c2b-4429-89be-d7e3ba197f69" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
               <span>Открыть в приложении</span>
               <i class="fa-solid fa-arrow-up-right-from-square"></i>
             </a>
@@ -2058,7 +2330,14 @@ body {
 
           <!-- Встроенный фрейм плейлиста Яндекс Музыки -->
           <div class="iframe-container">
-            <iframe frameborder="0" style="border:none;width:100%;height:380px;border-radius:12px;" width="100%" height="380" src="https://music.yandex.ru/iframe/playlist/lk.a8d2470e-290b-495c-8f26-c89334f56a63"></iframe>
+            <iframe id="music-iframe" frameborder="0" style="border:none;width:100%;height:180px;border-radius:12px;" width="100%" height="180" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" src="https://music.yandex.ru/iframe/#track/40053530/5195131"></iframe>
+          </div>
+
+          <div class="playlist-meta-bar">
+            <span class="meta-item"><i class="fa-solid fa-music"></i> В плеере: Вселенная бесконечна? — Noize MC</span>
+            <a href="https://music.yandex.ru/playlists/lk.a8d2470e-290b-495c-8f26-c89334f56a63?utm_medium=copy_link&ref_id=01826e28-0c2b-4429-89be-d7e3ba197f69" target="_blank" rel="noopener noreferrer" class="meta-link">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i> Открыть весь плейлист Дашк (241 трек) в Яндекс Музыке
+            </a>
           </div>
         </div>
       </div>
@@ -2547,6 +2826,78 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 
+// --- Disclaimer & Music Control ---
+function setupDisclaimerAndMusic() {
+  const modal = document.getElementById('disclaimer-modal');
+  const enterBtn = document.getElementById('disclaimer-enter-btn');
+  const bgAudio = document.getElementById('bg-music');
+  const sfxBtn = document.getElementById('sfx-toggle');
+
+  if (!modal || !enterBtn) return;
+
+  let entered = false;
+
+  function enterSite() {
+    if (entered) return;
+    entered = true;
+
+    modal.classList.add('hide');
+    setTimeout(() => {
+      modal.style.display = 'none';
+    }, 450);
+
+    // Start background festive audio
+    if (bgAudio) {
+      bgAudio.volume = 0.45;
+      const playPromise = bgAudio.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          if (sfxBtn) {
+            sfxBtn.classList.add('active');
+            sfxBtn.setAttribute('title', 'Музыка играет (кликни для паузы)');
+          }
+        }).catch(err => {
+          console.warn('Playback prevented:', err);
+        });
+      }
+    }
+
+    sfx.init();
+    sfx.playChime();
+    shootConfetti(110, 130);
+    showToast('Праздничный спейс запущен! 🎧🎉');
+  }
+
+  enterBtn.addEventListener('click', enterSite);
+
+  // Sync navbar sound/music toggle
+  if (sfxBtn) {
+    sfxBtn.addEventListener('click', () => {
+      if (bgAudio) {
+        if (!bgAudio.paused) {
+          bgAudio.pause();
+          sfx.enabled = false;
+          sfxBtn.classList.remove('active');
+          sfxBtn.setAttribute('title', 'Музыка на паузе (кликни для включения)');
+          sfxBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+          showToast('Музыка на паузе 🔇');
+        } else {
+          bgAudio.play().catch(() => {});
+          sfx.enabled = true;
+          sfxBtn.classList.add('active');
+          sfxBtn.setAttribute('title', 'Музыка играет (кликни для паузы)');
+          sfxBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+          showToast('Музыка играет 🔊');
+        }
+      } else {
+        sfx.enabled = !sfx.enabled;
+        sfxBtn.classList.toggle('active', sfx.enabled);
+        showToast(sfx.enabled ? 'Звук включен 🔊' : 'Звук выключен 🔇');
+      }
+    });
+  }
+}
+
 // --- Initialize Everything ---
 document.addEventListener('DOMContentLoaded', () => {
   initCanvas();
@@ -2555,16 +2906,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupQuotes();
   setupLightbox();
   setupEasterEgg();
-
-  // Sound toggle button
-  const sfxBtn = document.getElementById('sfx-toggle');
-  if (sfxBtn) {
-    sfxBtn.addEventListener('click', () => {
-      sfx.enabled = !sfx.enabled;
-      sfxBtn.classList.toggle('active', sfx.enabled);
-      showToast(sfx.enabled ? 'Звук включен 🔊' : 'Звук выключен 🔇');
-    });
-  }
+  setupDisclaimerAndMusic();
 
   // Confetti buttons
   const confettiTrigger = document.getElementById('confetti-trigger');
