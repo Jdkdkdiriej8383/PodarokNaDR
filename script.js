@@ -613,6 +613,9 @@ function setupDisclaimerAndMusic() {
   const floatingBar = document.getElementById('music-floating-bar');
   const floatingPlayBtn = document.getElementById('floating-play-btn');
   const floatingTrackTitle = document.getElementById('floating-track-title');
+  const floatingCircleIcon = document.getElementById('floating-circle-icon');
+  const floatingCollapseBtn = document.getElementById('floating-collapse-btn');
+  const floatingMeta = document.getElementById('floating-meta');
   const soundWaveBars = document.getElementById('sound-wave-bars');
   const sitePlayBtn = document.getElementById('site-play-btn');
   const btnPrevTrack = document.getElementById('player-prev-btn');
@@ -630,6 +633,26 @@ function setupDisclaimerAndMusic() {
 
   let currentTrackIdx = 0;
   let isPlaying = false;
+  let collapseTimer = null;
+
+  function collapseFloatingPlayer() {
+    if (!floatingBar) return;
+    floatingBar.classList.add('collapsed');
+    floatingBar.title = 'Развернуть плеер';
+    if (collapseTimer) clearTimeout(collapseTimer);
+  }
+
+  function expandFloatingPlayer(autoCollapseDelay = 0) {
+    if (!floatingBar) return;
+    floatingBar.classList.remove('collapsed');
+    floatingBar.title = 'Свернуть в кружок';
+    if (collapseTimer) clearTimeout(collapseTimer);
+    if (autoCollapseDelay > 0) {
+      collapseTimer = setTimeout(() => {
+        collapseFloatingPlayer();
+      }, autoCollapseDelay);
+    }
+  }
 
   function formatTime(seconds) {
     if (isNaN(seconds) || seconds < 0) return '00:00';
@@ -669,6 +692,8 @@ function setupDisclaimerAndMusic() {
       if (sitePlayBtn) sitePlayBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
       if (playerVinyl) playerVinyl.classList.add('spinning');
       if (soundWaveBars) soundWaveBars.classList.add('playing');
+      if (floatingBar) floatingBar.classList.add('playing');
+      if (floatingCircleIcon) floatingCircleIcon.innerHTML = '<i class="fa-solid fa-compact-disc"></i>';
       if (sfxBtn) {
         sfxBtn.classList.add('active');
         sfxBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
@@ -678,6 +703,8 @@ function setupDisclaimerAndMusic() {
       if (sitePlayBtn) sitePlayBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
       if (playerVinyl) playerVinyl.classList.remove('spinning');
       if (soundWaveBars) soundWaveBars.classList.remove('playing');
+      if (floatingBar) floatingBar.classList.remove('playing');
+      if (floatingCircleIcon) floatingCircleIcon.innerHTML = '<i class="fa-solid fa-play"></i>';
       if (sfxBtn) {
         sfxBtn.classList.remove('active');
         sfxBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
@@ -728,6 +755,11 @@ function setupDisclaimerAndMusic() {
       });
     }
 
+    // Temporarily expand floating bar to show new track title, then collapse back
+    if (floatingBar && !floatingBar.classList.contains('hidden')) {
+      expandFloatingPlayer(4500);
+    }
+
     if (bgAudio) {
       const wasPlaying = isPlaying || autoPlay;
       bgAudio.src = track.file;
@@ -765,6 +797,30 @@ function setupDisclaimerAndMusic() {
     }
   }
 
+  // Floating player collapse / expand interactions
+  if (floatingBar) {
+    floatingBar.addEventListener('click', (e) => {
+      if (floatingBar.classList.contains('collapsed')) {
+        e.stopPropagation();
+        expandFloatingPlayer(0);
+      }
+    });
+  }
+
+  if (floatingCollapseBtn) {
+    floatingCollapseBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      collapseFloatingPlayer();
+    });
+  }
+
+  if (floatingMeta) {
+    floatingMeta.addEventListener('click', (e) => {
+      e.stopPropagation();
+      collapseFloatingPlayer();
+    });
+  }
+
   // Prev / Next track buttons
   if (btnPrevTrack) {
     btnPrevTrack.addEventListener('click', () => {
@@ -799,8 +855,13 @@ function setupDisclaimerAndMusic() {
 
     if (startMusic) {
       playMusic();
+      // Show expanded for 5s then fold into circle
+      expandFloatingPlayer(5000);
     } else {
-      if (floatingBar) floatingBar.classList.remove('hidden');
+      if (floatingBar) {
+        floatingBar.classList.remove('hidden');
+        collapseFloatingPlayer();
+      }
     }
 
     if (msg) showToast(msg);
@@ -822,7 +883,10 @@ function setupDisclaimerAndMusic() {
 
   // Control button listeners
   if (floatingPlayBtn) {
-    floatingPlayBtn.addEventListener('click', toggleMusic);
+    floatingPlayBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleMusic();
+    });
   }
   if (sitePlayBtn) {
     sitePlayBtn.addEventListener('click', toggleMusic);

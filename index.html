@@ -2040,7 +2040,7 @@ body {
   color: var(--text-main);
 }
 
-/* Floating Music Bar */
+/* Floating Music Bar (Поддержка сворачивания в кружок) */
 .music-floating-bar {
   position: fixed;
   bottom: 20px;
@@ -2048,22 +2048,77 @@ body {
   z-index: 850;
   display: flex;
   align-items: center;
-  gap: 12px;
-  background: rgba(16, 20, 32, 0.92);
+  gap: 10px;
+  background: rgba(16, 20, 32, 0.94);
   border: 1px solid var(--border-active);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  padding: 8px 16px 8px 10px;
+  padding: 8px 12px 8px 8px;
   border-radius: var(--radius-pill);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(59, 130, 246, 0.25);
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              height 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              padding 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              border-radius 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.3s ease,
+              box-shadow 0.3s ease;
   max-width: calc(100vw - 32px);
+  overflow: hidden;
+  user-select: none;
 }
 
 .music-floating-bar.hidden {
   transform: translateY(100px);
   opacity: 0;
   pointer-events: none;
+}
+
+/* Свернутое состояние в компактный кружок */
+.music-floating-bar.collapsed {
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  gap: 0;
+  border-radius: 50%;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6), 0 0 18px var(--blue-glow);
+  border-color: var(--blue-primary);
+}
+
+.music-floating-bar.collapsed:hover {
+  transform: scale(1.08);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7), 0 0 24px var(--blue-glow);
+}
+
+/* Круглая иконка когда плеер свернут в кружок */
+.floating-circle-icon {
+  display: none;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.45rem;
+  color: var(--blue-primary);
+  position: relative;
+  cursor: pointer;
+}
+
+.music-floating-bar.collapsed .floating-circle-icon {
+  display: flex;
+}
+
+.music-floating-bar.collapsed.playing .floating-circle-icon i {
+  animation: spin 5s linear infinite;
+  color: var(--blue-light);
+}
+
+.music-floating-bar.collapsed .floating-play-btn,
+.music-floating-bar.collapsed .floating-meta,
+.music-floating-bar.collapsed .sound-wave-bars,
+.music-floating-bar.collapsed .floating-collapse-btn {
+  display: none !important;
 }
 
 .floating-play-btn {
@@ -2093,6 +2148,7 @@ body {
   flex-direction: column;
   overflow: hidden;
   text-align: left;
+  cursor: pointer;
 }
 
 .floating-title {
@@ -2102,7 +2158,7 @@ body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 180px;
+  max-width: 165px;
 }
 
 .floating-tag {
@@ -2112,6 +2168,31 @@ body {
   display: flex;
   align-items: center;
   gap: 4px;
+}
+
+/* Кнопка сворачивания в кружок */
+.floating-collapse-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-dim);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+  margin-left: 2px;
+}
+
+.floating-collapse-btn:hover {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: var(--border-active);
+  color: var(--blue-light);
+  transform: scale(1.1);
 }
 
 /* Sound wave equalizer animation */
@@ -2645,9 +2726,22 @@ body {
     justify-content: space-between;
     padding: 7px 12px 7px 8px;
     max-width: calc(100vw - 24px);
+    border-radius: var(--radius-pill);
   }
+
+  .music-floating-bar.collapsed {
+    left: auto !important;
+    right: 14px !important;
+    bottom: 14px !important;
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 50% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
   .floating-title {
-    max-width: 150px;
+    max-width: 140px;
   }
 }
 
@@ -3187,18 +3281,27 @@ body {
   <!-- Toast -->
   <div class="toast" id="toast">Уведомление</div>
 
-  <!-- ПЛАВАЮЩИЙ МИНИ-ПЛЕЕР МУЗЫКИ НА САЙТЕ -->
-  <div class="music-floating-bar hidden" id="music-floating-bar">
+  <!-- ПЛАВАЮЩИЙ МИНИ-ПЛЕЕР МУЗЫКИ НА САЙТЕ (СВОРАЧИВАЕТСЯ В КРУЖОК) -->
+  <div class="music-floating-bar hidden collapsed" id="music-floating-bar" title="Развернуть плеер">
+    <!-- Круглая иконка когда плеер свернут в кружок -->
+    <div class="floating-circle-icon" id="floating-circle-icon" title="Развернуть плеер">
+      <i class="fa-solid fa-compact-disc"></i>
+    </div>
+
+    <!-- Основные элементы когда плеер развернут -->
     <button type="button" class="floating-play-btn" id="floating-play-btn" aria-label="Воспроизведение/Пауза" title="Включить / Пауза">
       <i class="fa-solid fa-play"></i>
     </button>
-    <div class="floating-meta">
+    <div class="floating-meta" id="floating-meta" title="Свернуть в кружок">
       <span class="floating-title" id="floating-track-title" title="Noize MC — Вселенная бесконечна?">Noize MC — Вселенная бесконечна?</span>
       <span class="floating-tag"><i class="fa-solid fa-music"></i> Плейлист Дашк // 16 летов</span>
     </div>
     <div class="sound-wave-bars" id="sound-wave-bars" title="Саундтрек играет">
       <span></span><span></span><span></span><span></span>
     </div>
+    <button type="button" class="floating-collapse-btn" id="floating-collapse-btn" aria-label="Свернуть в кружок" title="Свернуть в кружок">
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
   </div>
 
   <script>
@@ -3819,6 +3922,9 @@ function setupDisclaimerAndMusic() {
   const floatingBar = document.getElementById('music-floating-bar');
   const floatingPlayBtn = document.getElementById('floating-play-btn');
   const floatingTrackTitle = document.getElementById('floating-track-title');
+  const floatingCircleIcon = document.getElementById('floating-circle-icon');
+  const floatingCollapseBtn = document.getElementById('floating-collapse-btn');
+  const floatingMeta = document.getElementById('floating-meta');
   const soundWaveBars = document.getElementById('sound-wave-bars');
   const sitePlayBtn = document.getElementById('site-play-btn');
   const btnPrevTrack = document.getElementById('player-prev-btn');
@@ -3836,6 +3942,26 @@ function setupDisclaimerAndMusic() {
 
   let currentTrackIdx = 0;
   let isPlaying = false;
+  let collapseTimer = null;
+
+  function collapseFloatingPlayer() {
+    if (!floatingBar) return;
+    floatingBar.classList.add('collapsed');
+    floatingBar.title = 'Развернуть плеер';
+    if (collapseTimer) clearTimeout(collapseTimer);
+  }
+
+  function expandFloatingPlayer(autoCollapseDelay = 0) {
+    if (!floatingBar) return;
+    floatingBar.classList.remove('collapsed');
+    floatingBar.title = 'Свернуть в кружок';
+    if (collapseTimer) clearTimeout(collapseTimer);
+    if (autoCollapseDelay > 0) {
+      collapseTimer = setTimeout(() => {
+        collapseFloatingPlayer();
+      }, autoCollapseDelay);
+    }
+  }
 
   function formatTime(seconds) {
     if (isNaN(seconds) || seconds < 0) return '00:00';
@@ -3875,6 +4001,8 @@ function setupDisclaimerAndMusic() {
       if (sitePlayBtn) sitePlayBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
       if (playerVinyl) playerVinyl.classList.add('spinning');
       if (soundWaveBars) soundWaveBars.classList.add('playing');
+      if (floatingBar) floatingBar.classList.add('playing');
+      if (floatingCircleIcon) floatingCircleIcon.innerHTML = '<i class="fa-solid fa-compact-disc"></i>';
       if (sfxBtn) {
         sfxBtn.classList.add('active');
         sfxBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
@@ -3884,6 +4012,8 @@ function setupDisclaimerAndMusic() {
       if (sitePlayBtn) sitePlayBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
       if (playerVinyl) playerVinyl.classList.remove('spinning');
       if (soundWaveBars) soundWaveBars.classList.remove('playing');
+      if (floatingBar) floatingBar.classList.remove('playing');
+      if (floatingCircleIcon) floatingCircleIcon.innerHTML = '<i class="fa-solid fa-play"></i>';
       if (sfxBtn) {
         sfxBtn.classList.remove('active');
         sfxBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
@@ -3934,6 +4064,11 @@ function setupDisclaimerAndMusic() {
       });
     }
 
+    // Temporarily expand floating bar to show new track title, then collapse back
+    if (floatingBar && !floatingBar.classList.contains('hidden')) {
+      expandFloatingPlayer(4500);
+    }
+
     if (bgAudio) {
       const wasPlaying = isPlaying || autoPlay;
       bgAudio.src = track.file;
@@ -3948,7 +4083,9 @@ function setupDisclaimerAndMusic() {
     if (!bgAudio) return;
     bgAudio.play().then(() => {
       setPlayingState(true);
-      if (floatingBar) floatingBar.classList.remove('hidden');
+      if (floatingBar) {
+        floatingBar.classList.remove('hidden');
+      }
     }).catch(err => {
       console.warn('Audio play prevented:', err);
     });
@@ -3969,6 +4106,30 @@ function setupDisclaimerAndMusic() {
       pauseMusic();
       showToast('Музыка на паузе ⏸️');
     }
+  }
+
+  // Floating player collapse / expand interactions
+  if (floatingBar) {
+    floatingBar.addEventListener('click', (e) => {
+      if (floatingBar.classList.contains('collapsed')) {
+        e.stopPropagation();
+        expandFloatingPlayer(0);
+      }
+    });
+  }
+
+  if (floatingCollapseBtn) {
+    floatingCollapseBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      collapseFloatingPlayer();
+    });
+  }
+
+  if (floatingMeta) {
+    floatingMeta.addEventListener('click', (e) => {
+      e.stopPropagation();
+      collapseFloatingPlayer();
+    });
   }
 
   // Prev / Next track buttons
@@ -4005,8 +4166,13 @@ function setupDisclaimerAndMusic() {
 
     if (startMusic) {
       playMusic();
+      // Show expanded for 5s then fold into circle
+      expandFloatingPlayer(5000);
     } else {
-      if (floatingBar) floatingBar.classList.remove('hidden');
+      if (floatingBar) {
+        floatingBar.classList.remove('hidden');
+        collapseFloatingPlayer();
+      }
     }
 
     if (msg) showToast(msg);
@@ -4028,7 +4194,10 @@ function setupDisclaimerAndMusic() {
 
   // Control button listeners
   if (floatingPlayBtn) {
-    floatingPlayBtn.addEventListener('click', toggleMusic);
+    floatingPlayBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleMusic();
+    });
   }
   if (sitePlayBtn) {
     sitePlayBtn.addEventListener('click', toggleMusic);
