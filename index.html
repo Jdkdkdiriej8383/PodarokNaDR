@@ -15,6 +15,7 @@
   
   <!-- FontAwesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
   
   <!-- Canvas Confetti -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
@@ -889,7 +890,7 @@ body {
   font-size: 0.8rem;
   font-weight: 700;
   color: var(--blue-light);
-  background: rgba(59, 130, 246, 0.12);
+  background: rgba(59, 130, 246, 0.1);
   border: 1px solid var(--border-active);
   padding: 4px 10px;
   border-radius: var(--radius-pill);
@@ -987,7 +988,7 @@ body {
   width: 100%;
   border-radius: var(--radius-md);
   overflow: hidden;
-  background: #080a0f;
+  background: #000;
   aspect-ratio: 4 / 3;
   display: flex;
   align-items: center;
@@ -1019,10 +1020,10 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(to top, rgba(10, 12, 18, 0.94) 0%, rgba(10, 12, 18, 0.6) 70%, transparent 100%);
+  background: linear-gradient(to top, rgba(10, 12, 18, 0.92) 0%, rgba(10, 12, 18, 0.6) 70%, transparent 100%);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  padding: 24px 20px 14px;
+  padding: 20px 20px 14px;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -1068,7 +1069,7 @@ body {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: rgba(16, 20, 32, 0.78);
+  background: rgba(16, 20, 32, 0.75);
   border: 1px solid var(--border-active);
   color: #fff;
   display: flex;
@@ -1144,7 +1145,7 @@ body {
   border: 2px solid transparent;
   cursor: pointer;
   flex-shrink: 0;
-  opacity: 0.55;
+  opacity: 0.6;
   transition: opacity var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
 }
 
@@ -1883,11 +1884,6 @@ body {
   transition: color var(--transition-fast);
 }
 
-.playlist-meta-bar .meta-link:hover {
-  color: var(--text-main);
-  text-decoration: underline;
-}
-
 /* ==========================================================================
    ON-SITE AUDIO PLAYER & FLOATING BAR
    ========================================================================== */
@@ -2244,6 +2240,11 @@ body {
 @keyframes sound-bounce {
   0% { height: 4px; }
   100% { height: 18px; }
+}
+
+.playlist-meta-bar .meta-link:hover {
+  color: var(--text-main);
+  text-decoration: underline;
 }
 
 /* ==========================================================================
@@ -2782,7 +2783,6 @@ body {
 }
 
 
-
 /* ==========================================================================
    INTERACTIVE STORY FLOW (ПОСЛЕДОВАТЕЛЬНЫЙ ПЕРЕХОД МЕЖДУ СТРАНИЦАМИ)
    ========================================================================== */
@@ -2820,7 +2820,7 @@ html, body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 68px 18px 20px;
+  padding: 68px 18px 68px;
   overflow-y: auto;
   overflow-x: hidden;
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
@@ -2897,171 +2897,135 @@ html, body {
   }
 }
 
-/* Слайд 8: футер прикреплен к низу экрана */
-.final-screen {
-  justify-content: space-between !important;
-  padding-bottom: 0 !important;
-}
-.final-screen .container {
-  margin-top: auto !important;
-  margin-bottom: auto !important;
-}
-.final-screen .footer {
-  width: 100%;
-  margin-top: auto;
-  padding: 12px 0 0;
-  background: transparent;
-  border-top: 1px solid var(--border-subtle);
-}
+
 
 @media (max-width: 768px) {
   .story-screen {
-    padding: 60px 14px 16px;
+    padding: 60px 14px 68px;
   }
   .section-flow-action {
     margin-top: 12px;
   }
 }
-
 
 
 /* ==========================================================================
-   INTERACTIVE STORY FLOW (ПОСЛЕДОВАТЕЛЬНЫЙ ПЕРЕХОД МЕЖДУ СТРАНИЦАМИ)
+   ПОСТОЯННАЯ ПЛАШКА ВНИЗУ (ФУТЕР + БЕГУЩАЯ СТРОКА НА ВСЕХ СЛАЙДАХ)
    ========================================================================== */
-html, body {
-  width: 100vw !important;
-  height: 100vh !important;
-  height: 100dvh !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  overflow: hidden !important;
+.footer,
+.persistent-footer {
   position: fixed !important;
-  background-color: var(--bg-main);
-  -webkit-overflow-scrolling: touch;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  top: auto !important;
+  width: 100vw !important;
+  z-index: 9999 !important;
+  background: rgba(10, 13, 22, 0.96) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border-top: 1px solid var(--border-subtle) !important;
+  padding: 4px 0 0 !important;
+  margin: 0 !important;
+  pointer-events: auto !important;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.6) !important;
 }
 
-/* Контейнер интерактивного сюжета */
-.story-viewport {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  height: 100dvh;
-  overflow: hidden;
-  z-index: 1;
-}
-
-/* Каждый шаг сюжета (ровно 1 экран) */
-.story-screen {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 68px 18px 20px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-              opacity 0.4s ease,
-              filter 0.45s ease;
-  will-change: transform, opacity, filter;
-  pointer-events: none;
-  opacity: 0;
-  transform: translateX(100%);
-  filter: blur(6px);
-  z-index: 1;
-}
-
-/* Активный экран */
-.story-screen.active {
-  opacity: 1;
-  transform: translateX(0);
-  filter: blur(0);
-  pointer-events: auto;
-  z-index: 2;
-}
-
-/* Предыдущие экраны уходят влево */
-.story-screen.prev {
-  opacity: 0;
-  transform: translateX(-100%);
-  filter: blur(6px);
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Следующие экраны ждут справа */
-.story-screen.next {
-  opacity: 0;
-  transform: translateX(100%);
-  filter: blur(6px);
-  pointer-events: none;
-  z-index: 0;
-}
-
-.story-screen .container {
-  width: 100%;
-  max-width: 900px;
-  margin: auto auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  z-index: 2;
-}
-
-.section-flow-action {
-  margin-top: 18px;
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  z-index: 10;
-}
-
-/* Мягкая пульсация для целевых кнопок */
-.btn-pulse {
-  animation: pulse-glow-btn 2.4s infinite ease-in-out;
-}
-
-@keyframes pulse-glow-btn {
-  0%, 100% {
-    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
-    transform: scale(1);
-  }
-  50% {
-    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.7);
-    transform: scale(1.02);
-  }
-}
-
-/* Слайд 8: футер прикреплен к низу экрана */
-.final-screen {
+.footer-content {
+  display: flex !important;
   justify-content: space-between !important;
-  padding-bottom: 0 !important;
-}
-.final-screen .container {
-  margin-top: auto !important;
-  margin-bottom: auto !important;
-}
-.final-screen .footer {
-  width: 100%;
-  margin-top: auto;
-  padding: 12px 0 0;
-  background: transparent;
-  border-top: 1px solid var(--border-subtle);
+  align-items: center !important;
+  padding: 0 16px !important;
+  font-size: 0.72rem !important;
+  color: var(--text-dim) !important;
+  gap: 12px !important;
+  flex-direction: row !important;
 }
 
-@media (max-width: 768px) {
-  .story-screen {
-    padding: 60px 14px 16px;
+.footer-content p {
+  margin: 0 !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.footer-code {
+  font-family: var(--font-mono) !important;
+  font-size: 0.7rem !important;
+  color: var(--blue-light) !important;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.ticker-wrapper {
+  width: 100% !important;
+  overflow: hidden !important;
+  background: rgba(6, 8, 14, 0.98) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
+  padding: 4px 0 !important;
+  margin-top: 3px !important;
+  position: relative !important;
+  white-space: nowrap !important;
+  pointer-events: auto !important;
+}
+
+.ticker-track {
+  font-family: var(--font-mono) !important;
+  font-size: 0.72rem !important;
+  color: var(--blue-light) !important;
+  letter-spacing: 0.5px !important;
+  line-height: 1.2 !important;
+}
+
+/* Компактный плавающий плеер гармонирует с нижней плашкой */
+.music-floating-bar {
+  position: fixed !important;
+  bottom: 6px !important;
+  right: 12px !important;
+  z-index: 10000 !important;
+}
+
+.music-floating-bar.collapsed {
+  width: 42px !important;
+  height: 42px !important;
+  bottom: 6px !important;
+  right: 12px !important;
+  border-radius: 50% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  justify-content: center !important;
+  align-items: center !important;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.7), 0 0 16px var(--blue-glow) !important;
+  background: rgba(12, 16, 28, 0.95) !important;
+  border: 1px solid var(--blue-primary) !important;
+}
+
+.music-floating-bar:not(.collapsed) {
+  bottom: 56px !important;
+  right: 12px !important;
+  border-radius: var(--radius-pill) !important;
+  padding: 6px 10px 6px 6px !important;
+}
+
+@media (max-width: 600px) {
+  .footer,
+  .persistent-footer {
+    padding: 3px 0 0 !important;
   }
-  .section-flow-action {
-    margin-top: 12px;
+  .footer-content {
+    padding: 0 10px !important;
+    font-size: 0.65rem !important;
+    gap: 6px !important;
+  }
+  .footer-code {
+    font-size: 0.62rem !important;
+  }
+  .ticker-wrapper {
+    padding: 3px 0 !important;
+    margin-top: 2px !important;
+  }
+  .ticker-track {
+    font-size: 0.68rem !important;
   }
 }
 

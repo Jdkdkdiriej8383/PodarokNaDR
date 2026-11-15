@@ -2895,16 +2895,17 @@ html, body {
   bottom: 0 !important;
   left: 0 !important;
   right: 0 !important;
+  top: auto !important;
   width: 100vw !important;
-  z-index: 800 !important;
-  background: rgba(10, 13, 22, 0.94) !important;
+  z-index: 9999 !important;
+  background: rgba(10, 13, 22, 0.96) !important;
   backdrop-filter: blur(14px) !important;
   -webkit-backdrop-filter: blur(14px) !important;
   border-top: 1px solid var(--border-subtle) !important;
   padding: 4px 0 0 !important;
   margin: 0 !important;
   pointer-events: auto !important;
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.6) !important;
 }
 
 .footer-content {
@@ -2958,7 +2959,7 @@ html, body {
   position: fixed !important;
   bottom: 6px !important;
   right: 12px !important;
-  z-index: 950 !important;
+  z-index: 10000 !important;
 }
 
 .music-floating-bar.collapsed {
