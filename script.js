@@ -563,6 +563,66 @@ function setupGallerySlideshow() {
   }
 
   // Initial call
+  
+  // Сенсорное управление слайд-шоу на телефоне (свайп влево/вправо по фото)
+  let slideTouchStartX = 0;
+  let slideTouchStartY = 0;
+  let slideTouchEndX = 0;
+  let slideTouchEndY = 0;
+
+  if (stage) {
+    stage.addEventListener('touchstart', (e) => {
+      e.stopPropagation();
+      slideTouchStartX = e.changedTouches[0].screenX;
+      slideTouchStartY = e.changedTouches[0].screenY;
+    }, { passive: false });
+
+    stage.addEventListener('touchmove', (e) => {
+      const dx = Math.abs(e.changedTouches[0].screenX - slideTouchStartX);
+      const dy = Math.abs(e.changedTouches[0].screenY - slideTouchStartY);
+      if (dx > dy && dx > 8) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+
+    stage.addEventListener('touchend', (e) => {
+      e.stopPropagation();
+      slideTouchEndX = e.changedTouches[0].screenX;
+      slideTouchEndY = e.changedTouches[0].screenY;
+      const dx = slideTouchEndX - slideTouchStartX;
+      const dy = slideTouchEndY - slideTouchStartY;
+
+      if (Math.abs(dx) > 36 && Math.abs(dx) > Math.abs(dy)) {
+        if (dx < 0) {
+          goToSlide(currentSlide + 1);
+        } else {
+          goToSlide(currentSlide - 1);
+        }
+      }
+    }, { passive: false });
+  }
+
+  // Свайп в полноэкранном лайтбоксе для быстрого просмотра фото
+  const lightboxModal = document.getElementById('lightbox');
+  if (lightboxModal) {
+    let lbStartX = 0;
+    lightboxModal.addEventListener('touchstart', (e) => {
+      lbStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    lightboxModal.addEventListener('touchend', (e) => {
+      const lbEndX = e.changedTouches[0].screenX;
+      const dx = lbEndX - lbStartX;
+      if (Math.abs(dx) > 40) {
+        if (dx < 0) {
+          goToSlide(currentSlide + 1);
+        } else {
+          goToSlide(currentSlide - 1);
+        }
+        openCurrentInLightbox();
+      }
+    }, { passive: true });
+  }
+
   goToSlide(0);
 }
 
@@ -871,25 +931,27 @@ function setupDisclaimerAndMusic() {
 
   // Dismiss disclaimer modal
   function dismissModal(startMusic, msg) {
-    if (!modal) return;
-    modal.classList.add('hide');
-    setTimeout(() => {
-      modal.style.display = 'none';
-    }, 450);
+    document.body.classList.remove('disclaimer-open');
+    if (modal) {
+      modal.classList.add('hide');
+      setTimeout(() => {
+        modal.style.display = 'none';
+      }, 450);
+    }
 
-    shootConfetti(110, 130);
-
-    if (startMusic) {
-      playMusic();
-      // Show expanded for 5s then fold into circle
-      expandFloatingPlayer(5000);
-    } else {
-      if (floatingBar) {
-        floatingBar.classList.remove('hidden');
+    // Включаем плавающий плеер
+    if (floatingBar) {
+      floatingBar.style.removeProperty('display');
+      floatingBar.classList.remove('hidden');
+      if (startMusic) {
+        playMusic();
+        expandFloatingPlayer(4000);
+      } else {
         collapseFloatingPlayer();
       }
     }
 
+    shootConfetti(110, 130);
     if (msg) showToast(msg);
   }
 
