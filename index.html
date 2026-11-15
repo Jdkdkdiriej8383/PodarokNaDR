@@ -2781,6 +2781,290 @@ body {
   }
 }
 
+
+
+/* ==========================================================================
+   INTERACTIVE STORY FLOW (ПОСЛЕДОВАТЕЛЬНЫЙ ПЕРЕХОД МЕЖДУ СТРАНИЦАМИ)
+   ========================================================================== */
+html, body {
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  position: fixed !important;
+  background-color: var(--bg-main);
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Контейнер интерактивного сюжета */
+.story-viewport {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Каждый шаг сюжета (ровно 1 экран) */
+.story-screen {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 68px 18px 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.4s ease,
+              filter 0.45s ease;
+  will-change: transform, opacity, filter;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(100%);
+  filter: blur(6px);
+  z-index: 1;
+}
+
+/* Активный экран */
+.story-screen.active {
+  opacity: 1;
+  transform: translateX(0);
+  filter: blur(0);
+  pointer-events: auto;
+  z-index: 2;
+}
+
+/* Предыдущие экраны уходят влево */
+.story-screen.prev {
+  opacity: 0;
+  transform: translateX(-100%);
+  filter: blur(6px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Следующие экраны ждут справа */
+.story-screen.next {
+  opacity: 0;
+  transform: translateX(100%);
+  filter: blur(6px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.story-screen .container {
+  width: 100%;
+  max-width: 900px;
+  margin: auto auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+
+.section-flow-action {
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  z-index: 10;
+}
+
+/* Мягкая пульсация для целевых кнопок */
+.btn-pulse {
+  animation: pulse-glow-btn 2.4s infinite ease-in-out;
+}
+
+@keyframes pulse-glow-btn {
+  0%, 100% {
+    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.7);
+    transform: scale(1.02);
+  }
+}
+
+/* Слайд 8: футер прикреплен к низу экрана */
+.final-screen {
+  justify-content: space-between !important;
+  padding-bottom: 0 !important;
+}
+.final-screen .container {
+  margin-top: auto !important;
+  margin-bottom: auto !important;
+}
+.final-screen .footer {
+  width: 100%;
+  margin-top: auto;
+  padding: 12px 0 0;
+  background: transparent;
+  border-top: 1px solid var(--border-subtle);
+}
+
+@media (max-width: 768px) {
+  .story-screen {
+    padding: 60px 14px 16px;
+  }
+  .section-flow-action {
+    margin-top: 12px;
+  }
+}
+
+
+
+/* ==========================================================================
+   INTERACTIVE STORY FLOW (ПОСЛЕДОВАТЕЛЬНЫЙ ПЕРЕХОД МЕЖДУ СТРАНИЦАМИ)
+   ========================================================================== */
+html, body {
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  position: fixed !important;
+  background-color: var(--bg-main);
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Контейнер интерактивного сюжета */
+.story-viewport {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Каждый шаг сюжета (ровно 1 экран) */
+.story-screen {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 68px 18px 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.4s ease,
+              filter 0.45s ease;
+  will-change: transform, opacity, filter;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(100%);
+  filter: blur(6px);
+  z-index: 1;
+}
+
+/* Активный экран */
+.story-screen.active {
+  opacity: 1;
+  transform: translateX(0);
+  filter: blur(0);
+  pointer-events: auto;
+  z-index: 2;
+}
+
+/* Предыдущие экраны уходят влево */
+.story-screen.prev {
+  opacity: 0;
+  transform: translateX(-100%);
+  filter: blur(6px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Следующие экраны ждут справа */
+.story-screen.next {
+  opacity: 0;
+  transform: translateX(100%);
+  filter: blur(6px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.story-screen .container {
+  width: 100%;
+  max-width: 900px;
+  margin: auto auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+
+.section-flow-action {
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  z-index: 10;
+}
+
+/* Мягкая пульсация для целевых кнопок */
+.btn-pulse {
+  animation: pulse-glow-btn 2.4s infinite ease-in-out;
+}
+
+@keyframes pulse-glow-btn {
+  0%, 100% {
+    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.7);
+    transform: scale(1.02);
+  }
+}
+
+/* Слайд 8: футер прикреплен к низу экрана */
+.final-screen {
+  justify-content: space-between !important;
+  padding-bottom: 0 !important;
+}
+.final-screen .container {
+  margin-top: auto !important;
+  margin-bottom: auto !important;
+}
+.final-screen .footer {
+  width: 100%;
+  margin-top: auto;
+  padding: 12px 0 0;
+  background: transparent;
+  border-top: 1px solid var(--border-subtle);
+}
+
+@media (max-width: 768px) {
+  .story-screen {
+    padding: 60px 14px 16px;
+  }
+  .section-flow-action {
+    margin-top: 12px;
+  }
+}
+
 </style>
 </head>
 <body class="theme-minimal">
@@ -2878,9 +3162,9 @@ body {
     </div>
   </header>
 
-  <main>
+  <main class="story-viewport" id="story-viewport">
     <!-- HERO SECTION -->
-    <section class="hero-section">
+    <section class="story-screen active hero-section" id="step-0" data-step="0">
       <div class="container">
         <div class="hero-tags">
           <span class="badge"><i class="fa-solid fa-cake-candles"></i> 16 лет</span>
@@ -2897,7 +3181,7 @@ body {
         </p>
 
         <div class="hero-actions">
-          <a href="#gift" class="btn btn-primary">
+          <a href="#gift" class="btn btn-primary btn-pulse" id="hero-unpack-btn" data-next-step="1">
             <span>Распаковать подарок</span>
             <i class="fa-solid fa-arrow-down"></i>
           </a>
@@ -2931,7 +3215,7 @@ body {
     </section>
 
     <!-- СЕКЦИЯ 1: МАТЕРИАЛЬНЫЙ ПОДАРОК (ХЕЛЛОУ КИТТИ) -->
-    <section class="section gift-section" id="gift">
+    <section class="story-screen next section gift-section" id="step-1" data-step="1">
       <div class="container">
         <div class="section-badge">Сюрприз</div>
         <h2 class="section-title">Твой главный подарок</h2>
@@ -2980,7 +3264,7 @@ body {
 
               <div class="reveal-footer">
                 <span class="status-pill"><i class="fa-solid fa-truck-fast"></i> Статус: Готовится к вручению</span>
-                <button class="btn btn-primary btn-sm" id="kitty-confirm-btn">
+                <button type="button" class="btn btn-primary btn-sm btn-pulse" id="kitty-confirm-btn" data-next-step="2">
                   <i class="fa-solid fa-heart"></i> Жду букет!
                 </button>
               </div>
@@ -2991,7 +3275,7 @@ body {
     </section>
 
     <!-- СЕКЦИЯ 2: ИНТЕРАКТИВНЫЙ ТОРТ СО СВЕЧАМИ -->
-    <section class="section cake-section" id="cake">
+    <section class="story-screen next section cake-section" id="step-2" data-step="2">
       <div class="container">
         <div class="section-badge">Традиция</div>
         <h2 class="section-title">Загадай желание</h2>
@@ -3033,6 +3317,20 @@ body {
             <div class="wish-badge">✨ 100% СБУДЕТСЯ</div>
             <h4>Желание зафиксировано Вселенной!</h4>
             <p>Даже в твои солидные 16 летов все мечты обязаны исполниться. Главное — верить и продолжать творить!</p>
+            
+            <div style="margin-top: 14px;">
+              <button type="button" class="btn btn-primary btn-pulse" id="cake-to-letter-btn" data-next-step="3">
+                <span>Прочитать письмо от бро 💌</span>
+                <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+            
+            <div style="margin-top: 14px;">
+              <button type="button" class="btn btn-primary btn-pulse" id="cake-to-letter-btn" data-next-step="3">
+                <span>Прочитать письмо от бро 💌</span>
+                <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
             <button class="btn-link" id="relight-btn">
               <i class="fa-solid fa-rotate-left"></i> Зажечь свечи заново
             </button>
@@ -3042,7 +3340,7 @@ body {
     </section>
 
     <!-- СЕКЦИЯ 3: ДРУЖЕСКОЕ ПИСЬМО -->
-    <section class="section letter-section" id="letter">
+    <section class="story-screen next section letter-section" id="step-3" data-step="3">
       <div class="container">
         <div class="section-badge">Искренне</div>
         <h2 class="section-title">Праздничное послание</h2>
@@ -3079,13 +3377,20 @@ body {
             <p class="sign">
               С днем рождения, Даша! 🎉💙
             </p>
+
+            <div class="section-flow-action">
+              <button type="button" class="btn btn-primary btn-pulse" id="letter-to-quotes-btn" data-next-step="4">
+                <span>А теперь база фактов о тебе ⚡</span>
+                <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- СЕКЦИЯ 4: ГЕНЕРАТОР МЕМОВ И ПОДКОЛОВ (БАНОЧКА 67) -->
-    <section class="section quotes-section" id="quotes">
+    <section class="story-screen next section quotes-section" id="step-4" data-step="4">
       <div class="container">
         <div class="section-badge">Цитаты & Мемы</div>
         <h2 class="section-title">База фактов и историй</h2>
@@ -3120,11 +3425,25 @@ body {
             </button>
           </div>
         </div>
+ 
+        <div class="section-flow-action">
+          <button type="button" class="btn btn-primary btn-pulse" id="quotes-to-gallery-btn" data-next-step="5">
+            <span>Секретный фотоархив 📸</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+ 
+        <div class="section-flow-action">
+          <button type="button" class="btn btn-primary btn-pulse" id="quotes-to-gallery-btn" data-next-step="5">
+            <span>Секретный фотоархив 📸</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
       </div>
     </section>
 
     <!-- СЕКЦИЯ 5: АРХИВ / ФОТОГАЛЕРЕЯ (ИНТЕРАКТИВНОЕ СЛАЙД-ШОУ) -->
-    <section class="section gallery-section" id="gallery">
+    <section class="story-screen next section gallery-section" id="step-5" data-step="5">
       <div class="container">
         <div class="section-badge">Архив кадров</div>
         <h2 class="section-title">13 моментов из жизни легенды</h2>
@@ -3169,11 +3488,25 @@ body {
           <!-- Лента миниатюр 13 кадров -->
           <div class="slideshow-thumbnails" id="slideshow-thumbnails"></div>
         </div>
+ 
+        <div class="section-flow-action">
+          <button type="button" class="btn btn-primary btn-pulse" id="gallery-to-music-btn" data-next-step="6">
+            <span>Врубить твой саундтрек 🎧</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+ 
+        <div class="section-flow-action">
+          <button type="button" class="btn btn-primary btn-pulse" id="gallery-to-music-btn" data-next-step="6">
+            <span>Врубить твой саундтрек 🎧</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
       </div>
     </section>
 
     <!-- СЕКЦИЯ 6: МУЗЫКАЛЬНЫЙ ПЛЕЙЛИСТ (16 ТРЕКОВ) -->
-    <section class="section music-section" id="music">
+    <section class="story-screen next section music-section" id="step-6" data-step="6">
       <div class="container">
         <div class="section-badge">Саундтрек</div>
         <h2 class="section-title">Плейлист именинницы</h2>
@@ -3247,11 +3580,25 @@ body {
             </a>
           </div>
         </div>
+ 
+        <div class="section-flow-action">
+          <button type="button" class="btn btn-primary btn-lg btn-pulse" id="music-to-final-btn" data-next-step="7">
+            <span>Запустить праздничный супер-салют 🚀</span>
+            <i class="fa-solid fa-fire"></i>
+          </button>
+        </div>
+ 
+        <div class="section-flow-action">
+          <button type="button" class="btn btn-primary btn-lg btn-pulse" id="music-to-final-btn" data-next-step="7">
+            <span>Запустить праздничный супер-салют 🚀</span>
+            <i class="fa-solid fa-fire"></i>
+          </button>
+        </div>
       </div>
     </section>
 
     <!-- ФИНАЛ -->
-    <section class="section final-section">
+    <section class="story-screen next section final-section final-screen" id="step-7" data-step="7">
       <div class="container text-center">
         <div class="final-box">
           <div class="final-icon">⚡</div>
@@ -3261,11 +3608,20 @@ body {
             <i class="fa-solid fa-fire"></i> Запустить супер-салют
           </button>
         </div>
+ 
+        <div style="margin-top: 16px;">
+          <button type="button" class="btn-link" id="restart-story-btn" data-next-step="0">
+            <i class="fa-solid fa-rotate-left"></i> Посмотреть всё сначала
+          </button>
+        </div>
+      </
+        <div style="margin-top: 16px;">
+          <button type="button" class="btn-link" id="restart-story-btn" data-next-step="0">
+            <i class="fa-solid fa-rotate-left"></i> Посмотреть всё сначала
+          </button>
+        </div>
       </div>
-    </section>
-  </main>
-
-  <!-- ФУТЕР -->
+      <!-- ФУТЕР -->
   <footer class="footer">
     <div class="container footer-content">
       <p>Специально для Даши к 16-летию • Разработал Jdkdkdiriej8383</p>
@@ -3282,6 +3638,10 @@ body {
       </div>
     </div>
   </footer>
+    </section>
+  </main>
+
+  
 
   <!-- МОДАЛКА ДЛЯ ПРОСМОТРА ФОТО В ПОЛНЫЙ ЭКРАН -->
   <div class="lightbox-modal" id="lightbox">
@@ -4353,6 +4713,344 @@ document.addEventListener('DOMContentLoaded', () => {
     craneTrigger.addEventListener('click', () => launchFlyingCranes());
   }
 });
+
+
+
+// --- INTERACTIVE STORY FLOW (БЕСШОВНЫЕ ПЕРЕХОДЫ МЕЖДУ ЭКРАНАМИ) ---
+function initStoryFlowEngine() {
+  const screens = document.querySelectorAll('.story-screen');
+  const totalScreens = screens.length;
+  let currentStep = 0;
+  let isTransitioning = false;
+
+  function goToStep(targetStep, direction = null) {
+    if (targetStep < 0 || targetStep >= totalScreens) return;
+    if (targetStep === currentStep && direction === null) return;
+    if (isTransitioning) return;
+
+    isTransitioning = true;
+    const oldStep = currentStep;
+    const dir = direction !== null ? direction : (targetStep > oldStep ? 'forward' : 'backward');
+
+    const oldScreen = screens[oldStep];
+    const newScreen = screens[targetStep];
+
+    // Подготовка начального положения
+    newScreen.classList.remove('active', 'prev', 'next');
+    if (dir === 'forward') {
+      newScreen.classList.add('next');
+    } else {
+      newScreen.classList.add('prev');
+    }
+
+    // Force reflow
+    void newScreen.offsetWidth;
+
+    // Плавный переход
+    if (dir === 'forward') {
+      oldScreen.classList.remove('active');
+      oldScreen.classList.add('prev');
+      newScreen.classList.remove('next');
+      newScreen.classList.add('active');
+    } else {
+      oldScreen.classList.remove('active');
+      oldScreen.classList.add('next');
+      newScreen.classList.remove('prev');
+      newScreen.classList.add('active');
+    }
+
+    currentStep = targetStep;
+
+    // Сброс скролла на новом экране
+    newScreen.scrollTop = 0;
+
+    // Особые действия при входе на экран:
+    if (targetStep === 7) {
+      // На финальном экране запускаем праздничный супер-салют!
+      setTimeout(() => {
+        shootMegaSalute();
+      }, 400);
+    } else if (targetStep === 5) {
+      // На экране галереи запускаем слайд-шоу
+      if (typeof startSlideshow === 'function') startSlideshow();
+    } else if (targetStep === 4) {
+      // На экране фактов запускаем таймер
+      if (typeof startFactTimer === 'function') startFactTimer();
+    }
+
+    setTimeout(() => {
+      // Очистка классов
+      screens.forEach((s, idx) => {
+        if (idx !== targetStep) {
+          s.classList.remove('active');
+          if (idx < targetStep) {
+            s.classList.add('prev');
+            s.classList.remove('next');
+          } else {
+            s.classList.add('next');
+            s.classList.remove('prev');
+          }
+        }
+      });
+      isTransitioning = false;
+    }, 550);
+  }
+
+  // Слушаем клики по всем целевым кнопкам сюжета
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-next-step]');
+    if (btn) {
+      e.preventDefault();
+      const targetStep = parseInt(btn.dataset.nextStep, 10);
+      if (!isNaN(targetStep)) {
+        goToStep(targetStep);
+      }
+      return;
+    }
+
+    // Клик по ссылкам в навбаре (если именинница нажмет в меню)
+    const navLink = e.target.closest('.nav-links .nav-link');
+    if (navLink) {
+      e.preventDefault();
+      const href = navLink.getAttribute('href');
+      const TARGET_MAP = {
+        '#hero': 0,
+        '#gift': 1,
+        '#cake': 2,
+        '#letter': 3,
+        '#quotes': 4,
+        '#gallery': 5,
+        '#music': 6,
+        '#final': 7
+      };
+      if (href in TARGET_MAP) {
+        goToStep(TARGET_MAP[href]);
+      }
+      return;
+    }
+
+    // Клик по логотипу dasha.16 возвращает на старт
+    const brand = e.target.closest('.nav-brand');
+    if (brand) {
+      goToStep(0, 'backward');
+    }
+  });
+
+  // Жесты свайпа на телефоне (влево - вперед, вправо - назад)
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let touchEndX = 0;
+  let touchEndY = 0;
+
+  window.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
+  }, { passive: true });
+
+  window.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    touchEndY = e.changedTouches[0].screenY;
+    const dx = touchEndX - touchStartX;
+    const dy = touchEndY - touchStartY;
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      if (dx < 0 && currentStep < totalScreens - 1) {
+        goToStep(currentStep + 1, 'forward');
+      } else if (dx > 0 && currentStep > 0) {
+        goToStep(currentStep - 1, 'backward');
+      }
+    }
+  }, { passive: true });
+
+  // Клавиши со стрелками
+  window.addEventListener('keydown', (e) => {
+    if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+      e.preventDefault();
+      if (currentStep < totalScreens - 1) goToStep(currentStep + 1, 'forward');
+    } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+      e.preventDefault();
+      if (currentStep > 0) goToStep(currentStep - 1, 'backward');
+    }
+  });
+
+  // Экспорт в глобальный скоуп
+  window.goToStoryStep = goToStep;
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initStoryFlowEngine);
+} else {
+  initStoryFlowEngine();
+}
+
+
+
+// --- INTERACTIVE STORY FLOW (БЕСШОВНЫЕ ПЕРЕХОДЫ МЕЖДУ ЭКРАНАМИ) ---
+function initStoryFlowEngine() {
+  const screens = document.querySelectorAll('.story-screen');
+  const totalScreens = screens.length;
+  let currentStep = 0;
+  let isTransitioning = false;
+
+  function goToStep(targetStep, direction = null) {
+    if (targetStep < 0 || targetStep >= totalScreens) return;
+    if (targetStep === currentStep && direction === null) return;
+    if (isTransitioning) return;
+
+    isTransitioning = true;
+    const oldStep = currentStep;
+    const dir = direction !== null ? direction : (targetStep > oldStep ? 'forward' : 'backward');
+
+    const oldScreen = screens[oldStep];
+    const newScreen = screens[targetStep];
+
+    // Подготовка начального положения
+    newScreen.classList.remove('active', 'prev', 'next');
+    if (dir === 'forward') {
+      newScreen.classList.add('next');
+    } else {
+      newScreen.classList.add('prev');
+    }
+
+    // Force reflow
+    void newScreen.offsetWidth;
+
+    // Плавный переход
+    if (dir === 'forward') {
+      oldScreen.classList.remove('active');
+      oldScreen.classList.add('prev');
+      newScreen.classList.remove('next');
+      newScreen.classList.add('active');
+    } else {
+      oldScreen.classList.remove('active');
+      oldScreen.classList.add('next');
+      newScreen.classList.remove('prev');
+      newScreen.classList.add('active');
+    }
+
+    currentStep = targetStep;
+
+    // Сброс скролла на новом экране
+    newScreen.scrollTop = 0;
+
+    // Особые действия при входе на экран:
+    if (targetStep === 7) {
+      // На финальном экране запускаем праздничный супер-салют!
+      setTimeout(() => {
+        shootMegaSalute();
+      }, 400);
+    } else if (targetStep === 5) {
+      // На экране галереи запускаем слайд-шоу
+      if (typeof startSlideshow === 'function') startSlideshow();
+    } else if (targetStep === 4) {
+      // На экране фактов запускаем таймер
+      if (typeof startFactTimer === 'function') startFactTimer();
+    }
+
+    setTimeout(() => {
+      // Очистка классов
+      screens.forEach((s, idx) => {
+        if (idx !== targetStep) {
+          s.classList.remove('active');
+          if (idx < targetStep) {
+            s.classList.add('prev');
+            s.classList.remove('next');
+          } else {
+            s.classList.add('next');
+            s.classList.remove('prev');
+          }
+        }
+      });
+      isTransitioning = false;
+    }, 550);
+  }
+
+  // Слушаем клики по всем целевым кнопкам сюжета
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-next-step]');
+    if (btn) {
+      e.preventDefault();
+      const targetStep = parseInt(btn.dataset.nextStep, 10);
+      if (!isNaN(targetStep)) {
+        goToStep(targetStep);
+      }
+      return;
+    }
+
+    // Клик по ссылкам в навбаре (если именинница нажмет в меню)
+    const navLink = e.target.closest('.nav-links .nav-link');
+    if (navLink) {
+      e.preventDefault();
+      const href = navLink.getAttribute('href');
+      const TARGET_MAP = {
+        '#hero': 0,
+        '#gift': 1,
+        '#cake': 2,
+        '#letter': 3,
+        '#quotes': 4,
+        '#gallery': 5,
+        '#music': 6,
+        '#final': 7
+      };
+      if (href in TARGET_MAP) {
+        goToStep(TARGET_MAP[href]);
+      }
+      return;
+    }
+
+    // Клик по логотипу dasha.16 возвращает на старт
+    const brand = e.target.closest('.nav-brand');
+    if (brand) {
+      goToStep(0, 'backward');
+    }
+  });
+
+  // Жесты свайпа на телефоне (влево - вперед, вправо - назад)
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let touchEndX = 0;
+  let touchEndY = 0;
+
+  window.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
+  }, { passive: true });
+
+  window.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    touchEndY = e.changedTouches[0].screenY;
+    const dx = touchEndX - touchStartX;
+    const dy = touchEndY - touchStartY;
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      if (dx < 0 && currentStep < totalScreens - 1) {
+        goToStep(currentStep + 1, 'forward');
+      } else if (dx > 0 && currentStep > 0) {
+        goToStep(currentStep - 1, 'backward');
+      }
+    }
+  }, { passive: true });
+
+  // Клавиши со стрелками
+  window.addEventListener('keydown', (e) => {
+    if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+      e.preventDefault();
+      if (currentStep < totalScreens - 1) goToStep(currentStep + 1, 'forward');
+    } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+      e.preventDefault();
+      if (currentStep > 0) goToStep(currentStep - 1, 'backward');
+    }
+  });
+
+  // Экспорт в глобальный скоуп
+  window.goToStoryStep = goToStep;
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initStoryFlowEngine);
+} else {
+  initStoryFlowEngine();
+}
 
 </script>
 </body>

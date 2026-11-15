@@ -2758,3 +2758,145 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* ==========================================================================
+   INTERACTIVE STORY FLOW (ПОСЛЕДОВАТЕЛЬНЫЙ ПЕРЕХОД МЕЖДУ СТРАНИЦАМИ)
+   ========================================================================== */
+html, body {
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  position: fixed !important;
+  background-color: var(--bg-main);
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Контейнер интерактивного сюжета */
+.story-viewport {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Каждый шаг сюжета (ровно 1 экран) */
+.story-screen {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 68px 18px 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.4s ease,
+              filter 0.45s ease;
+  will-change: transform, opacity, filter;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(100%);
+  filter: blur(6px);
+  z-index: 1;
+}
+
+/* Активный экран */
+.story-screen.active {
+  opacity: 1;
+  transform: translateX(0);
+  filter: blur(0);
+  pointer-events: auto;
+  z-index: 2;
+}
+
+/* Предыдущие экраны уходят влево */
+.story-screen.prev {
+  opacity: 0;
+  transform: translateX(-100%);
+  filter: blur(6px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Следующие экраны ждут справа */
+.story-screen.next {
+  opacity: 0;
+  transform: translateX(100%);
+  filter: blur(6px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.story-screen .container {
+  width: 100%;
+  max-width: 900px;
+  margin: auto auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+
+.section-flow-action {
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  z-index: 10;
+}
+
+/* Мягкая пульсация для целевых кнопок */
+.btn-pulse {
+  animation: pulse-glow-btn 2.4s infinite ease-in-out;
+}
+
+@keyframes pulse-glow-btn {
+  0%, 100% {
+    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.7);
+    transform: scale(1.02);
+  }
+}
+
+/* Слайд 8: футер прикреплен к низу экрана */
+.final-screen {
+  justify-content: space-between !important;
+  padding-bottom: 0 !important;
+}
+.final-screen .container {
+  margin-top: auto !important;
+  margin-bottom: auto !important;
+}
+.final-screen .footer {
+  width: 100%;
+  margin-top: auto;
+  padding: 12px 0 0;
+  background: transparent;
+  border-top: 1px solid var(--border-subtle);
+}
+
+@media (max-width: 768px) {
+  .story-screen {
+    padding: 60px 14px 16px;
+  }
+  .section-flow-action {
+    margin-top: 12px;
+  }
+}
+

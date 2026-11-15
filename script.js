@@ -1013,3 +1013,172 @@ document.addEventListener('DOMContentLoaded', () => {
     craneTrigger.addEventListener('click', () => launchFlyingCranes());
   }
 });
+
+
+// --- INTERACTIVE STORY FLOW (БЕСШОВНЫЕ ПЕРЕХОДЫ МЕЖДУ ЭКРАНАМИ) ---
+function initStoryFlowEngine() {
+  const screens = document.querySelectorAll('.story-screen');
+  const totalScreens = screens.length;
+  let currentStep = 0;
+  let isTransitioning = false;
+
+  function goToStep(targetStep, direction = null) {
+    if (targetStep < 0 || targetStep >= totalScreens) return;
+    if (targetStep === currentStep && direction === null) return;
+    if (isTransitioning) return;
+
+    isTransitioning = true;
+    const oldStep = currentStep;
+    const dir = direction !== null ? direction : (targetStep > oldStep ? 'forward' : 'backward');
+
+    const oldScreen = screens[oldStep];
+    const newScreen = screens[targetStep];
+
+    // Подготовка начального положения
+    newScreen.classList.remove('active', 'prev', 'next');
+    if (dir === 'forward') {
+      newScreen.classList.add('next');
+    } else {
+      newScreen.classList.add('prev');
+    }
+
+    // Force reflow
+    void newScreen.offsetWidth;
+
+    // Плавный переход
+    if (dir === 'forward') {
+      oldScreen.classList.remove('active');
+      oldScreen.classList.add('prev');
+      newScreen.classList.remove('next');
+      newScreen.classList.add('active');
+    } else {
+      oldScreen.classList.remove('active');
+      oldScreen.classList.add('next');
+      newScreen.classList.remove('prev');
+      newScreen.classList.add('active');
+    }
+
+    currentStep = targetStep;
+
+    // Сброс скролла на новом экране
+    newScreen.scrollTop = 0;
+
+    // Особые действия при входе на экран:
+    if (targetStep === 7) {
+      // На финальном экране запускаем праздничный супер-салют!
+      setTimeout(() => {
+        shootMegaSalute();
+      }, 400);
+    } else if (targetStep === 5) {
+      // На экране галереи запускаем слайд-шоу
+      if (typeof startSlideshow === 'function') startSlideshow();
+    } else if (targetStep === 4) {
+      // На экране фактов запускаем таймер
+      if (typeof startFactTimer === 'function') startFactTimer();
+    }
+
+    setTimeout(() => {
+      // Очистка классов
+      screens.forEach((s, idx) => {
+        if (idx !== targetStep) {
+          s.classList.remove('active');
+          if (idx < targetStep) {
+            s.classList.add('prev');
+            s.classList.remove('next');
+          } else {
+            s.classList.add('next');
+            s.classList.remove('prev');
+          }
+        }
+      });
+      isTransitioning = false;
+    }, 550);
+  }
+
+  // Слушаем клики по всем целевым кнопкам сюжета
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-next-step]');
+    if (btn) {
+      e.preventDefault();
+      const targetStep = parseInt(btn.dataset.nextStep, 10);
+      if (!isNaN(targetStep)) {
+        goToStep(targetStep);
+      }
+      return;
+    }
+
+    // Клик по ссылкам в навбаре (если именинница нажмет в меню)
+    const navLink = e.target.closest('.nav-links .nav-link');
+    if (navLink) {
+      e.preventDefault();
+      const href = navLink.getAttribute('href');
+      const TARGET_MAP = {
+        '#hero': 0,
+        '#gift': 1,
+        '#cake': 2,
+        '#letter': 3,
+        '#quotes': 4,
+        '#gallery': 5,
+        '#music': 6,
+        '#final': 7
+      };
+      if (href in TARGET_MAP) {
+        goToStep(TARGET_MAP[href]);
+      }
+      return;
+    }
+
+    // Клик по логотипу dasha.16 возвращает на старт
+    const brand = e.target.closest('.nav-brand');
+    if (brand) {
+      goToStep(0, 'backward');
+    }
+  });
+
+  // Жесты свайпа на телефоне (влево - вперед, вправо - назад)
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let touchEndX = 0;
+  let touchEndY = 0;
+
+  window.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
+  }, { passive: true });
+
+  window.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    touchEndY = e.changedTouches[0].screenY;
+    const dx = touchEndX - touchStartX;
+    const dy = touchEndY - touchStartY;
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      if (dx < 0 && currentStep < totalScreens - 1) {
+        goToStep(currentStep + 1, 'forward');
+      } else if (dx > 0 && currentStep > 0) {
+        goToStep(currentStep - 1, 'backward');
+      }
+    }
+  }, { passive: true });
+
+  // Клавиши со стрелками
+  window.addEventListener('keydown', (e) => {
+    if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+      e.preventDefault();
+      if (currentStep < totalScreens - 1) goToStep(currentStep + 1, 'forward');
+    } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+      e.preventDefault();
+      if (currentStep > 0) goToStep(currentStep - 1, 'backward');
+    }
+  });
+
+  // Экспорт в глобальный скоуп
+  window.goToStoryStep = goToStep;
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initStoryFlowEngine);
+} else {
+  initStoryFlowEngine();
+}
+
