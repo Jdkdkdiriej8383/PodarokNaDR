@@ -1670,11 +1670,13 @@ body {
   border-radius: var(--radius-lg);
   max-width: 500px;
   width: 100%;
-  padding: 34px 28px;
+  max-height: calc(100vh - 36px);
+  overflow-y: auto;
+  padding: 30px 24px;
   text-align: center;
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px var(--blue-glow);
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
   animation: slide-up-smooth 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -1691,7 +1693,7 @@ body {
   font-weight: 700;
   color: var(--blue-light);
   letter-spacing: 0.5px;
-  margin-bottom: 18px;
+  margin-bottom: 14px;
 }
 
 .disclaimer-title {
@@ -1700,32 +1702,32 @@ body {
   font-weight: 700;
   color: var(--text-main);
   letter-spacing: -0.5px;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .disclaimer-subtitle {
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   color: var(--text-muted);
-  line-height: 1.5;
-  margin-bottom: 24px;
+  line-height: 1.45;
+  margin-bottom: 20px;
 }
 
 .disclaimer-rules {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  margin-bottom: 28px;
+  gap: 10px;
+  margin-bottom: 22px;
   text-align: left;
 }
 
 .rule-item {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 14px;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
   transition: border-color var(--transition-fast), background var(--transition-fast);
 }
 
@@ -1735,8 +1737,8 @@ body {
 }
 
 .rule-icon {
-  width: 42px;
-  height: 42px;
+  width: 40px;
+  height: 40px;
   border-radius: 10px;
   background: rgba(59, 130, 246, 0.15);
   border: 1px solid rgba(59, 130, 246, 0.3);
@@ -1744,22 +1746,28 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   flex-shrink: 0;
 }
 
 .rule-item.rule-warning .rule-icon {
-  background: rgba(239, 68, 68, 0.15);
-  border-color: rgba(239, 68, 68, 0.35);
-  color: #f87171;
+  background: rgba(245, 158, 11, 0.15);
+  border-color: rgba(245, 158, 11, 0.35);
+  color: #fbbf24;
+}
+
+.rule-item.rule-info .rule-icon {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: rgba(16, 185, 129, 0.35);
+  color: #34d399;
 }
 
 .rule-body h4 {
-  font-size: 0.96rem;
-  font-weight: 700;
+  font-size: 0.93rem;
+  font-weight: 600;
   color: var(--text-main);
-  margin-bottom: 4px;
-  line-height: 1.3;
+  margin-bottom: 0;
+  line-height: 1.35;
 }
 
 .rule-body p {
@@ -2562,33 +2570,41 @@ body {
 
   /* Disclaimer Modal Mobile */
   .disclaimer-card {
-    padding: 24px 18px;
+    padding: 20px 16px;
     border-radius: var(--radius-md);
     max-width: 100%;
+    max-height: calc(100vh - 20px);
   }
 
   .disclaimer-title {
-    font-size: 1.65rem;
+    font-size: 1.6rem;
   }
 
   .disclaimer-subtitle {
-    font-size: 0.88rem;
-    margin-bottom: 18px;
+    font-size: 0.85rem;
+    margin-bottom: 14px;
+  }
+
+  .disclaimer-rules {
+    gap: 8px;
+    margin-bottom: 16px;
   }
 
   .rule-item {
-    padding: 12px;
-    gap: 12px;
+    padding: 10px 12px;
+    gap: 10px;
   }
 
   .rule-icon {
-    width: 36px;
-    height: 36px;
-    font-size: 1.1rem;
+    width: 34px;
+    height: 34px;
+    font-size: 1rem;
+    border-radius: 8px;
   }
 
   .rule-body h4 {
-    font-size: 0.92rem;
+    font-size: 0.86rem;
+    line-height: 1.35;
   }
 
   .rule-body p {
@@ -2783,22 +2799,27 @@ body {
         <span>ОФИЦИАЛЬНЫЙ ДИСКЛЕЙМЕР // 16 LETOV</span>
       </div>
       <h2 class="disclaimer-title" id="disclaimer-title">Дисклеймер</h2>
-      <p class="disclaimer-subtitle">Перед входом в твой праздничный спейс обязательно выполни два главных правила:</p>
+      <p class="disclaimer-subtitle">Пожалуйста, обрати внимание перед входом на сайт:</p>
 
       <div class="disclaimer-rules">
         <div class="rule-item">
           <div class="rule-icon"><i class="fa-solid fa-headphones"></i></div>
           <div class="rule-body">
-            <h4>1. Подключи наушники</h4>
-            <p>Надень наушники для максимального погружения, объемного звучания и любимого саундтрека.</p>
+            <h4>Рекомендуется подключить наушники</h4>
+          </div>
+        </div>
+
+        <div class="rule-item rule-info">
+          <div class="rule-icon"><i class="fa-solid fa-circle-check"></i></div>
+          <div class="rule-body">
+            <h4>Все фото, информация взяты у именинницы и выставлены с ее разрешения.</h4>
           </div>
         </div>
 
         <div class="rule-item rule-warning">
-          <div class="rule-icon"><i class="fa-solid fa-ban"></i></div>
+          <div class="rule-icon"><i class="fa-solid fa-volume-high"></i></div>
           <div class="rule-body">
-            <h4>2. Запрещено плохое настроение!</h4>
-            <p>Согласно праздничному протоколу к 16-летию, сегодня строго-настрого запрещается грустить, унывать и тильтовать. Только кайф, улыбки и праздничный вайб!</p>
+            <h4>Громкость может быть не отрегулирована</h4>
           </div>
         </div>
       </div>
