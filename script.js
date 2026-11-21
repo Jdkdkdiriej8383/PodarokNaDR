@@ -280,7 +280,7 @@ const GALLERY_PHOTOS = [
   { src: "assets/photos/nugget.jpg", tag: "Еда", caption: "#НеВкусноИТочка" },
   { src: "assets/photos/burger.jpg", tag: "Вкусно", caption: "Священный приём пищи: бургер уничтожен 🍔" },
   { src: "assets/photos/asphalt-peace.jpg", tag: "Чилл", caption: "Уровень чилла: лежать на асфальте и ловить дзэн ✌️" },
-  { src: "assets/photos/lake.jpg", tag: "Эстетика", caption: "Эстетик вайб" },
+  { src: "assets/photos/lake.jpg", tag: "Усолка", caption: "Эстетик вайб на реке Усолка" },
   { src: "assets/photos/hat-eyes.jpg", tag: "Стелс", caption: "Хто я" },
   { src: "assets/photos/hoodie-eyes.jpg", tag: "Портрет", caption: "Улица и точка" },
   { src: "assets/photos/garden.jpg", tag: "Лето", caption: "Ягодка малинка оп оп оп" },
